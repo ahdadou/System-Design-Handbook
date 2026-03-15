@@ -1,0 +1,97 @@
+"use client";
+import { KeyTakeaway } from "@/components/ui/KeyTakeaway";
+import { QuizBlock } from "@/components/ui/QuizBlock";
+import { InteractiveDiagram } from "@/components/diagrams/InteractiveDiagram";
+import { SystemNode } from "@/components/diagrams/CustomNodes";
+import { Node, Edge } from "@xyflow/react";
+
+const nodeTypes = { system: SystemNode };
+
+const cdnNodes: Node[] = [
+  { id: "origin", type: "system", position: { x: 250, y: 50 }, data: { label: "Origin Server", sublabel: "New York, USA", icon: "🏢", color: "#3b82f6", description: "The original source of truth for all content. CDN fetches from here on cache miss." } },
+  { id: "cdn-us", type: "system", position: { x: 50, y: 200 }, data: { label: "CDN - US West", sublabel: "San Francisco", icon: "⚡", color: "#06b6d4", description: "Edge server caching content close to US West Coast users. Sub-20ms response for local users." } },
+  { id: "cdn-eu", type: "system", position: { x: 250, y: 200 }, data: { label: "CDN - Europe", sublabel: "Frankfurt", icon: "⚡", color: "#06b6d4", description: "Edge server in Europe. European users get responses in <20ms instead of 150ms to the US." } },
+  { id: "cdn-asia", type: "system", position: { x: 450, y: 200 }, data: { label: "CDN - Asia", sublabel: "Singapore", icon: "⚡", color: "#06b6d4", description: "Asian users get cached content locally instead of crossing the Pacific Ocean." } },
+  { id: "user-us", type: "system", position: { x: 50, y: 340 }, data: { label: "US Users", icon: "👤", color: "#10b981" } },
+  { id: "user-eu", type: "system", position: { x: 250, y: 340 }, data: { label: "EU Users", icon: "👤", color: "#10b981" } },
+  { id: "user-asia", type: "system", position: { x: 450, y: 340 }, data: { label: "Asian Users", icon: "👤", color: "#10b981" } },
+];
+
+const cdnEdges: Edge[] = [
+  { id: "e1", source: "cdn-us", target: "origin", label: "Cache Miss", style: { stroke: "#f59e0b", strokeWidth: 1.5, strokeDasharray: "6,4" }, labelStyle: { fill: "#94a3b8", fontSize: 10 } },
+  { id: "e2", source: "cdn-eu", target: "origin", style: { stroke: "#f59e0b", strokeWidth: 1.5, strokeDasharray: "6,4" } },
+  { id: "e3", source: "cdn-asia", target: "origin", style: { stroke: "#f59e0b", strokeWidth: 1.5, strokeDasharray: "6,4" } },
+  { id: "e4", source: "user-us", target: "cdn-us", animated: true, label: "Cache Hit!", style: { stroke: "#10b981", strokeWidth: 2 }, labelStyle: { fill: "#10b981", fontSize: 10 } },
+  { id: "e5", source: "user-eu", target: "cdn-eu", animated: true, style: { stroke: "#10b981", strokeWidth: 2 } },
+  { id: "e6", source: "user-asia", target: "cdn-asia", animated: true, style: { stroke: "#10b981", strokeWidth: 2 } },
+];
+
+const questions = [
+  {
+    question: "What is the main benefit of using a CDN?",
+    options: [
+      "Reduced server costs",
+      "Serving content from edge servers geographically close to users",
+      "Encrypting all network traffic",
+      "Eliminating the need for a database",
+    ],
+    correct: 1,
+    explanation: "CDNs reduce latency by serving cached content from edge servers near users. A user in Singapore getting content from a Singapore CDN node vs. a US server saves 150-200ms per request.",
+  },
+  {
+    question: "What is the difference between CDN Push and CDN Pull?",
+    options: [
+      "Push uses TCP, Pull uses UDP",
+      "Push: you upload content to CDN proactively; Pull: CDN fetches from origin on first request",
+      "Push is for dynamic content, Pull is for static content",
+      "Push CDNs are cheaper than Pull CDNs",
+    ],
+    correct: 1,
+    explanation: "Push CDN: you manually upload files to CDN (good for large files, predictable traffic). Pull CDN: CDN fetches from origin on first request and caches it (simpler, good for unknown access patterns).",
+  },
+];
+
+export default function CdnContent({ slug }: { slug: string; chapterId: number }) {
+  return (
+    <div className="space-y-6 text-[#94a3b8]">
+      <p className="text-base leading-relaxed">
+        A <strong className="text-[#f1f5f9]">Content Delivery Network (CDN)</strong> is a geographically distributed network of proxy servers and data centers. When a user requests content, it's served from the CDN node closest to them rather than your origin server thousands of miles away.
+      </p>
+      <p>
+        Speed of light is a physical constraint — a round trip from New York to Tokyo takes ~150ms. CDNs collapse that latency by putting copies of your content in every major geographic region. Netflix uses CDNs so aggressively they've built their own (Open Connect) with servers physically installed inside ISPs.
+      </p>
+
+      <InteractiveDiagram nodes={cdnNodes} edges={cdnEdges} nodeTypes={nodeTypes} title="CDN Architecture — Global Edge Network" description="Content served from the nearest edge node" height={400} />
+
+      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Push vs Pull CDN</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="p-4 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30">
+          <div className="font-bold text-[#3b82f6] text-sm font-heading mb-2">Push CDN</div>
+          <ul className="text-xs space-y-1.5">
+            <li>• You upload content to CDN proactively</li>
+            <li>• Content available globally immediately</li>
+            <li>• You control what gets cached and for how long</li>
+            <li>• Best for: Large files (videos, software downloads)</li>
+            <li className="text-[#475569]">Example: S3 + CloudFront (manual invalidation)</li>
+          </ul>
+        </div>
+        <div className="p-4 rounded-xl bg-[#10b981]/10 border border-[#10b981]/30">
+          <div className="font-bold text-[#10b981] text-sm font-heading mb-2">Pull CDN</div>
+          <ul className="text-xs space-y-1.5">
+            <li>• CDN fetches from origin on first request</li>
+            <li>• Zero management overhead</li>
+            <li>• First user pays the latency cost</li>
+            <li>• Best for: Web assets with unpredictable access</li>
+            <li className="text-[#475569]">Example: Cloudflare, Fastly (origin pull)</li>
+          </ul>
+        </div>
+      </div>
+
+      <KeyTakeaway variant="important">
+        Don't just use CDNs for static assets. Modern CDNs like Cloudflare Workers and AWS Lambda@Edge let you run code at the edge. You can implement authentication, A/B testing, and personalization at the CDN layer — before the request even reaches your servers.
+      </KeyTakeaway>
+
+      <QuizBlock topicSlug={slug} questions={questions} />
+    </div>
+  );
+}
