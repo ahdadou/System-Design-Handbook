@@ -25,12 +25,12 @@ const questions = [
 
 export default function SqlVsNoSqlContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
         The SQL vs NoSQL debate is often framed as a competition, but experienced engineers treat them as complementary tools. The question isn't "which is better" but "which fits my use case."
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">NoSQL Database Types</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">NoSQL Database Types</h2>
       <div className="space-y-3">
         {[
           { type: "Document Store", examples: "MongoDB, CouchDB", icon: "📄", color: "#3b82f6", desc: "JSON-like documents with flexible schemas. Good for: content management, user profiles, catalogs. Query by any field." },
@@ -39,12 +39,12 @@ export default function SqlVsNoSqlContent({ slug }: { slug: string; chapterId: n
           { type: "Graph Database", examples: "Neo4j, Amazon Neptune", icon: "🕸️", color: "#10b981", desc: "Data as nodes and edges. Good for: social networks, fraud detection, recommendation engines, knowledge graphs." },
           { type: "Time-Series DB", examples: "InfluxDB, TimescaleDB", icon: "📈", color: "#f59e0b", desc: "Optimized for sequential time-based data. Good for: metrics, IoT sensors, financial data, monitoring." },
         ].map((db) => (
-          <div key={db.type} className="p-3 rounded-xl border border-[#1e293b] bg-[#111827] flex gap-3">
+          <div key={db.type} className="p-3 rounded-xl border border-border-ui bg-surface flex gap-3">
             <span className="text-xl shrink-0">{db.icon}</span>
             <div>
-              <div className="font-semibold text-sm text-[#f1f5f9] font-heading">{db.type}</div>
-              <div className="text-xs text-[#475569] mb-1">{db.examples}</div>
-              <p className="text-xs text-[#94a3b8]">{db.desc}</p>
+              <div className="font-semibold text-sm text-txt font-heading">{db.type}</div>
+              <div className="text-xs text-txt-3 mb-1">{db.examples}</div>
+              <p className="text-xs text-txt-2">{db.desc}</p>
             </div>
           </div>
         ))}

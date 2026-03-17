@@ -24,12 +24,12 @@ const questions = [
 
 export default function RateLimitingContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">Rate limiting</strong> controls the rate of requests a client can make to an API. Without it, a single bad actor (or runaway script) can bring down your service, starving legitimate users of resources.
+        <strong className="text-txt">Rate limiting</strong> controls the rate of requests a client can make to an API. Without it, a single bad actor (or runaway script) can bring down your service, starving legitimate users of resources.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Rate Limiting Algorithms</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Rate Limiting Algorithms</h2>
       <div className="space-y-4">
         {[
           {
@@ -65,14 +65,14 @@ export default function RateLimitingContent({ slug }: { slug: string; chapterId:
             example: "GitHub API, most production rate limiters",
           },
         ].map((alg) => (
-          <div key={alg.name} className="p-4 rounded-xl border border-[#1e293b] bg-[#111827]">
+          <div key={alg.name} className="p-4 rounded-xl border border-border-ui bg-surface">
             <div className="font-bold text-sm font-heading mb-1.5" style={{ color: alg.color }}>{alg.name}</div>
-            <p className="text-xs text-[#94a3b8] mb-2">{alg.desc}</p>
+            <p className="text-xs text-txt-2 mb-2">{alg.desc}</p>
             <div className="grid grid-cols-2 gap-2 text-[10px]">
-              <div><span className="text-[#10b981]">✓ </span>{alg.pros}</div>
+              <div><span className="text-c-success">✓ </span>{alg.pros}</div>
               <div><span className="text-[#ef4444]">✗ </span>{alg.cons}</div>
             </div>
-            <div className="mt-1.5 text-[10px] text-[#475569]">Example: {alg.example}</div>
+            <div className="mt-1.5 text-[10px] text-txt-3">Example: {alg.example}</div>
           </div>
         ))}
       </div>

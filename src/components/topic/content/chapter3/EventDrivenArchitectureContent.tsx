@@ -49,12 +49,12 @@ const questions = [
 
 export default function EventDrivenArchitectureContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">Event-Driven Architecture (EDA)</strong> is a design paradigm where services communicate by producing and consuming events asynchronously. An event is an immutable record of something that happened —{" "}
-        <code className="text-[#3b82f6] bg-[#3b82f6]/10 px-1 rounded">order.placed</code>,{" "}
-        <code className="text-[#3b82f6] bg-[#3b82f6]/10 px-1 rounded">payment.failed</code>,{" "}
-        <code className="text-[#3b82f6] bg-[#3b82f6]/10 px-1 rounded">user.registered</code>. Services react to events they care about without being explicitly called.
+        <strong className="text-txt">Event-Driven Architecture (EDA)</strong> is a design paradigm where services communicate by producing and consuming events asynchronously. An event is an immutable record of something that happened —{" "}
+        <code className="text-accent bg-[#3b82f6]/10 px-1 rounded">order.placed</code>,{" "}
+        <code className="text-accent bg-[#3b82f6]/10 px-1 rounded">payment.failed</code>,{" "}
+        <code className="text-accent bg-[#3b82f6]/10 px-1 rounded">user.registered</code>. Services react to events they care about without being explicitly called.
       </p>
       <p className="text-base leading-relaxed">
         The key shift from request-driven systems: the Order Service does not call the Inventory Service. It publishes an event and moves on. Inventory, Notifications, and Analytics all react independently. Adding a new reaction requires zero changes to existing services.
@@ -69,22 +69,22 @@ export default function EventDrivenArchitectureContent({ slug }: { slug: string;
         height={380}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Choreography vs Orchestration</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Choreography vs Orchestration</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30">
-          <div className="font-bold text-[#3b82f6] text-sm font-heading mb-2">Choreography</div>
-          <ul className="text-xs space-y-1.5 text-[#94a3b8]">
+          <div className="font-bold text-accent text-sm font-heading mb-2">Choreography</div>
+          <ul className="text-xs space-y-1.5 text-txt-2">
             <li>• No central coordinator — services react to events</li>
-            <li>• Order Service emits <code className="text-[#3b82f6]">order.placed</code></li>
-            <li>• Inventory reacts → emits <code className="text-[#3b82f6]">stock.reserved</code></li>
-            <li>• Payment reacts → emits <code className="text-[#3b82f6]">payment.captured</code></li>
+            <li>• Order Service emits <code className="text-accent">order.placed</code></li>
+            <li>• Inventory reacts → emits <code className="text-accent">stock.reserved</code></li>
+            <li>• Payment reacts → emits <code className="text-accent">payment.captured</code></li>
             <li>• High decoupling; hard to trace full workflow</li>
             <li>• Best for: loosely coupled, independent services</li>
           </ul>
         </div>
         <div className="p-4 rounded-xl bg-[#8b5cf6]/10 border border-[#8b5cf6]/30">
-          <div className="font-bold text-[#8b5cf6] text-sm font-heading mb-2">Orchestration (Saga Pattern)</div>
-          <ul className="text-xs space-y-1.5 text-[#94a3b8]">
+          <div className="font-bold text-accent text-sm font-heading mb-2">Orchestration (Saga Pattern)</div>
+          <ul className="text-xs space-y-1.5 text-txt-2">
             <li>• Central Saga Orchestrator controls flow</li>
             <li>• Explicitly calls each service in sequence</li>
             <li>• Handles compensating transactions on failure</li>
@@ -95,7 +95,7 @@ export default function EventDrivenArchitectureContent({ slug }: { slug: string;
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Eventual Consistency</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Eventual Consistency</h2>
       <p>
         EDA systems are <span className="text-[#f59e0b] font-medium">eventually consistent</span> — after an order is placed, inventory is not updated instantly. The event propagates, the consumer processes it, and the system converges. This is a fundamental trade-off: EDA gains availability and decoupling at the cost of strong consistency.
       </p>
@@ -103,7 +103,7 @@ export default function EventDrivenArchitectureContent({ slug }: { slug: string;
         The implication for product design: your UI should account for async updates. Show "Order submitted" rather than "Order confirmed" until the downstream processing completes. Use polling or WebSockets to reflect status changes.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Kafka as EDA Backbone</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Kafka as EDA Backbone</h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           { label: "Durable Events", color: "#3b82f6", desc: "Events stored on disk for configurable retention (days/weeks). New consumers can replay the entire event history." },
@@ -112,7 +112,7 @@ export default function EventDrivenArchitectureContent({ slug }: { slug: string;
         ].map((k) => (
           <div key={k.label} className="p-3 rounded-xl border" style={{ borderColor: `${k.color}30`, backgroundColor: `${k.color}0a` }}>
             <div className="font-semibold text-sm mb-1" style={{ color: k.color }}>{k.label}</div>
-            <p className="text-xs text-[#94a3b8] leading-relaxed">{k.desc}</p>
+            <p className="text-xs text-txt-2 leading-relaxed">{k.desc}</p>
           </div>
         ))}
       </div>

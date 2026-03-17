@@ -57,9 +57,9 @@ const questions = [
 
 export default function MicroservicesContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        The <strong className="text-[#f1f5f9]">monolith vs microservices</strong> decision is one of the most consequential architectural choices. Monoliths are simpler to start with; microservices scale better but add enormous operational complexity. Understanding the tradeoffs is critical.
+        The <strong className="text-txt">monolith vs microservices</strong> decision is one of the most consequential architectural choices. Monoliths are simpler to start with; microservices scale better but add enormous operational complexity. Understanding the tradeoffs is critical.
       </p>
 
       <InteractiveDiagram nodes={microNodes} edges={microEdges} nodeTypes={nodeTypes} title="Microservices Architecture" description="Each service owns its data, communicates via APIs and events" height={440} />

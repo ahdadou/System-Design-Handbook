@@ -39,9 +39,9 @@ const questions = [
 
 export default function OAuthContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">OAuth 2.0</strong> is an authorization framework that lets users grant third-party applications access to their resources without sharing passwords. <strong className="text-[#f1f5f9]">OpenID Connect (OIDC)</strong> builds on OAuth to add authentication — proving who the user actually is.
+        <strong className="text-txt">OAuth 2.0</strong> is an authorization framework that lets users grant third-party applications access to their resources without sharing passwords. <strong className="text-txt">OpenID Connect (OIDC)</strong> builds on OAuth to add authentication — proving who the user actually is.
       </p>
       <p>
         Every time you click "Login with Google" or "Connect with GitHub," you're using OAuth 2.0 + OIDC. The application never sees your Google password — it gets a limited access token instead.
@@ -49,7 +49,7 @@ export default function OAuthContent({ slug }: { slug: string; chapterId: number
 
       <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="OAuth 2.0 Authorization Code Flow" description="The most secure OAuth flow for server-side applications" height={350} />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">OAuth 2.0 Grant Types</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">OAuth 2.0 Grant Types</h2>
       <div className="space-y-2">
         {[
           { type: "Authorization Code", use: "Server-side apps (most secure)", desc: "Short-lived auth code exchanged for token server-side. Never exposes token to browser.", color: "#3b82f6" },
@@ -57,12 +57,12 @@ export default function OAuthContent({ slug }: { slug: string; chapterId: number
           { type: "Client Credentials", use: "Machine-to-machine (M2M)", desc: "No user involved. Service authenticates with client ID+secret to get token.", color: "#8b5cf6" },
           { type: "Device Code", use: "TV/limited input devices", desc: "User shown a code to enter on another device (phone). Used by smart TVs, CLI tools.", color: "#10b981" },
         ].map((g) => (
-          <div key={g.type} className="flex gap-3 p-3 rounded-lg bg-[#111827] border border-[#1e293b]">
+          <div key={g.type} className="flex gap-3 p-3 rounded-lg bg-surface border border-border-ui">
             <div className="w-1 rounded-full shrink-0" style={{ backgroundColor: g.color }} />
             <div>
-              <div className="font-semibold text-xs text-[#f1f5f9] font-heading">{g.type}</div>
-              <div className="text-[10px] text-[#475569]">Use for: {g.use}</div>
-              <p className="text-xs text-[#94a3b8] mt-0.5">{g.desc}</p>
+              <div className="font-semibold text-xs text-txt font-heading">{g.type}</div>
+              <div className="text-[10px] text-txt-3">Use for: {g.use}</div>
+              <p className="text-xs text-txt-2 mt-0.5">{g.desc}</p>
             </div>
           </div>
         ))}

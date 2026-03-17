@@ -56,12 +56,12 @@ const questions = [
 
 export default function WhatsAppContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        Designing <strong className="text-[#f1f5f9]">WhatsApp</strong> is a real-world exercise in building a highly available, low-latency messaging system at extreme scale: 2 billion users, 100 billion messages per day, end-to-end encrypted.
+        Designing <strong className="text-txt">WhatsApp</strong> is a real-world exercise in building a highly available, low-latency messaging system at extreme scale: 2 billion users, 100 billion messages per day, end-to-end encrypted.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Scale Estimates</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Scale Estimates</h2>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
           { metric: "2B", label: "Monthly Active Users" },
@@ -69,16 +69,16 @@ export default function WhatsAppContent({ slug }: { slug: string; chapterId: num
           { metric: "500M", label: "Groups" },
           { metric: "1M", label: "Concurrent connections per server" },
         ].map((m) => (
-          <div key={m.metric} className="p-3 rounded-xl bg-[#1a2332] border border-[#1e293b] text-center">
-            <div className="text-xl font-bold font-heading text-[#10b981]">{m.metric}</div>
-            <div className="text-xs text-[#475569] mt-1">{m.label}</div>
+          <div key={m.metric} className="p-3 rounded-xl bg-elevated border border-border-ui text-center">
+            <div className="text-xl font-bold font-heading text-c-success">{m.metric}</div>
+            <div className="text-xs text-txt-3 mt-1">{m.label}</div>
           </div>
         ))}
       </div>
 
       <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="WhatsApp — System Architecture" description="Real-time messaging at global scale" height={440} />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Key Design Decisions</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Key Design Decisions</h2>
       <div className="space-y-3">
         {[
           { title: "WebSocket Connections", desc: "Each active user maintains a persistent WebSocket connection to a gateway server. With 500M concurrent users, this requires careful connection management (Erlang/Elixir excels here — handles millions of concurrent processes cheaply).", color: "#3b82f6" },
@@ -86,9 +86,9 @@ export default function WhatsAppContent({ slug }: { slug: string; chapterId: num
           { title: "End-to-End Encryption", desc: "WhatsApp uses the Signal Protocol. Messages are encrypted on sender's device; only recipient can decrypt. WhatsApp's servers only store encrypted blobs — they can't read your messages.", color: "#8b5cf6" },
           { title: "Media Storage", desc: "Media files stored in distributed object storage (similar to S3). Client uploads media, gets a URL. Message contains URL reference. CDN serves media files globally with low latency.", color: "#f59e0b" },
         ].map((d) => (
-          <div key={d.title} className="p-4 rounded-xl border border-[#1e293b] bg-[#111827] border-l-4" style={{ borderLeftColor: d.color }}>
+          <div key={d.title} className="p-4 rounded-xl border border-border-ui bg-surface border-l-4" style={{ borderLeftColor: d.color }}>
             <div className="font-bold text-sm font-heading mb-1.5" style={{ color: d.color }}>{d.title}</div>
-            <p className="text-xs text-[#94a3b8]">{d.desc}</p>
+            <p className="text-xs text-txt-2">{d.desc}</p>
           </div>
         ))}
       </div>

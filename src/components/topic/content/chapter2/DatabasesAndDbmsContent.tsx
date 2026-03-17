@@ -52,9 +52,9 @@ const questions = [
 
 export default function DatabasesAndDbmsContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        A <strong className="text-[#f1f5f9]">database</strong> is an organized collection of structured data. A <strong className="text-[#f1f5f9]">Database Management System (DBMS)</strong> is the software layer that sits between your application and that raw data — it handles storage, retrieval, concurrency, and durability so you don't have to.
+        A <strong className="text-txt">database</strong> is an organized collection of structured data. A <strong className="text-txt">Database Management System (DBMS)</strong> is the software layer that sits between your application and that raw data — it handles storage, retrieval, concurrency, and durability so you don't have to.
       </p>
       <p className="text-sm leading-relaxed">
         Without a DBMS you'd need to manage file formats, handle concurrent writes, implement crash recovery, and write your own query language. A DBMS abstracts all of that. PostgreSQL, MySQL, Oracle, and SQL Server are RDBMS examples; MongoDB, Cassandra, and Redis are non-relational DBMS examples.
@@ -69,7 +69,7 @@ export default function DatabasesAndDbmsContent({ slug }: { slug: string; chapte
         height={400}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Core DBMS Components</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Core DBMS Components</h2>
       <div className="space-y-3">
         {[
           {
@@ -93,39 +93,39 @@ export default function DatabasesAndDbmsContent({ slug }: { slug: string; chapte
             color: "#f59e0b",
           },
         ].map((c) => (
-          <div key={c.name} className="p-3 rounded-lg border border-[#1e293b] bg-[#111827] flex gap-3">
+          <div key={c.name} className="p-3 rounded-lg border border-border-ui bg-surface flex gap-3">
             <div className="w-2 rounded-full shrink-0" style={{ backgroundColor: c.color }} />
             <div>
-              <div className="font-semibold text-sm text-[#f1f5f9] font-heading">{c.name}</div>
-              <p className="text-xs text-[#94a3b8] mt-0.5">{c.desc}</p>
+              <div className="font-semibold text-sm text-txt font-heading">{c.name}</div>
+              <p className="text-xs text-txt-2 mt-0.5">{c.desc}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Key Database Concepts</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Key Database Concepts</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30">
-          <div className="font-bold text-[#3b82f6] text-sm font-heading mb-2">Schema</div>
-          <p className="text-xs text-[#94a3b8]">
+          <div className="font-bold text-accent text-sm font-heading mb-2">Schema</div>
+          <p className="text-xs text-txt-2">
             A schema defines the structure of the database: which tables exist, what columns they have, data types, constraints (NOT NULL, UNIQUE, FOREIGN KEY), and relationships. In relational databases the schema is enforced at write time — you cannot insert a row that violates it.
           </p>
         </div>
         <div className="p-4 rounded-xl bg-[#06b6d4]/10 border border-[#06b6d4]/30">
-          <div className="font-bold text-[#06b6d4] text-sm font-heading mb-2">Indexes</div>
-          <p className="text-xs text-[#94a3b8]">
-            Indexes speed up reads at the cost of write overhead and extra storage. A B-Tree index on <code className="bg-[#1e293b] px-1 rounded">users.email</code> turns a full table scan (O(n)) into a tree traversal (O(log n)). Over-indexing slows inserts/updates; under-indexing slows queries.
+          <div className="font-bold text-accent-2 text-sm font-heading mb-2">Indexes</div>
+          <p className="text-xs text-txt-2">
+            Indexes speed up reads at the cost of write overhead and extra storage. A B-Tree index on <code className="bg-highlight px-1 rounded">users.email</code> turns a full table scan (O(n)) into a tree traversal (O(log n)). Over-indexing slows inserts/updates; under-indexing slows queries.
           </p>
         </div>
         <div className="p-4 rounded-xl bg-[#8b5cf6]/10 border border-[#8b5cf6]/30">
-          <div className="font-bold text-[#8b5cf6] text-sm font-heading mb-2">Views</div>
-          <p className="text-xs text-[#94a3b8]">
+          <div className="font-bold text-accent text-sm font-heading mb-2">Views</div>
+          <p className="text-xs text-txt-2">
             A view is a named, saved SQL query that acts like a virtual table. It simplifies complex joins, enforces security by exposing only certain columns, and can be updated to change the underlying query without changing application code.
           </p>
         </div>
         <div className="p-4 rounded-xl bg-[#10b981]/10 border border-[#10b981]/30">
-          <div className="font-bold text-[#10b981] text-sm font-heading mb-2">Stored Procedures</div>
-          <p className="text-xs text-[#94a3b8]">
+          <div className="font-bold text-c-success text-sm font-heading mb-2">Stored Procedures</div>
+          <p className="text-xs text-txt-2">
             Stored procedures are precompiled SQL programs stored inside the database. They reduce network round-trips (multi-step logic runs server-side), can enforce business rules at the data layer, and are useful for batch processing or complex transactions.
           </p>
         </div>
@@ -135,7 +135,7 @@ export default function DatabasesAndDbmsContent({ slug }: { slug: string; chapte
         The write-ahead log (WAL) is the foundation of crash recovery. Every change is first written to an append-only log before it touches the actual data files. If the server crashes mid-write, the DBMS replays the WAL on restart to bring data back to a consistent state.
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">RDBMS vs Non-Relational DBMS</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">RDBMS vs Non-Relational DBMS</h2>
       <p className="text-sm leading-relaxed">
         Relational databases model data as tables with rows and columns and use SQL as a query language. Non-relational (NoSQL) databases use alternative data models (documents, key-value pairs, graphs, wide columns) and sacrifice some query flexibility for higher write throughput or schema flexibility.
       </p>
@@ -146,7 +146,7 @@ export default function DatabasesAndDbmsContent({ slug }: { slug: string; chapte
           "Most large systems use both: PostgreSQL for transactional data, Redis for caching, Elasticsearch for search.",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="text-[#3b82f6] shrink-0 mt-1">→</span>
+            <span className="text-accent shrink-0 mt-1">→</span>
             <span>{item}</span>
           </li>
         ))}

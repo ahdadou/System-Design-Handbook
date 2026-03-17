@@ -30,19 +30,19 @@ const questions = [
 
 export default function ProxyContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        A <strong className="text-[#f1f5f9]">proxy server</strong> acts as an intermediary between two parties in a network connection. The client talks to the proxy, and the proxy forwards requests to the destination. Proxies can be used for anonymity, security, caching, and traffic management.
+        A <strong className="text-txt">proxy server</strong> acts as an intermediary between two parties in a network connection. The client talks to the proxy, and the proxy forwards requests to the destination. Proxies can be used for anonymity, security, caching, and traffic management.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Forward Proxy (Client-Side)</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Forward Proxy (Client-Side)</h2>
       <p className="text-sm">
-        A <strong className="text-[#f1f5f9]">forward proxy</strong> sits between the client and the internet. The internet sees the proxy's IP, not the client's. Use cases: corporate content filtering, VPNs, anonymization, caching for a group of users.
+        A <strong className="text-txt">forward proxy</strong> sits between the client and the internet. The internet sees the proxy's IP, not the client's. Use cases: corporate content filtering, VPNs, anonymization, caching for a group of users.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Reverse Proxy (Server-Side)</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Reverse Proxy (Server-Side)</h2>
       <p className="text-sm">
-        A <strong className="text-[#f1f5f9]">reverse proxy</strong> sits in front of your servers. Clients see the proxy's address, not your actual servers. This enables SSL termination, load balancing, rate limiting, caching, and hiding backend architecture.
+        A <strong className="text-txt">reverse proxy</strong> sits in front of your servers. Clients see the proxy's address, not your actual servers. This enables SSL termination, load balancing, rate limiting, caching, and hiding backend architecture.
       </p>
 
       <ComparisonTable

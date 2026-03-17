@@ -69,26 +69,26 @@ const questions = [
 
 export default function IpAddressesContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <div className="text-base leading-relaxed space-y-4">
         <p>
-          An <strong className="text-[#f1f5f9]">IP address</strong> (Internet Protocol address) is a numerical label assigned to every device connected to a computer network. Think of it as the postal address of the internet — without it, data packets wouldn't know where to go.
+          An <strong className="text-txt">IP address</strong> (Internet Protocol address) is a numerical label assigned to every device connected to a computer network. Think of it as the postal address of the internet — without it, data packets wouldn't know where to go.
         </p>
         <p>
           Every packet of data traveling across the internet includes a source IP (where it came from) and a destination IP (where it's going). Routers along the way read these addresses and forward packets hop-by-hop until they reach their destination.
         </p>
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">IPv4 vs IPv6</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">IPv4 vs IPv6</h2>
       <p>
-        The internet was built on <strong className="text-[#f1f5f9]">IPv4</strong>, which uses 32-bit addresses written as four octets (e.g., <code className="text-[#06b6d4] bg-[#06b6d4]/10 px-1 rounded">192.168.1.1</code>). With only ~4.3 billion possible addresses and over 15 billion internet-connected devices, we ran out. <strong className="text-[#f1f5f9]">IPv6</strong> solves this with 128-bit addresses providing virtually unlimited space.
+        The internet was built on <strong className="text-txt">IPv4</strong>, which uses 32-bit addresses written as four octets (e.g., <code className="text-accent-2 bg-[#06b6d4]/10 px-1 rounded">192.168.1.1</code>). With only ~4.3 billion possible addresses and over 15 billion internet-connected devices, we ran out. <strong className="text-txt">IPv6</strong> solves this with 128-bit addresses providing virtually unlimited space.
       </p>
 
       <ComparisonTable title="IPv4 vs IPv6 Comparison" columns={ipv4vsv6.columns} rows={ipv4vsv6.rows} />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Public vs Private IPs</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Public vs Private IPs</h2>
       <p>
-        Not all IP addresses are reachable from the internet. <strong className="text-[#f1f5f9]">Public IPs</strong> are globally unique and routable on the internet. <strong className="text-[#f1f5f9]">Private IPs</strong> are reserved for use within local networks and are not routable on the internet.
+        Not all IP addresses are reachable from the internet. <strong className="text-txt">Public IPs</strong> are globally unique and routable on the internet. <strong className="text-txt">Private IPs</strong> are reserved for use within local networks and are not routable on the internet.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-4">
         {[
@@ -96,10 +96,10 @@ export default function IpAddressesContent({ slug }: { slug: string; chapterId: 
           { range: "172.16.0.0/12", desc: "Class B private — medium networks", count: "1M addresses" },
           { range: "192.168.0.0/16", desc: "Class C private — home networks", count: "65K addresses" },
         ].map((r) => (
-          <div key={r.range} className="p-3 bg-[#111827] rounded-xl border border-[#1e293b]">
-            <code className="text-[#06b6d4] text-sm font-mono">{r.range}</code>
-            <p className="text-xs text-[#94a3b8] mt-1">{r.desc}</p>
-            <p className="text-xs text-[#475569] mt-1">{r.count}</p>
+          <div key={r.range} className="p-3 bg-surface rounded-xl border border-border-ui">
+            <code className="text-accent-2 text-sm font-mono">{r.range}</code>
+            <p className="text-xs text-txt-2 mt-1">{r.desc}</p>
+            <p className="text-xs text-txt-3 mt-1">{r.count}</p>
           </div>
         ))}
       </div>
@@ -108,9 +108,9 @@ export default function IpAddressesContent({ slug }: { slug: string; chapterId: 
         NAT (Network Address Translation) is why you can have hundreds of devices on a home network all sharing one public IP. Your router translates outgoing private IPs to the public IP, and maps responses back to the correct internal device.
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Static vs Dynamic IPs</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Static vs Dynamic IPs</h2>
       <p>
-        A <strong className="text-[#f1f5f9]">static IP</strong> is permanently assigned and doesn't change — critical for servers and databases where other services need a reliable, fixed address. A <strong className="text-[#f1f5f9]">dynamic IP</strong> is temporarily assigned via DHCP (Dynamic Host Configuration Protocol) and may change on reconnection — typical for home users and most client devices.
+        A <strong className="text-txt">static IP</strong> is permanently assigned and doesn't change — critical for servers and databases where other services need a reliable, fixed address. A <strong className="text-txt">dynamic IP</strong> is temporarily assigned via DHCP (Dynamic Host Configuration Protocol) and may change on reconnection — typical for home users and most client devices.
       </p>
 
       <InteractiveDiagram
@@ -122,7 +122,7 @@ export default function IpAddressesContent({ slug }: { slug: string; chapterId: 
         height={400}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">System Design Implications</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">System Design Implications</h2>
       <ul className="space-y-2 list-none">
         {[
           "Use private IPs for internal services (databases, caches) to prevent direct public access",
@@ -131,7 +131,7 @@ export default function IpAddressesContent({ slug }: { slug: string; chapterId: 
           "Use security groups / firewalls at the IP layer to control traffic",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2 text-sm">
-            <span className="text-[#3b82f6] mt-1">→</span>
+            <span className="text-accent mt-1">→</span>
             <span>{item}</span>
           </li>
         ))}

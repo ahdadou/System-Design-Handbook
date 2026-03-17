@@ -56,16 +56,16 @@ const questions = [
 
 export default function UrlShortenerContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        Designing a <strong className="text-[#f1f5f9]">URL shortener</strong> (like bit.ly) is a classic system design interview question. It tests your knowledge of hashing, caching, databases, and scalability. The scale: 100M URLs created/day, 10B redirects/day.
+        Designing a <strong className="text-txt">URL shortener</strong> (like bit.ly) is a classic system design interview question. It tests your knowledge of hashing, caching, databases, and scalability. The scale: 100M URLs created/day, 10B redirects/day.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Requirements</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Requirements</h2>
       <div className="grid grid-cols-2 gap-4">
         <div className="p-3 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30">
-          <div className="font-bold text-[#3b82f6] text-xs mb-2">Functional</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <div className="font-bold text-accent text-xs mb-2">Functional</div>
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• Given a long URL, return a short URL</li>
             <li>• Visiting the short URL redirects to long URL</li>
             <li>• Custom aliases (optional)</li>
@@ -73,8 +73,8 @@ export default function UrlShortenerContent({ slug }: { slug: string; chapterId:
           </ul>
         </div>
         <div className="p-3 rounded-xl bg-[#8b5cf6]/10 border border-[#8b5cf6]/30">
-          <div className="font-bold text-[#8b5cf6] text-xs mb-2">Non-Functional</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <div className="font-bold text-accent text-xs mb-2">Non-Functional</div>
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• 100M new URLs/day</li>
             <li>• 10B redirects/day (100:1 read:write)</li>
             <li>• &lt;10ms redirect latency (p99)</li>
@@ -85,11 +85,11 @@ export default function UrlShortenerContent({ slug }: { slug: string; chapterId:
 
       <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="URL Shortener System Design" description="Full architecture with caching, load balancing, and analytics" height={460} />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Short Code Generation</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Short Code Generation</h2>
       <div className="space-y-2 text-sm">
-        <p><strong className="text-[#f1f5f9]">Approach 1: Hash + truncate</strong> — MD5(longURL) → take first 7 chars. Problem: collisions for different URLs that hash to the same prefix.</p>
-        <p><strong className="text-[#f1f5f9]">Approach 2: Base62(counter)</strong> — Use distributed counter (Redis INCR), encode as base62. Predictable, no collisions, but reveals usage volume.</p>
-        <p><strong className="text-[#f1f5f9]">Approach 3: Random + check</strong> — Generate random 7-char base62 string, check DB for uniqueness. Probabilistically collision-free at this scale.</p>
+        <p><strong className="text-txt">Approach 1: Hash + truncate</strong> — MD5(longURL) → take first 7 chars. Problem: collisions for different URLs that hash to the same prefix.</p>
+        <p><strong className="text-txt">Approach 2: Base62(counter)</strong> — Use distributed counter (Redis INCR), encode as base62. Predictable, no collisions, but reveals usage volume.</p>
+        <p><strong className="text-txt">Approach 3: Random + check</strong> — Generate random 7-char base62 string, check DB for uniqueness. Probabilistically collision-free at this scale.</p>
       </div>
 
       <KeyTakeaway variant="important">

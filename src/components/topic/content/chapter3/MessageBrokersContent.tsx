@@ -8,11 +8,11 @@ import { Node, Edge } from "@xyflow/react";
 const nodeTypes = { system: SystemNode, database: DatabaseNode };
 
 const nodes: Node[] = [
-  { id: "producer", type: "system", position: { x: 10, y: 160 }, data: { label: "Producer", sublabel: "Order Service", icon: "📤", color: "#3b82f6", description: "Publishes messages to the broker. Does not know which consumers receive the message." } },
-  { id: "broker", type: "system", position: { x: 190, y: 160 }, data: { label: "Message Broker", sublabel: "Kafka / RabbitMQ", icon: "🔀", color: "#f59e0b", description: "Receives messages from producers. Routes them to the correct queues/topics. Provides durability, ordering, and delivery guarantees." } },
-  { id: "c1", type: "system", position: { x: 390, y: 50 }, data: { label: "Consumer 1", sublabel: "Inventory Service", icon: "📦", color: "#10b981" } },
-  { id: "c2", type: "system", position: { x: 390, y: 160 }, data: { label: "Consumer 2", sublabel: "Notification Service", icon: "🔔", color: "#10b981" } },
-  { id: "c3", type: "system", position: { x: 390, y: 270 }, data: { label: "Consumer 3", sublabel: "Analytics Service", icon: "📊", color: "#10b981" } },
+  { id: "producer", type: "system", position: { x: 40, y: 150 }, data: { label: "Producer", sublabel: "Order Service", icon: "📤", color: "#3b82f6", description: "Publishes messages to the broker. Does not know which consumers receive the message." } },
+  { id: "broker", type: "system", position: { x: 200, y: 150 }, data: { label: "Message Broker", sublabel: "Kafka / RabbitMQ", icon: "🔀", color: "#f59e0b", description: "Receives messages from producers. Routes them to the correct queues/topics. Provides durability, ordering, and delivery guarantees." } },
+  { id: "c1", type: "system", position: { x: 400, y: 55 }, data: { label: "Consumer 1", sublabel: "Inventory Service", icon: "📦", color: "#10b981" } },
+  { id: "c2", type: "system", position: { x: 400, y: 155 }, data: { label: "Consumer 2", sublabel: "Notification Service", icon: "🔔", color: "#10b981" } },
+  { id: "c3", type: "system", position: { x: 400, y: 255 }, data: { label: "Consumer 3", sublabel: "Analytics Service", icon: "📊", color: "#10b981" } },
 ];
 
 const edges: Edge[] = [
@@ -49,9 +49,9 @@ const questions = [
 
 export default function MessageBrokersContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        A <strong className="text-[#f1f5f9]">message broker</strong> is middleware that receives messages from producers, optionally transforms or routes them, and delivers them to consumers. It decouples services so they do not need to know about each other — producers send to the broker, consumers receive from the broker.
+        A <strong className="text-txt">message broker</strong> is middleware that receives messages from producers, optionally transforms or routes them, and delivers them to consumers. It decouples services so they do not need to know about each other — producers send to the broker, consumers receive from the broker.
       </p>
       <p className="text-base leading-relaxed">
         Without a broker, Service A must know Service B's address, format, and availability. With a broker, Service A publishes an{" "}
@@ -67,7 +67,7 @@ export default function MessageBrokersContent({ slug }: { slug: string; chapterI
         height={370}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Routing Patterns</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Routing Patterns</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
           { name: "Direct", color: "#3b82f6", icon: "➡️", desc: "Messages are routed to queues whose binding key exactly matches the routing key. One producer → one specific queue." },
@@ -80,16 +80,16 @@ export default function MessageBrokersContent({ slug }: { slug: string; chapterI
               <span>{r.icon}</span>
               <span className="font-bold text-sm font-heading" style={{ color: r.color }}>{r.name} Exchange</span>
             </div>
-            <p className="text-xs text-[#94a3b8] leading-relaxed">{r.desc}</p>
+            <p className="text-xs text-txt-2 leading-relaxed">{r.desc}</p>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Kafka vs RabbitMQ</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Kafka vs RabbitMQ</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[#f59e0b]/10 border border-[#f59e0b]/30">
           <div className="font-bold text-[#f59e0b] text-sm font-heading mb-3">Apache Kafka</div>
-          <ul className="text-xs space-y-1.5 text-[#94a3b8]">
+          <ul className="text-xs space-y-1.5 text-txt-2">
             <li>• Distributed commit log — messages stored on disk</li>
             <li>• Consumers track their own offset (can replay)</li>
             <li>• Optimized for high throughput (millions/sec)</li>
@@ -99,8 +99,8 @@ export default function MessageBrokersContent({ slug }: { slug: string; chapterI
           </ul>
         </div>
         <div className="p-4 rounded-xl bg-[#8b5cf6]/10 border border-[#8b5cf6]/30">
-          <div className="font-bold text-[#8b5cf6] text-sm font-heading mb-3">RabbitMQ</div>
-          <ul className="text-xs space-y-1.5 text-[#94a3b8]">
+          <div className="font-bold text-accent text-sm font-heading mb-3">RabbitMQ</div>
+          <ul className="text-xs space-y-1.5 text-txt-2">
             <li>• Traditional message queue with smart routing</li>
             <li>• Messages deleted after consumer acknowledgement</li>
             <li>• Rich routing via exchanges (direct/topic/fanout/headers)</li>
@@ -111,10 +111,10 @@ export default function MessageBrokersContent({ slug }: { slug: string; chapterI
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Durability and Guarantees</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Durability and Guarantees</h2>
       <p>
         Brokers provide configurable delivery semantics. Producers can require acknowledgement before the broker confirms receipt. Consumers acknowledge messages to prevent re-delivery. Together these enable{" "}
-        <span className="text-[#06b6d4] font-medium">at-least-once delivery</span> — the most common guarantee — where every message is processed, though possibly more than once on failure. Idempotent consumers handle duplicates safely.
+        <span className="text-accent-2 font-medium">at-least-once delivery</span> — the most common guarantee — where every message is processed, though possibly more than once on failure. Idempotent consumers handle duplicates safely.
       </p>
 
       <KeyTakeaway variant="important">

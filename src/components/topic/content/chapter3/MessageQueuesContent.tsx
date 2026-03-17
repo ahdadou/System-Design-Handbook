@@ -8,13 +8,13 @@ import { Node, Edge } from "@xyflow/react";
 const nodeTypes = { system: SystemNode, step: StepNode };
 
 const nodes: Node[] = [
-  { id: "producer", type: "system", position: { x: 10, y: 155 }, data: { label: "Producer", sublabel: "Email Service", icon: "📤", color: "#3b82f6", description: "Enqueues messages. Does not wait for a consumer. Can produce faster than consumers process — the queue absorbs the burst." } },
-  { id: "m1", type: "step", position: { x: 185, y: 40 }, data: { label: "Message 1", sublabel: "oldest — next", step: 1, color: "#06b6d4" } },
-  { id: "m2", type: "step", position: { x: 185, y: 130 }, data: { label: "Message 2", step: 2, color: "#06b6d4" } },
-  { id: "m3", type: "step", position: { x: 185, y: 220 }, data: { label: "Message 3", step: 3, color: "#06b6d4" } },
-  { id: "m4", type: "step", position: { x: 185, y: 310 }, data: { label: "Message 4", sublabel: "newest", step: 4, color: "#06b6d4" } },
-  { id: "consumer", type: "system", position: { x: 380, y: 155 }, data: { label: "Consumer", sublabel: "Worker Process", icon: "⚙️", color: "#10b981", description: "Polls or receives messages. Processes one at a time. Sends an ACK when done. The queue deletes the message only after ACK." } },
-  { id: "dlq", type: "system", position: { x: 380, y: 320 }, data: { label: "Dead Letter Queue", sublabel: "Failed messages", icon: "☠️", color: "#ef4444", description: "Messages that fail repeatedly (exceed max retries) are moved here for inspection, re-processing, or alerting." } },
+  { id: "producer", type: "system", position: { x: 40, y: 180 }, data: { label: "Producer", sublabel: "Email Service", icon: "📤", color: "#3b82f6", description: "Enqueues messages. Does not wait for a consumer. Can produce faster than consumers process — the queue absorbs the burst." } },
+  { id: "m1", type: "step", position: { x: 200, y: 50 }, data: { label: "Message 1", sublabel: "oldest — next", step: 1, color: "#06b6d4" } },
+  { id: "m2", type: "step", position: { x: 200, y: 130 }, data: { label: "Message 2", step: 2, color: "#06b6d4" } },
+  { id: "m3", type: "step", position: { x: 200, y: 210 }, data: { label: "Message 3", step: 3, color: "#06b6d4" } },
+  { id: "m4", type: "step", position: { x: 200, y: 290 }, data: { label: "Message 4", sublabel: "newest", step: 4, color: "#06b6d4" } },
+  { id: "consumer", type: "system", position: { x: 400, y: 180 }, data: { label: "Consumer", sublabel: "Worker Process", icon: "⚙️", color: "#10b981", description: "Polls or receives messages. Processes one at a time. Sends an ACK when done. The queue deletes the message only after ACK." } },
+  { id: "dlq", type: "system", position: { x: 400, y: 310 }, data: { label: "Dead Letter Queue", sublabel: "Failed messages", icon: "☠️", color: "#ef4444", description: "Messages that fail repeatedly (exceed max retries) are moved here for inspection, re-processing, or alerting." } },
 ];
 
 const edges: Edge[] = [
@@ -50,12 +50,12 @@ const questions = [
 
 export default function MessageQueuesContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        A <strong className="text-[#f1f5f9]">message queue</strong> is a buffer that decouples the rate of production from the rate of consumption. Producers enqueue messages; consumers dequeue and process them. The queue absorbs traffic spikes and provides backpressure — if consumers fall behind, the queue grows rather than dropping messages.
+        A <strong className="text-txt">message queue</strong> is a buffer that decouples the rate of production from the rate of consumption. Producers enqueue messages; consumers dequeue and process them. The queue absorbs traffic spikes and provides backpressure — if consumers fall behind, the queue grows rather than dropping messages.
       </p>
       <p className="text-base leading-relaxed">
-        Classic implementations include <span className="text-[#f59e0b] font-medium">Amazon SQS</span>, <span className="text-[#8b5cf6] font-medium">RabbitMQ queues</span>, and <span className="text-[#3b82f6] font-medium">Redis Lists</span>. Each trades off features like ordering guarantees, visibility timeouts, and delivery semantics.
+        Classic implementations include <span className="text-[#f59e0b] font-medium">Amazon SQS</span>, <span className="text-accent font-medium">RabbitMQ queues</span>, and <span className="text-accent font-medium">Redis Lists</span>. Each trades off features like ordering guarantees, visibility timeouts, and delivery semantics.
       </p>
 
       <InteractiveDiagram
@@ -67,7 +67,7 @@ export default function MessageQueuesContent({ slug }: { slug: string; chapterId
         height={400}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Delivery Guarantees</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Delivery Guarantees</h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           {
@@ -94,18 +94,18 @@ export default function MessageQueuesContent({ slug }: { slug: string; chapterId
               <span className="text-lg">{g.icon}</span>
               <span className="font-bold text-sm font-heading" style={{ color: g.color }}>{g.name}</span>
             </div>
-            <p className="text-xs text-[#94a3b8] leading-relaxed">{g.desc}</p>
+            <p className="text-xs text-txt-2 leading-relaxed">{g.desc}</p>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Ordering and FIFO</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Ordering and FIFO</h2>
       <p>
-        Standard queues offer <span className="text-[#94a3b8]">best-effort ordering</span> — messages are generally FIFO but not guaranteed under concurrent consumption or redeliveries. <span className="text-[#f59e0b] font-medium">FIFO queues</span> (SQS FIFO, Kafka partitions) guarantee strict order within a partition or group. They typically have lower throughput because ordering requires serialization.
+        Standard queues offer <span className="text-txt-2">best-effort ordering</span> — messages are generally FIFO but not guaranteed under concurrent consumption or redeliveries. <span className="text-[#f59e0b] font-medium">FIFO queues</span> (SQS FIFO, Kafka partitions) guarantee strict order within a partition or group. They typically have lower throughput because ordering requires serialization.
       </p>
       <div className="p-4 rounded-xl bg-[#06b6d4]/10 border border-[#06b6d4]/30">
-        <div className="font-bold text-[#06b6d4] text-sm font-heading mb-2">When strict ordering matters</div>
-        <ul className="text-xs space-y-1 text-[#94a3b8]">
+        <div className="font-bold text-accent-2 text-sm font-heading mb-2">When strict ordering matters</div>
+        <ul className="text-xs space-y-1 text-txt-2">
           <li>• Financial transactions — debit must come before credit</li>
           <li>• State machine transitions — cancel cannot arrive before create</li>
           <li>• Audit logs — events must be written in causal order</li>
@@ -113,9 +113,9 @@ export default function MessageQueuesContent({ slug }: { slug: string; chapterId
         </ul>
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Backpressure</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Backpressure</h2>
       <p>
-        Backpressure is what happens when consumers are slower than producers: the queue depth grows. Monitoring queue depth (e.g., SQS <code className="text-[#06b6d4] bg-[#06b6d4]/10 px-1 rounded">ApproximateNumberOfMessagesVisible</code>) is the key operational metric. Auto-scaling consumer fleets based on queue depth is a standard pattern — scale out when depth exceeds a threshold, scale in when it drains.
+        Backpressure is what happens when consumers are slower than producers: the queue depth grows. Monitoring queue depth (e.g., SQS <code className="text-accent-2 bg-[#06b6d4]/10 px-1 rounded">ApproximateNumberOfMessagesVisible</code>) is the key operational metric. Auto-scaling consumer fleets based on queue depth is a standard pattern — scale out when depth exceeds a threshold, scale in when it drains.
       </p>
 
       <KeyTakeaway variant="important">

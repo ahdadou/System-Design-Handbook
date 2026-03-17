@@ -38,21 +38,21 @@ const questions = [
 
 export default function ClusteringContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">Clustering</strong> is the practice of running multiple server instances as a single logical unit to improve availability, fault tolerance, and performance. A cluster appears as one system to clients but is actually multiple cooperating machines.
+        <strong className="text-txt">Clustering</strong> is the practice of running multiple server instances as a single logical unit to improve availability, fault tolerance, and performance. A cluster appears as one system to clients but is actually multiple cooperating machines.
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
         <div className="p-4 rounded-xl bg-[#10b981]/10 border border-[#10b981]/30">
-          <div className="font-bold text-[#10b981] text-sm font-heading mb-2">Active-Active</div>
-          <p className="text-xs text-[#94a3b8]">All nodes serve traffic simultaneously. Better resource utilization, automatic load distribution. If one fails, the others continue.</p>
-          <p className="text-xs text-[#475569] mt-2">Used by: Web servers, stateless APIs, Redis Cluster</p>
+          <div className="font-bold text-c-success text-sm font-heading mb-2">Active-Active</div>
+          <p className="text-xs text-txt-2">All nodes serve traffic simultaneously. Better resource utilization, automatic load distribution. If one fails, the others continue.</p>
+          <p className="text-xs text-txt-3 mt-2">Used by: Web servers, stateless APIs, Redis Cluster</p>
         </div>
         <div className="p-4 rounded-xl bg-[#f59e0b]/10 border border-[#f59e0b]/30">
           <div className="font-bold text-[#f59e0b] text-sm font-heading mb-2">Active-Passive</div>
-          <p className="text-xs text-[#94a3b8]">One primary node handles all traffic. Secondary waits in standby. Failover is automatic when primary dies (via heartbeat detection).</p>
-          <p className="text-xs text-[#475569] mt-2">Used by: Databases, stateful services, single-leader systems</p>
+          <p className="text-xs text-txt-2">One primary node handles all traffic. Secondary waits in standby. Failover is automatic when primary dies (via heartbeat detection).</p>
+          <p className="text-xs text-txt-3 mt-2">Used by: Databases, stateful services, single-leader systems</p>
         </div>
       </div>
 

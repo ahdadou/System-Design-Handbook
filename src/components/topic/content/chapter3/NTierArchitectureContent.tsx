@@ -47,9 +47,9 @@ const questions = [
 
 export default function NTierArchitectureContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">N-Tier Architecture</strong> organizes an application into distinct horizontal layers (tiers) where each tier has a specific responsibility and communicates only with adjacent tiers. The classic form is 3-tier: Presentation, Business Logic, and Data.
+        <strong className="text-txt">N-Tier Architecture</strong> organizes an application into distinct horizontal layers (tiers) where each tier has a specific responsibility and communicates only with adjacent tiers. The classic form is 3-tier: Presentation, Business Logic, and Data.
       </p>
       <p className="text-base leading-relaxed">
         The word <em>tier</em> implies physical separation — tiers can run on separate servers. This is distinct from <em>layer</em>, which is a logical code separation within the same process. A 3-tier deployment might have 10 web servers, 20 app servers, and a database cluster — all independently scaled.
@@ -64,7 +64,7 @@ export default function NTierArchitectureContent({ slug }: { slug: string; chapt
         height={460}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Tier Comparison</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Tier Comparison</h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           {
@@ -91,14 +91,14 @@ export default function NTierArchitectureContent({ slug }: { slug: string; chapt
         ].map((t) => (
           <div key={t.name} className="p-4 rounded-xl border" style={{ borderColor: `${t.color}40`, backgroundColor: `${t.color}0d` }}>
             <div className="font-bold text-sm font-heading mb-2" style={{ color: t.color }}>{t.name}</div>
-            <p className="text-xs text-[#94a3b8] mb-2 leading-relaxed">{t.description}</p>
-            <div className="text-[10px] text-[#475569]"><strong className="text-[#64748b]">Examples:</strong> {t.examples}</div>
-            <div className="text-[10px] text-[#475569] mt-1"><strong className="text-[#64748b]">Scaling:</strong> {t.scaling}</div>
+            <p className="text-xs text-txt-2 mb-2 leading-relaxed">{t.description}</p>
+            <div className="text-[10px] text-txt-3"><strong className="text-txt-2">Examples:</strong> {t.examples}</div>
+            <div className="text-[10px] text-txt-3 mt-1"><strong className="text-txt-2">Scaling:</strong> {t.scaling}</div>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Benefits of N-Tier Separation</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Benefits of N-Tier Separation</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
           { title: "Separation of Concerns", color: "#3b82f6", body: "Each tier has a single responsibility. Frontend developers work on the presentation tier without touching database schemas. DBA teams optimize queries independently." },
@@ -108,21 +108,21 @@ export default function NTierArchitectureContent({ slug }: { slug: string; chapt
         ].map((b) => (
           <div key={b.title} className="p-4 rounded-xl border" style={{ borderColor: `${b.color}30`, backgroundColor: `${b.color}0a` }}>
             <div className="font-semibold text-sm mb-1" style={{ color: b.color }}>{b.title}</div>
-            <p className="text-xs text-[#94a3b8] leading-relaxed">{b.body}</p>
+            <p className="text-xs text-txt-2 leading-relaxed">{b.body}</p>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">N-Tier in Practice</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">N-Tier in Practice</h2>
       <p>
         Real systems add tiers beyond three. A typical production stack might look like:{" "}
-        <span className="text-[#06b6d4] font-medium">CDN</span> →{" "}
-        <span className="text-[#3b82f6] font-medium">Load Balancer</span> →{" "}
-        <span className="text-[#06b6d4] font-medium">Web Servers</span> →{" "}
-        <span className="text-[#8b5cf6] font-medium">API Gateway</span> →{" "}
-        <span className="text-[#8b5cf6] font-medium">App Servers</span> →{" "}
-        <span className="text-[#10b981] font-medium">Cache (Redis)</span> →{" "}
-        <span className="text-[#10b981] font-medium">Database</span>.
+        <span className="text-accent-2 font-medium">CDN</span> →{" "}
+        <span className="text-accent font-medium">Load Balancer</span> →{" "}
+        <span className="text-accent-2 font-medium">Web Servers</span> →{" "}
+        <span className="text-accent font-medium">API Gateway</span> →{" "}
+        <span className="text-accent font-medium">App Servers</span> →{" "}
+        <span className="text-c-success font-medium">Cache (Redis)</span> →{" "}
+        <span className="text-c-success font-medium">Database</span>.
         Each boundary introduces a network hop but buys you isolation, independent deployability, and security control.
       </p>
 

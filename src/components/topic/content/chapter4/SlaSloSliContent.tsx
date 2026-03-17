@@ -47,9 +47,9 @@ const questions = [
 
 export default function SlaSloSliContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">SLI, SLO, and SLA</strong> are the reliability vocabulary of production systems, codified by Google's Site Reliability Engineering (SRE) practice. They give engineering teams a precise, data-driven way to define, measure, and commit to service reliability — moving from vague promises ("we'll be up") to concrete, measurable targets.
+        <strong className="text-txt">SLI, SLO, and SLA</strong> are the reliability vocabulary of production systems, codified by Google's Site Reliability Engineering (SRE) practice. They give engineering teams a precise, data-driven way to define, measure, and commit to service reliability — moving from vague promises ("we'll be up") to concrete, measurable targets.
       </p>
       <p>
         The relationship is hierarchical: SLIs are your raw measurements, SLOs are your targets built on those measurements, and SLAs are the contractual promises you make to customers backed by your SLOs — with a safety buffer in between.
@@ -64,7 +64,7 @@ export default function SlaSloSliContent({ slug }: { slug: string; chapterId: nu
         height={420}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">The Three Definitions</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">The Three Definitions</h2>
       <div className="space-y-3">
         {[
           {
@@ -89,15 +89,15 @@ export default function SlaSloSliContent({ slug }: { slug: string; chapterId: nu
             examples: ["AWS EC2: 99.99% monthly uptime — 10-30% service credit if breached", "GCP: 99.9% for Compute Engine — financial credits per downtime tier", "Stripe: No formal uptime SLA — status page only", "Enterprise SaaS: Custom SLAs negotiated per contract"],
           },
         ].map((item) => (
-          <div key={item.term} className="p-4 rounded-xl border bg-[#111827]" style={{ borderColor: `${item.color}40` }}>
+          <div key={item.term} className="p-4 rounded-xl border bg-surface" style={{ borderColor: `${item.color}40` }}>
             <div className="flex items-center gap-2 mb-2">
               <span className="text-2xl">{item.icon}</span>
               <div className="font-bold text-sm font-heading" style={{ color: item.color }}>{item.term}</div>
             </div>
-            <p className="text-xs text-[#94a3b8] mb-2 leading-relaxed">{item.def}</p>
+            <p className="text-xs text-txt-2 mb-2 leading-relaxed">{item.def}</p>
             <div className="space-y-1">
               {item.examples.map((ex, i) => (
-                <div key={i} className="text-[10px] text-[#475569] flex items-start gap-1.5">
+                <div key={i} className="text-[10px] text-txt-3 flex items-start gap-1.5">
                   <span style={{ color: item.color }}>→</span>
                   <span>{ex}</span>
                 </div>
@@ -107,9 +107,9 @@ export default function SlaSloSliContent({ slug }: { slug: string; chapterId: nu
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Error Budgets: Reliability as a Resource</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Error Budgets: Reliability as a Resource</h2>
       <p>
-        The error budget is the most powerful concept from Google SRE. It's the allowed amount of unreliability per SLO window. <strong className="text-[#f1f5f9]">Error budget = 100% − SLO.</strong>
+        The error budget is the most powerful concept from Google SRE. It's the allowed amount of unreliability per SLO window. <strong className="text-txt">Error budget = 100% − SLO.</strong>
       </p>
       <div className="grid grid-cols-2 gap-3">
         {[
@@ -118,10 +118,10 @@ export default function SlaSloSliContent({ slug }: { slug: string; chapterId: nu
           { slo: "99.95%", window: "30 days", budget: "21.9 minutes", color: "#3b82f6" },
           { slo: "99.99%", window: "30 days", budget: "4.4 minutes", color: "#10b981" },
         ].map((row) => (
-          <div key={row.slo} className="p-3 rounded-lg bg-[#111827] border border-[#1e293b] text-center">
+          <div key={row.slo} className="p-3 rounded-lg bg-surface border border-border-ui text-center">
             <div className="text-lg font-bold font-heading" style={{ color: row.color }}>{row.slo} SLO</div>
-            <div className="text-[10px] text-[#475569]">{row.window} window</div>
-            <div className="text-xs text-[#f1f5f9] mt-1 font-semibold">{row.budget} budget</div>
+            <div className="text-[10px] text-txt-3">{row.window} window</div>
+            <div className="text-xs text-txt mt-1 font-semibold">{row.budget} budget</div>
           </div>
         ))}
       </div>
@@ -130,7 +130,7 @@ export default function SlaSloSliContent({ slug }: { slug: string; chapterId: nu
         When your error budget is exhausted, halt all non-critical deployments. The only permitted work is reliability improvements. This creates a healthy tension: product teams want to ship fast, SRE teams want stability — the error budget is the objective arbiter between them.
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Common SLIs by System Type</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Common SLIs by System Type</h2>
       <div className="space-y-2">
         {[
           { type: "User-facing APIs", slis: "Availability (% successful), Latency (p50, p95, p99), Error rate (4xx/5xx per total)", color: "#3b82f6" },
@@ -138,11 +138,11 @@ export default function SlaSloSliContent({ slug }: { slug: string; chapterId: nu
           { type: "Storage systems", slis: "Durability (data not lost), Read/write latency, Throughput, Consistency lag (replication delay)", color: "#8b5cf6" },
           { type: "Batch jobs", slis: "Completion rate, Run duration vs SLO, Data quality (records failing validation)", color: "#10b981" },
         ].map((item) => (
-          <div key={item.type} className="flex gap-3 p-3 rounded-lg bg-[#111827] border border-[#1e293b]">
+          <div key={item.type} className="flex gap-3 p-3 rounded-lg bg-surface border border-border-ui">
             <div className="w-1 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
             <div>
-              <div className="font-semibold text-xs text-[#f1f5f9] font-heading">{item.type}</div>
-              <p className="text-[10px] text-[#94a3b8] mt-0.5 leading-relaxed">{item.slis}</p>
+              <div className="font-semibold text-xs text-txt font-heading">{item.type}</div>
+              <p className="text-[10px] text-txt-2 mt-0.5 leading-relaxed">{item.slis}</p>
             </div>
           </div>
         ))}

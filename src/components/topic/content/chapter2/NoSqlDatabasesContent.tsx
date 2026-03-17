@@ -8,12 +8,12 @@ import { Node, Edge } from "@xyflow/react";
 const nodeTypes = { system: SystemNode, database: DatabaseNode };
 
 const nodes: Node[] = [
-  { id: "app", type: "system", position: { x: 200, y: 160 }, data: { label: "Application", icon: "🖥️", color: "#3b82f6" } },
-  { id: "doc", type: "database", position: { x: 20, y: 20 }, data: { label: "MongoDB", type: "Document Store", color: "#10b981", description: "Stores JSON-like BSON documents. Flexible schema, great for hierarchical data." } },
-  { id: "kv", type: "database", position: { x: 220, y: 20 }, data: { label: "Redis", type: "Key-Value Store", color: "#ef4444", description: "Ultra-fast in-memory store. Used for caching, sessions, pub/sub, rate limiting." } },
-  { id: "wc", type: "database", position: { x: 380, y: 100 }, data: { label: "Cassandra", type: "Wide-Column Store", color: "#8b5cf6", description: "Stores data in rows with dynamic columns. Excellent for time-series and write-heavy workloads." } },
-  { id: "graph", type: "database", position: { x: 20, y: 280 }, data: { label: "Neo4j", type: "Graph Database", color: "#f59e0b", description: "Stores data as nodes and edges. Perfect for social networks, recommendation engines, fraud detection." } },
-  { id: "ts", type: "database", position: { x: 220, y: 320 }, data: { label: "InfluxDB", type: "Time-Series DB", color: "#06b6d4", description: "Optimized for timestamped data. Used for metrics, IoT data, monitoring dashboards." } },
+  { id: "app", type: "system", position: { x: 195, y: 20 }, data: { label: "Application", icon: "🖥️", color: "#3b82f6" } },
+  { id: "doc", type: "database", position: { x: 20, y: 160 }, data: { label: "MongoDB", type: "Document Store", color: "#10b981", description: "Stores JSON-like BSON documents. Flexible schema, great for hierarchical data." } },
+  { id: "kv", type: "database", position: { x: 180, y: 160 }, data: { label: "Redis", type: "Key-Value Store", color: "#ef4444", description: "Ultra-fast in-memory store. Used for caching, sessions, pub/sub, rate limiting." } },
+  { id: "wc", type: "database", position: { x: 340, y: 160 }, data: { label: "Cassandra", type: "Wide-Column Store", color: "#8b5cf6", description: "Stores data in rows with dynamic columns. Excellent for time-series and write-heavy workloads." } },
+  { id: "graph", type: "database", position: { x: 90, y: 300 }, data: { label: "Neo4j", type: "Graph Database", color: "#f59e0b", description: "Stores data as nodes and edges. Perfect for social networks, recommendation engines, fraud detection." } },
+  { id: "ts", type: "database", position: { x: 275, y: 300 }, data: { label: "InfluxDB", type: "Time-Series DB", color: "#06b6d4", description: "Optimized for timestamped data. Used for metrics, IoT data, monitoring dashboards." } },
 ];
 
 const edges: Edge[] = [
@@ -51,9 +51,9 @@ const questions = [
 
 export default function NoSqlDatabasesContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">NoSQL databases</strong> ("Not Only SQL") are non-relational databases designed to handle scale, flexibility, and specialized data models that relational databases struggle with. They trade the strict schema and ACID transactions of SQL for horizontal scalability, schema flexibility, and purpose-built query patterns.
+        <strong className="text-txt">NoSQL databases</strong> ("Not Only SQL") are non-relational databases designed to handle scale, flexibility, and specialized data models that relational databases struggle with. They trade the strict schema and ACID transactions of SQL for horizontal scalability, schema flexibility, and purpose-built query patterns.
       </p>
       <p className="text-sm leading-relaxed">
         The term "NoSQL" is an umbrella covering at least five distinct database families, each optimized for a different problem. Choosing the right type is a critical architecture decision.
@@ -68,7 +68,7 @@ export default function NoSqlDatabasesContent({ slug }: { slug: string; chapterI
         height={390}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">The Five NoSQL Families</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">The Five NoSQL Families</h2>
       <div className="space-y-3">
         {[
           {
@@ -97,21 +97,21 @@ export default function NoSqlDatabasesContent({ slug }: { slug: string; chapterI
             desc: "Optimized for ingesting, storing, and querying timestamped measurements. Automatic data retention policies, downsampling (roll up minute data into hourly), and specialized query functions (rate of change, moving averages). Used for metrics, IoT sensor data, and financial tick data.",
           },
         ].map((t) => (
-          <div key={t.name} className="p-3 rounded-lg border border-[#1e293b] bg-[#111827] flex gap-3">
+          <div key={t.name} className="p-3 rounded-lg border border-border-ui bg-surface flex gap-3">
             <div className="w-2 rounded-full shrink-0" style={{ backgroundColor: t.color }} />
             <div>
-              <div className="font-semibold text-sm text-[#f1f5f9] font-heading">{t.name}</div>
-              <p className="text-xs text-[#94a3b8] mt-0.5">{t.desc}</p>
+              <div className="font-semibold text-sm text-txt font-heading">{t.name}</div>
+              <p className="text-xs text-txt-2 mt-0.5">{t.desc}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">BASE vs ACID</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">BASE vs ACID</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30">
-          <div className="font-bold text-[#3b82f6] text-sm font-heading mb-2">ACID (SQL)</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <div className="font-bold text-accent text-sm font-heading mb-2">ACID (SQL)</div>
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• Strict consistency after every transaction</li>
             <li>• All-or-nothing commits</li>
             <li>• Serializable isolation available</li>
@@ -119,8 +119,8 @@ export default function NoSqlDatabasesContent({ slug }: { slug: string; chapterI
           </ul>
         </div>
         <div className="p-4 rounded-xl bg-[#10b981]/10 border border-[#10b981]/30">
-          <div className="font-bold text-[#10b981] text-sm font-heading mb-2">BASE (NoSQL)</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <div className="font-bold text-c-success text-sm font-heading mb-2">BASE (NoSQL)</div>
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• Basically Available — system stays up</li>
             <li>• Soft state — data may change without input</li>
             <li>• Eventual consistency — nodes converge over time</li>
@@ -133,7 +133,7 @@ export default function NoSqlDatabasesContent({ slug }: { slug: string; chapterI
         Schema flexibility is NoSQL's most misunderstood feature. It doesn't mean no schema — it means the schema is enforced by your application code, not the database. This gives you faster iteration in early development but requires disciplined migration strategies as your data evolves.
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">When to Choose NoSQL</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">When to Choose NoSQL</h2>
       <ul className="space-y-2 text-sm">
         {[
           "Write throughput exceeds what a single RDBMS can handle and sharding SQL becomes too complex.",
@@ -143,7 +143,7 @@ export default function NoSqlDatabasesContent({ slug }: { slug: string; chapterI
           "You need ultra-low latency (sub-millisecond) for caching, sessions, or leaderboards.",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2 list-none">
-            <span className="text-[#06b6d4] shrink-0 mt-1">→</span>
+            <span className="text-accent-2 shrink-0 mt-1">→</span>
             <span>{item}</span>
           </li>
         ))}

@@ -41,9 +41,9 @@ const questions = [
 
 export default function CqrsContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">CQRS (Command and Query Responsibility Segregation)</strong> is a pattern that separates read and write operations into different models. Commands (writes) go to one model; queries (reads) go to another, often optimized differently.
+        <strong className="text-txt">CQRS (Command and Query Responsibility Segregation)</strong> is a pattern that separates read and write operations into different models. Commands (writes) go to one model; queries (reads) go to another, often optimized differently.
       </p>
       <p>
         The insight: read and write patterns are fundamentally different. Reads might need denormalized, aggregated views. Writes need normalized data for integrity. Trying to serve both with one model leads to compromises. CQRS lets you optimize each independently.

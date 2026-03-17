@@ -57,9 +57,9 @@ const questions = [
 
 export default function ScalabilityContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">Scalability</strong> is the ability of a system to handle growing amounts of work by adding resources. A scalable system can handle 10x or 100x more load without requiring a complete redesign. It's one of the most common system design interview topics.
+        <strong className="text-txt">Scalability</strong> is the ability of a system to handle growing amounts of work by adding resources. A scalable system can handle 10x or 100x more load without requiring a complete redesign. It's one of the most common system design interview topics.
       </p>
 
       <InteractiveDiagram nodes={verticalNodes} edges={verticalEdges} nodeTypes={nodeTypes} title="Vertical vs Horizontal Scaling" description="Top: Scale up one machine. Bottom: Scale out to multiple machines with a load balancer." height={340} />
@@ -70,7 +70,7 @@ export default function ScalabilityContent({ slug }: { slug: string; chapterId: 
         The most scalable architectures combine both: vertical scaling for stateful components (databases), horizontal scaling for stateless components (API servers). Start vertical (simpler), then evolve to horizontal as you hit limits.
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Making Your Service Horizontally Scalable</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Making Your Service Horizontally Scalable</h2>
       <ul className="space-y-2 list-none text-sm">
         {[
           "Store sessions in Redis (not in-memory) — any server can handle any request",
@@ -79,7 +79,7 @@ export default function ScalabilityContent({ slug }: { slug: string; chapterId: 
           "Design stateless services — easier to scale, test, and deploy",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="text-[#3b82f6] mt-1 shrink-0">→</span>
+            <span className="text-accent mt-1 shrink-0">→</span>
             <span>{item}</span>
           </li>
         ))}

@@ -13,6 +13,7 @@ interface LearningStore {
   getOverallProgress: () => number;
   toggleSidebar: () => void;
   setSidebarOpen: (open: boolean) => void;
+  toggleDarkMode: () => void;
 }
 
 // Topic counts per chapter
@@ -95,6 +96,11 @@ export const useLearningStore = create<LearningStore>()(
       setSidebarOpen: (open: boolean) => {
         set({ sidebarOpen: open });
       },
+
+      toggleDarkMode: () => {
+        set((state) => ({ darkMode: !state.darkMode }));
+      },
+
     }),
     {
       name: 'system-design-academy',

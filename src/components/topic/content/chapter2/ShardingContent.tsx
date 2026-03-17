@@ -49,9 +49,9 @@ const questions = [
 
 export default function ShardingContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">Database sharding</strong> (also called horizontal partitioning) splits a large database into smaller, faster pieces called shards. Each shard holds a subset of the data and runs on its own server. Together they form one logical database.
+        <strong className="text-txt">Database sharding</strong> (also called horizontal partitioning) splits a large database into smaller, faster pieces called shards. Each shard holds a subset of the data and runs on its own server. Together they form one logical database.
       </p>
       <p>
         When a single database can't handle the write load, sharding is the solution. Twitter shards their database by tweet ID. Uber shards by geographic region. Instagram shards user data by user ID to serve 500M+ active users.
@@ -59,7 +59,7 @@ export default function ShardingContent({ slug }: { slug: string; chapterId: num
 
       <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="Range-Based Sharding" description="Data split across shards by user name range" height={350} />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Sharding Strategies</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Sharding Strategies</h2>
       <div className="space-y-3">
         {[
           { name: "Hash-Based", desc: "Apply a hash function to the shard key to determine the shard. Distributes data evenly but makes range queries hard.", color: "#3b82f6" },
@@ -67,11 +67,11 @@ export default function ShardingContent({ slug }: { slug: string; chapterId: num
           { name: "List-Based", desc: "Assign specific values to specific shards (US+CA on shard 1, EU on shard 2). Explicit control but inflexible.", color: "#8b5cf6" },
           { name: "Composite", desc: "Combine multiple strategies (hash by user_id, then range by timestamp). Maximum flexibility but complex routing logic.", color: "#10b981" },
         ].map((s) => (
-          <div key={s.name} className="p-3 rounded-lg border border-[#1e293b] bg-[#111827] flex gap-3">
+          <div key={s.name} className="p-3 rounded-lg border border-border-ui bg-surface flex gap-3">
             <div className="w-2 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
             <div>
-              <div className="font-semibold text-sm text-[#f1f5f9] font-heading">{s.name}</div>
-              <p className="text-xs text-[#94a3b8] mt-0.5">{s.desc}</p>
+              <div className="font-semibold text-sm text-txt font-heading">{s.name}</div>
+              <p className="text-xs text-txt-2 mt-0.5">{s.desc}</p>
             </div>
           </div>
         ))}

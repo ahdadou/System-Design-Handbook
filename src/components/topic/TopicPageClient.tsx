@@ -21,16 +21,17 @@ export function TopicPageClient({ topic, chapter, next, prev }: Props) {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Content scrolls inside <main>, not window
+    const scrollContainer = document.querySelector("main");
+    if (!scrollContainer) return;
     const handleScroll = () => {
-      const el = contentRef.current;
-      if (!el) return;
-      const scrolled = window.scrollY;
-      const total = el.offsetHeight - window.innerHeight;
+      const scrolled = scrollContainer.scrollTop;
+      const total = scrollContainer.scrollHeight - scrollContainer.clientHeight;
       if (total <= 0) return;
       setScrollProgress(Math.min(100, (scrolled / total) * 100));
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    scrollContainer.addEventListener("scroll", handleScroll);
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Keyboard navigation
@@ -47,8 +48,8 @@ export function TopicPageClient({ topic, chapter, next, prev }: Props) {
     return () => window.removeEventListener("keydown", handleKey);
   }, [next, prev]);
 
-  const CHAPTER_COLORS = ["#3b82f6", "#06b6d4", "#8b5cf6", "#f59e0b", "#10b981"];
-  const chapterColor = CHAPTER_COLORS[chapter.id - 1] || "#3b82f6";
+  const CHAPTER_COLORS = ["#6d54e8", "#0d9488", "#db2777", "#f59e0b", "#10b981"];
+  const chapterColor = CHAPTER_COLORS[chapter.id - 1] || "var(--ui-accent)";
 
   return (
     <div ref={contentRef} className="max-w-4xl mx-auto px-4 py-8">
@@ -70,13 +71,13 @@ export function TopicPageClient({ topic, chapter, next, prev }: Props) {
           </Link>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-bold font-heading text-[#f1f5f9] mb-3">
+        <h1 className="text-3xl sm:text-4xl font-bold font-heading mb-3" style={{ color: "var(--ui-text)" }}>
           {topic.title}
         </h1>
-        <p className="text-[#94a3b8] text-lg mb-4">{topic.description}</p>
+        <p className="text-lg mb-4" style={{ color: "var(--ui-text-2)" }}>{topic.description}</p>
 
         <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center gap-2 text-sm text-[#475569]">
+          <div className="flex items-center gap-2 text-sm" style={{ color: "var(--ui-text-3)" }}>
             <Clock className="w-4 h-4" />
             <span>{topic.readingTime} min read</span>
             <span className="mx-2">·</span>
@@ -84,11 +85,24 @@ export function TopicPageClient({ topic, chapter, next, prev }: Props) {
           </div>
           <button
             onClick={() => isCompleted ? markIncomplete(topic.slug) : markComplete(topic.slug)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all"
+            style={
               isCompleted
-                ? "bg-[#10b981]/20 border border-[#10b981]/40 text-[#10b981] hover:bg-[#10b981]/10"
-                : "bg-[#1a2332] border border-[#1e293b] text-[#475569] hover:border-[#10b981]/40 hover:text-[#10b981]"
-            }`}
+                ? { background: "var(--ui-success-bg, rgba(16,185,129,0.15))", border: "1px solid rgba(16,185,129,0.4)", color: "var(--ui-success)" }
+                : { background: "var(--bg-elevated)", border: "1px solid var(--ui-border)", color: "var(--ui-text-3)" }
+            }
+            onMouseEnter={e => {
+              if (!isCompleted) {
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(16,185,129,0.4)";
+                (e.currentTarget as HTMLButtonElement).style.color = "var(--ui-success, #10b981)";
+              }
+            }}
+            onMouseLeave={e => {
+              if (!isCompleted) {
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--ui-border)";
+                (e.currentTarget as HTMLButtonElement).style.color = "var(--ui-text-3)";
+              }
+            }}
           >
             <CheckCircle2 className="w-4 h-4" />
             {isCompleted ? "Completed" : "Mark Complete"}
@@ -97,7 +111,7 @@ export function TopicPageClient({ topic, chapter, next, prev }: Props) {
       </motion.div>
 
       {/* Divider */}
-      <div className="h-px bg-gradient-to-r from-transparent via-[#1e293b] to-transparent mb-8" />
+      <div className="h-px mb-8" style={{ background: "linear-gradient(to right, transparent, var(--ui-border), transparent)" }} />
 
       {/* Content */}
       <motion.div
@@ -109,15 +123,18 @@ export function TopicPageClient({ topic, chapter, next, prev }: Props) {
       </motion.div>
 
       {/* Navigation */}
-      <div className="mt-16 pt-8 border-t border-[#1e293b] flex items-center justify-between gap-4">
+      <div className="mt-16 pt-8 flex items-center justify-between gap-4" style={{ borderTop: "1px solid var(--ui-border)" }}>
         {prev ? (
           <Link href={`/chapter-${prev.chapter}/${prev.topic.slug}`} className="group flex items-center gap-2 flex-1 max-w-xs">
-            <div className="p-2 rounded-lg bg-[#1a2332] border border-[#1e293b] group-hover:border-[#3b82f6]/40 transition-colors">
-              <ChevronLeft className="w-4 h-4 text-[#94a3b8] group-hover:text-[#3b82f6] transition-colors" />
+            <div
+              className="p-2 rounded-lg transition-colors"
+              style={{ background: "var(--bg-elevated)", border: "1px solid var(--ui-border)" }}
+            >
+              <ChevronLeft className="w-4 h-4" style={{ color: "var(--ui-text-2)" }} />
             </div>
             <div className="min-w-0">
-              <div className="text-xs text-[#475569]">Previous</div>
-              <div className="text-sm text-[#94a3b8] group-hover:text-[#f1f5f9] transition-colors truncate">
+              <div className="text-xs" style={{ color: "var(--ui-text-3)" }}>Previous</div>
+              <div className="text-sm truncate" style={{ color: "var(--ui-text-2)" }}>
                 {prev.topic.title}
               </div>
             </div>
@@ -127,19 +144,22 @@ export function TopicPageClient({ topic, chapter, next, prev }: Props) {
         {next ? (
           <Link href={`/chapter-${next.chapter}/${next.topic.slug}`} className="group flex items-center gap-2 flex-1 max-w-xs justify-end text-right">
             <div className="min-w-0">
-              <div className="text-xs text-[#475569]">Next</div>
-              <div className="text-sm text-[#94a3b8] group-hover:text-[#f1f5f9] transition-colors truncate">
+              <div className="text-xs" style={{ color: "var(--ui-text-3)" }}>Next</div>
+              <div className="text-sm truncate" style={{ color: "var(--ui-text-2)" }}>
                 {next.topic.title}
               </div>
             </div>
-            <div className="p-2 rounded-lg bg-[#1a2332] border border-[#1e293b] group-hover:border-[#3b82f6]/40 transition-colors">
-              <ChevronRight className="w-4 h-4 text-[#94a3b8] group-hover:text-[#3b82f6] transition-colors" />
+            <div
+              className="p-2 rounded-lg transition-colors"
+              style={{ background: "var(--bg-elevated)", border: "1px solid var(--ui-border)" }}
+            >
+              <ChevronRight className="w-4 h-4" style={{ color: "var(--ui-text-2)" }} />
             </div>
           </Link>
         ) : <div />}
       </div>
 
-      <div className="mt-4 text-center text-xs text-[#475569]">
+      <div className="mt-4 text-center text-xs" style={{ color: "var(--ui-text-3)" }}>
         Use ← → arrow keys to navigate between topics
       </div>
     </div>

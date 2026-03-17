@@ -76,12 +76,12 @@ const questions = [
 
 export default function TcpUdpContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">TCP (Transmission Control Protocol)</strong> and <strong className="text-[#f1f5f9]">UDP (User Datagram Protocol)</strong> are the two core transport-layer protocols. Every internet application you've ever used chooses between them. Understanding this choice is fundamental to system design.
+        <strong className="text-txt">TCP (Transmission Control Protocol)</strong> and <strong className="text-txt">UDP (User Datagram Protocol)</strong> are the two core transport-layer protocols. Every internet application you've ever used chooses between them. Understanding this choice is fundamental to system design.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">TCP — The Reliable Workhorse</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">TCP — The Reliable Workhorse</h2>
       <p>
         TCP guarantees that data arrives in order, without errors, and without duplication. It achieves this through a connection establishment handshake, acknowledgment numbers, retransmission on loss, and flow/congestion control. The price is latency overhead.
       </p>
@@ -95,17 +95,17 @@ export default function TcpUdpContent({ slug }: { slug: string; chapterId: numbe
         height={360}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">UDP — The Speed Demon</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">UDP — The Speed Demon</h2>
       <p>
         UDP just sends packets and doesn't care if they arrive. No connection setup, no acknowledgments, no retransmission. What you lose in reliability, you gain in raw speed and simplicity. Applications that need real-time performance often implement their own lightweight reliability on top of UDP (QUIC does this for HTTP/3).
       </p>
 
       <ComparisonTable title="TCP vs UDP" columns={comparison.columns} rows={comparison.rows} verdict={{ tcp: "Web, APIs, Files", udp: "Gaming, Video, DNS" }} />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">When to Use Each</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">When to Use Each</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30">
-          <div className="font-bold text-[#3b82f6] text-sm font-heading mb-2">Use TCP When:</div>
+          <div className="font-bold text-accent text-sm font-heading mb-2">Use TCP When:</div>
           <ul className="text-xs space-y-1 list-none">
             {["Every byte must arrive (files, emails, APIs)", "Data order matters (financial transactions)", "You can tolerate extra latency", "Reliability > performance"].map((i) => (
               <li key={i} className="flex gap-1.5"><span>•</span>{i}</li>

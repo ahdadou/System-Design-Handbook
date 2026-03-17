@@ -50,18 +50,18 @@ const questions = [
 
 export default function ReplicationContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">Database replication</strong> maintains copies of data on multiple servers. When the primary database receives a write, it propagates the change to replica servers. This provides fault tolerance, read scalability, and geographic distribution.
+        <strong className="text-txt">Database replication</strong> maintains copies of data on multiple servers. When the primary database receives a write, it propagates the change to replica servers. This provides fault tolerance, read scalability, and geographic distribution.
       </p>
 
       <InteractiveDiagram nodes={masterSlaveNodes} edges={msEdges} nodeTypes={nodeTypes} title="Primary-Replica Replication" description="Writes go to primary, reads distributed across replicas" height={330} />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Replication Modes</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Replication Modes</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30">
-          <div className="font-bold text-[#3b82f6] text-sm font-heading mb-2">Synchronous</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <div className="font-bold text-accent text-sm font-heading mb-2">Synchronous</div>
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• Primary waits for replica to confirm write</li>
             <li>• Zero data loss — replica always up to date</li>
             <li>• Higher write latency (must wait for all replicas)</li>
@@ -69,8 +69,8 @@ export default function ReplicationContent({ slug }: { slug: string; chapterId: 
           </ul>
         </div>
         <div className="p-4 rounded-xl bg-[#10b981]/10 border border-[#10b981]/30">
-          <div className="font-bold text-[#10b981] text-sm font-heading mb-2">Asynchronous</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <div className="font-bold text-c-success text-sm font-heading mb-2">Asynchronous</div>
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• Primary acknowledges write immediately</li>
             <li>• Replicas catch up in the background</li>
             <li>• Possible data loss if primary crashes before replication</li>

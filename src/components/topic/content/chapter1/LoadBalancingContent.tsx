@@ -36,21 +36,21 @@ const questions = [
 
 export default function LoadBalancingContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        A <strong className="text-[#f1f5f9]">load balancer</strong> sits between clients and a pool of servers, distributing incoming requests across multiple instances. It's the foundation of horizontal scalability — without it, scaling out means nothing because all traffic would hit one server.
+        A <strong className="text-txt">load balancer</strong> sits between clients and a pool of servers, distributing incoming requests across multiple instances. It's the foundation of horizontal scalability — without it, scaling out means nothing because all traffic would hit one server.
       </p>
       <p>
         Load balancers also provide fault tolerance: if a server dies, the load balancer stops sending traffic to it. They can perform health checks, SSL termination, and rate limiting — making them a critical piece of production infrastructure.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Interactive Load Balancer</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Interactive Load Balancer</h2>
       <LoadBalancerDiagram />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">L4 vs L7 Load Balancers</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">L4 vs L7 Load Balancers</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30">
-          <div className="font-bold text-[#3b82f6] text-sm font-heading mb-2">L4 (Transport Layer)</div>
+          <div className="font-bold text-accent text-sm font-heading mb-2">L4 (Transport Layer)</div>
           <ul className="text-xs space-y-1">
             {["Routes based on IP + TCP port", "Cannot inspect HTTP content", "Extremely fast (no parsing overhead)", "Good for TCP/UDP traffic", "Example: AWS NLB, HAProxy"].map((i) => (
               <li key={i} className="flex gap-1.5"><span>•</span>{i}</li>
@@ -58,7 +58,7 @@ export default function LoadBalancingContent({ slug }: { slug: string; chapterId
           </ul>
         </div>
         <div className="p-4 rounded-xl bg-[#8b5cf6]/10 border border-[#8b5cf6]/30">
-          <div className="font-bold text-[#8b5cf6] text-sm font-heading mb-2">L7 (Application Layer)</div>
+          <div className="font-bold text-accent text-sm font-heading mb-2">L7 (Application Layer)</div>
           <ul className="text-xs space-y-1">
             {["Routes based on URL, headers, cookies", "Can implement A/B testing, canary deploys", "SSL termination", "More CPU overhead", "Example: AWS ALB, Nginx, Envoy"].map((i) => (
               <li key={i} className="flex gap-1.5"><span>•</span>{i}</li>
@@ -67,7 +67,7 @@ export default function LoadBalancingContent({ slug }: { slug: string; chapterId
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Load Balancing Algorithms</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Load Balancing Algorithms</h2>
       <div className="space-y-3">
         {[
           { name: "Round Robin", desc: "Requests distributed in order: Server 1, 2, 3, 1, 2, 3... Simple but ignores server load.", best: "Servers with equal capacity" },
@@ -76,10 +76,10 @@ export default function LoadBalancingContent({ slug }: { slug: string; chapterId
           { name: "IP Hash", desc: "Client IP determines which server handles the request. Same client always hits same server (sticky sessions).", best: "Stateful apps without shared session storage" },
           { name: "Random", desc: "Server selected randomly. Simple, no state needed. Similar to round-robin in aggregate.", best: "Quick prototyping, simple setups" },
         ].map((alg) => (
-          <div key={alg.name} className="p-4 bg-[#111827] rounded-xl border border-[#1e293b]">
-            <div className="font-semibold text-[#f1f5f9] text-sm font-heading mb-1">{alg.name}</div>
-            <p className="text-xs text-[#94a3b8]">{alg.desc}</p>
-            <div className="mt-1.5 text-xs text-[#475569]">Best for: <span className="text-[#3b82f6]">{alg.best}</span></div>
+          <div key={alg.name} className="p-4 bg-surface rounded-xl border border-border-ui">
+            <div className="font-semibold text-txt text-sm font-heading mb-1">{alg.name}</div>
+            <p className="text-xs text-txt-2">{alg.desc}</p>
+            <div className="mt-1.5 text-xs text-txt-3">Best for: <span className="text-accent">{alg.best}</span></div>
           </div>
         ))}
       </div>

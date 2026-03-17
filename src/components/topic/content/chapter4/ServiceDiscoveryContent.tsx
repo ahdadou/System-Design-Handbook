@@ -53,9 +53,9 @@ const questions = [
 
 export default function ServiceDiscoveryContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        In a microservices architecture, services need to find each other to communicate. Unlike monoliths where function calls are direct, microservices run as separate processes with dynamic IPs — especially in containerized environments where Kubernetes reschedules pods constantly. <strong className="text-[#f1f5f9]">Service Discovery</strong> solves this by maintaining a live registry of where every service instance is running.
+        In a microservices architecture, services need to find each other to communicate. Unlike monoliths where function calls are direct, microservices run as separate processes with dynamic IPs — especially in containerized environments where Kubernetes reschedules pods constantly. <strong className="text-txt">Service Discovery</strong> solves this by maintaining a live registry of where every service instance is running.
       </p>
       <p>
         Before service discovery, ops teams hand-edited config files with IP addresses. When an instance died or scaled, configs went stale. Service discovery automates this entirely — services register themselves, the registry tracks health, and clients always get fresh, healthy endpoints.
@@ -70,7 +70,7 @@ export default function ServiceDiscoveryContent({ slug }: { slug: string; chapte
         height={380}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Discovery Patterns</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Discovery Patterns</h2>
       <div className="grid grid-cols-1 gap-4">
         {[
           {
@@ -92,38 +92,38 @@ export default function ServiceDiscoveryContent({ slug }: { slug: string; chapte
             example: "AWS ALB + ECS Service Discovery. Kubernetes Services with kube-proxy.",
           },
         ].map((p) => (
-          <div key={p.title} className="p-4 rounded-xl border border-[#1e293b] bg-[#111827]">
+          <div key={p.title} className="p-4 rounded-xl border border-border-ui bg-surface">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xl">{p.icon}</span>
               <div className="font-bold text-sm font-heading" style={{ color: p.color }}>{p.title}</div>
             </div>
-            <p className="text-xs text-[#94a3b8] mb-2 leading-relaxed">{p.how}</p>
+            <p className="text-xs text-txt-2 mb-2 leading-relaxed">{p.how}</p>
             <div className="grid grid-cols-2 gap-2 text-[10px] mb-2">
-              <div><span className="text-[#10b981]">✓ </span><span className="text-[#94a3b8]">{p.pros}</span></div>
-              <div><span className="text-[#ef4444]">✗ </span><span className="text-[#94a3b8]">{p.cons}</span></div>
+              <div><span className="text-c-success">✓ </span><span className="text-txt-2">{p.pros}</span></div>
+              <div><span className="text-[#ef4444]">✗ </span><span className="text-txt-2">{p.cons}</span></div>
             </div>
-            <div className="text-[10px] text-[#475569]">Used by: {p.example}</div>
+            <div className="text-[10px] text-txt-3">Used by: {p.example}</div>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Registration Strategies</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Registration Strategies</h2>
       <div className="space-y-3">
         {[
           { strategy: "Self-Registration", color: "#10b981", desc: "Services register and deregister themselves on startup/shutdown. Simple, but couples service code to the registry client library. If the service crashes without graceful shutdown, the registry relies on health checks to clean up." },
           { strategy: "Third-Party Registration", color: "#8b5cf6", desc: "An external system (Kubernetes controller, Registrator sidecar, or AWS ECS) monitors the platform and registers/deregisters services. Services stay registry-agnostic. Preferred in Kubernetes environments." },
         ].map((s) => (
-          <div key={s.strategy} className="flex gap-3 p-4 rounded-xl bg-[#111827] border border-[#1e293b]">
+          <div key={s.strategy} className="flex gap-3 p-4 rounded-xl bg-surface border border-border-ui">
             <div className="w-1 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
             <div>
-              <div className="font-semibold text-sm text-[#f1f5f9] font-heading mb-1">{s.strategy}</div>
-              <p className="text-xs text-[#94a3b8] leading-relaxed">{s.desc}</p>
+              <div className="font-semibold text-sm text-txt font-heading mb-1">{s.strategy}</div>
+              <p className="text-xs text-txt-2 leading-relaxed">{s.desc}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Popular Service Registries</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Popular Service Registries</h2>
       <div className="grid grid-cols-2 gap-3">
         {[
           { name: "Consul", icon: "🏛️", color: "#f59e0b", detail: "HashiCorp's all-in-one: service registry, health checks, KV store, service mesh. Supports multi-datacenter. Uses Raft consensus for consistency." },
@@ -131,12 +131,12 @@ export default function ServiceDiscoveryContent({ slug }: { slug: string; chapte
           { name: "Eureka", icon: "☁️", color: "#ef4444", detail: "Netflix's battle-tested registry. AP system (favors availability). Clients cache the registry locally — still work if registry goes down briefly." },
           { name: "Kubernetes DNS", icon: "⎈", color: "#06b6d4", detail: "In K8s, Services get a DNS name (my-svc.namespace.svc.cluster.local). kube-dns or CoreDNS resolves to ClusterIP. No SDK needed — just use the hostname." },
         ].map((item) => (
-          <div key={item.name} className="p-3 rounded-xl border bg-[#111827]" style={{ borderColor: `${item.color}40` }}>
+          <div key={item.name} className="p-3 rounded-xl border bg-surface" style={{ borderColor: `${item.color}40` }}>
             <div className="flex items-center gap-2 mb-1.5">
               <span className="text-xl">{item.icon}</span>
-              <div className="font-bold text-xs text-[#f1f5f9] font-heading">{item.name}</div>
+              <div className="font-bold text-xs text-txt font-heading">{item.name}</div>
             </div>
-            <p className="text-[10px] text-[#94a3b8] leading-relaxed">{item.detail}</p>
+            <p className="text-[10px] text-txt-2 leading-relaxed">{item.detail}</p>
           </div>
         ))}
       </div>

@@ -24,14 +24,14 @@ const questions = [
 
 export default function TransactionsContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        A <strong className="text-[#f1f5f9]">database transaction</strong> is a sequence of operations treated as a single unit of work. Either all operations succeed (commit) or none do (rollback). Transactions are what make databases trustworthy for financial and business-critical operations.
+        A <strong className="text-txt">database transaction</strong> is a sequence of operations treated as a single unit of work. Either all operations succeed (commit) or none do (rollback). Transactions are what make databases trustworthy for financial and business-critical operations.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Transaction States</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Transaction States</h2>
       <div className="relative">
-        <div className="flex flex-wrap items-center gap-3 justify-center p-6 bg-[#111827] rounded-xl border border-[#1e293b]">
+        <div className="flex flex-wrap items-center gap-3 justify-center p-6 bg-surface rounded-xl border border-border-ui">
           {[
             { state: "Active", color: "#3b82f6", desc: "Executing operations" },
             { state: "→" },
@@ -40,11 +40,11 @@ export default function TransactionsContent({ slug }: { slug: string; chapterId:
             { state: "Committed", color: "#10b981", desc: "Permanently saved to DB" },
           ].map((s, i) => (
             s.state === "→" ? (
-              <span key={i} className="text-[#475569] text-xl font-bold">→</span>
+              <span key={i} className="text-txt-3 text-xl font-bold">→</span>
             ) : (
               <div key={i} className="p-3 rounded-xl text-center min-w-32 border" style={{ borderColor: `${s.color}40`, backgroundColor: `${s.color}10` }}>
                 <div className="font-bold text-xs font-heading" style={{ color: s.color }}>{s.state}</div>
-                <div className="text-[10px] text-[#475569] mt-1">{s.desc}</div>
+                <div className="text-[10px] text-txt-3 mt-1">{s.desc}</div>
               </div>
             )
           ))}
@@ -52,17 +52,17 @@ export default function TransactionsContent({ slug }: { slug: string; chapterId:
         <div className="flex justify-center mt-3 gap-6">
           <div className="p-3 rounded-xl text-center border border-[#ef4444]/30 bg-[#ef4444]/10">
             <div className="font-bold text-xs text-[#ef4444] font-heading">Failed</div>
-            <div className="text-[10px] text-[#475569] mt-1">Error detected</div>
+            <div className="text-[10px] text-txt-3 mt-1">Error detected</div>
           </div>
-          <span className="text-[#475569] text-xl font-bold self-center">→</span>
+          <span className="text-txt-3 text-xl font-bold self-center">→</span>
           <div className="p-3 rounded-xl text-center border border-[#8b5cf6]/30 bg-[#8b5cf6]/10">
-            <div className="font-bold text-xs text-[#8b5cf6] font-heading">Aborted</div>
-            <div className="text-[10px] text-[#475569] mt-1">Rolled back</div>
+            <div className="font-bold text-xs text-accent font-heading">Aborted</div>
+            <div className="text-[10px] text-txt-3 mt-1">Rolled back</div>
           </div>
-          <span className="text-[#475569] text-xl font-bold self-center">→</span>
+          <span className="text-txt-3 text-xl font-bold self-center">→</span>
           <div className="p-3 rounded-xl text-center border border-[#475569]/30 bg-[#475569]/10">
-            <div className="font-bold text-xs text-[#475569] font-heading">Terminated</div>
-            <div className="text-[10px] text-[#475569] mt-1">Transaction ends</div>
+            <div className="font-bold text-xs text-txt-3 font-heading">Terminated</div>
+            <div className="text-[10px] text-txt-3 mt-1">Transaction ends</div>
           </div>
         </div>
       </div>

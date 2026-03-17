@@ -61,9 +61,9 @@ export default function GenericContent({ slug, chapterId }: Props) {
 
   return (
     <div className="prose-custom space-y-6">
-      <div className="text-[#94a3b8] leading-relaxed text-base">
+      <div className="text-txt-2 leading-relaxed text-base">
         <p className="text-lg">
-          <strong className="text-[#f1f5f9]">{title}</strong> is a fundamental concept in distributed systems and system design.
+          <strong className="text-txt">{title}</strong> is a fundamental concept in distributed systems and system design.
           Understanding it deeply will help you make better architectural decisions when building large-scale systems.
         </p>
         <p className="mt-4">
@@ -87,12 +87,12 @@ export default function GenericContent({ slug, chapterId }: Props) {
         height={350}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9] mt-8">Key Concepts</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt mt-8">Key Concepts</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {["Core Principles", "Common Patterns", "Trade-offs", "Best Practices"].map((concept) => (
-          <div key={concept} className="p-4 bg-[#111827] rounded-xl border border-[#1e293b]">
-            <h3 className="font-semibold text-[#f1f5f9] text-sm mb-2 font-heading">{concept}</h3>
-            <p className="text-xs text-[#94a3b8]">
+          <div key={concept} className="p-4 bg-surface rounded-xl border border-border-ui">
+            <h3 className="font-semibold text-txt text-sm mb-2 font-heading">{concept}</h3>
+            <p className="text-xs text-txt-2">
               Understanding {concept.toLowerCase()} for {title} helps you make informed design decisions
               and communicate effectively in technical discussions.
             </p>
@@ -105,7 +105,7 @@ export default function GenericContent({ slug, chapterId }: Props) {
         System design is about making informed decisions given constraints.
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9] mt-8">Knowledge Check</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt mt-8">Knowledge Check</h2>
       <QuizBlock topicSlug={slug} questions={quizQuestions} />
     </div>
   );

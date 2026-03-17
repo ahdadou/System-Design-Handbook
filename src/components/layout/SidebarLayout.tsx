@@ -8,19 +8,26 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export function SidebarLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { sidebarOpen, setSidebarOpen } = useLearningStore();
+  const { sidebarOpen, setSidebarOpen, darkMode } = useLearningStore();
   const [mounted, setMounted] = useState(false);
-  const isHomePage = pathname === "/";
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Sync dark mode preference to <html> class
+  useEffect(() => {
+    const root = document.documentElement;
+    if (darkMode) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [darkMode]);
+
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        setSidebarOpen(false);
-      }
+      if (window.innerWidth < 1024) setSidebarOpen(false);
     };
     window.addEventListener("resize", handleResize);
     handleResize();
@@ -30,15 +37,15 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
   if (!mounted) return null;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#0a0e17]">
+    <div className="flex h-screen overflow-hidden bg-canvas theme-transition">
       {/* Sidebar */}
       <AnimatePresence mode="wait">
         {sidebarOpen && (
           <motion.aside
-            initial={{ x: -280, opacity: 0 }}
+            initial={{ x: -288, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -280, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
+            exit={{ x: -288, opacity: 0 }}
+            transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
             className="fixed lg:relative z-40 h-full w-72 shrink-0"
           >
             <Sidebar />
@@ -46,10 +53,13 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
 
-      {/* Overlay for mobile */}
+      {/* Mobile overlay */}
       {sidebarOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-black/60 lg:hidden"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -61,10 +71,10 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
           <AnimatePresence mode="wait">
             <motion.div
               key={pathname}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
               className="min-h-full"
             >
               {children}

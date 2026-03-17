@@ -51,9 +51,9 @@ const questions = [
 
 export default function DistributedTransactionsContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        A <strong className="text-[#f1f5f9]">distributed transaction</strong> is one that spans multiple databases, services, or nodes and must either fully commit on all of them or fully roll back — preserving atomicity across a distributed boundary. This is one of the hardest problems in distributed systems.
+        A <strong className="text-txt">distributed transaction</strong> is one that spans multiple databases, services, or nodes and must either fully commit on all of them or fully roll back — preserving atomicity across a distributed boundary. This is one of the hardest problems in distributed systems.
       </p>
       <p className="text-sm leading-relaxed">
         In a microservices architecture, a single business operation (e.g., place an order) may write to the Order Service, deduct from the Inventory Service, and charge the Payment Service. All three must succeed or the system is in an inconsistent state.
@@ -68,14 +68,14 @@ export default function DistributedTransactionsContent({ slug }: { slug: string;
         height={380}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Two-Phase Commit (2PC)</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Two-Phase Commit (2PC)</h2>
       <p className="text-sm leading-relaxed">
         2PC is the classic protocol for distributed atomicity. A coordinator node drives two phases:
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
         <div className="p-4 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30">
-          <div className="font-bold text-[#3b82f6] text-sm font-heading mb-2">Phase 1: Prepare</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <div className="font-bold text-accent text-sm font-heading mb-2">Phase 1: Prepare</div>
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• Coordinator sends PREPARE to all participants</li>
             <li>• Each participant locks resources and writes to its undo log</li>
             <li>• Each votes YES (can commit) or NO (must abort)</li>
@@ -83,8 +83,8 @@ export default function DistributedTransactionsContent({ slug }: { slug: string;
           </ul>
         </div>
         <div className="p-4 rounded-xl bg-[#10b981]/10 border border-[#10b981]/30">
-          <div className="font-bold text-[#10b981] text-sm font-heading mb-2">Phase 2: Commit or Rollback</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <div className="font-bold text-c-success text-sm font-heading mb-2">Phase 2: Commit or Rollback</div>
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• If all voted YES → coordinator sends COMMIT</li>
             <li>• If any voted NO → coordinator sends ROLLBACK</li>
             <li>• Each participant applies the decision and releases locks</li>
@@ -97,13 +97,13 @@ export default function DistributedTransactionsContent({ slug }: { slug: string;
         The blocking problem: if the coordinator crashes after Phase 1, participants are stuck holding locks until the coordinator recovers. This can block for minutes or hours. Three-Phase Commit (3PC) adds a pre-commit phase to reduce blocking, but adds round-trips and still can't handle network partitions fully.
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">The Saga Pattern</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">The Saga Pattern</h2>
       <p className="text-sm leading-relaxed">
-        The <strong className="text-[#f1f5f9]">Saga pattern</strong> avoids distributed locks entirely by decomposing a distributed transaction into a sequence of local transactions, each publishing an event or message when it completes. If any step fails, compensating transactions undo the already-completed steps.
+        The <strong className="text-txt">Saga pattern</strong> avoids distributed locks entirely by decomposing a distributed transaction into a sequence of local transactions, each publishing an event or message when it completes. If any step fails, compensating transactions undo the already-completed steps.
       </p>
       <div className="p-4 rounded-xl bg-[#8b5cf6]/10 border border-[#8b5cf6]/30 mt-2">
-        <div className="font-bold text-[#8b5cf6] text-sm font-heading mb-2">Example: Place Order Saga</div>
-        <ol className="text-xs space-y-1 text-[#94a3b8] list-none">
+        <div className="font-bold text-accent text-sm font-heading mb-2">Example: Place Order Saga</div>
+        <ol className="text-xs space-y-1 text-txt-2 list-none">
           {[
             { step: "1. Order Service creates order (status: PENDING)", comp: "→ compensate: cancel order" },
             { step: "2. Inventory Service reserves stock", comp: "→ compensate: release reservation" },
@@ -111,18 +111,18 @@ export default function DistributedTransactionsContent({ slug }: { slug: string;
             { step: "4. Order Service marks order CONFIRMED", comp: "" },
           ].map((s, i) => (
             <li key={i} className="flex gap-2">
-              <span className="text-[#8b5cf6] shrink-0">{s.step}</span>
+              <span className="text-accent shrink-0">{s.step}</span>
               {s.comp && <span className="text-[#ef4444]">{s.comp}</span>}
             </li>
           ))}
         </ol>
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Choreography vs Orchestration</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Choreography vs Orchestration</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[#06b6d4]/10 border border-[#06b6d4]/30">
-          <div className="font-bold text-[#06b6d4] text-sm font-heading mb-2">Choreography</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <div className="font-bold text-accent-2 text-sm font-heading mb-2">Choreography</div>
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• Services react to events from other services</li>
             <li>• No central coordinator — fully decentralized</li>
             <li>• Pros: loose coupling, no single point of failure</li>
@@ -132,7 +132,7 @@ export default function DistributedTransactionsContent({ slug }: { slug: string;
         </div>
         <div className="p-4 rounded-xl bg-[#f59e0b]/10 border border-[#f59e0b]/30">
           <div className="font-bold text-[#f59e0b] text-sm font-heading mb-2">Orchestration</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• A central orchestrator tells each service what to do</li>
             <li>• Saga state is tracked in one place</li>
             <li>• Pros: easier to reason about, visible saga state</li>
@@ -142,7 +142,7 @@ export default function DistributedTransactionsContent({ slug }: { slug: string;
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">2PC vs Sagas</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">2PC vs Sagas</h2>
       <div className="space-y-3">
         {[
           { aspect: "Consistency model", twopc: "Strong (ACID)", saga: "Eventual (BASE)", color: "#3b82f6" },
@@ -151,12 +151,12 @@ export default function DistributedTransactionsContent({ slug }: { slug: string;
           { aspect: "Performance", twopc: "Higher latency (round-trips)", saga: "Lower latency (local commits)", color: "#10b981" },
           { aspect: "Best for", twopc: "Same-datacenter, same-team DBs", saga: "Microservices, cross-service flows", color: "#f59e0b" },
         ].map((row) => (
-          <div key={row.aspect} className="p-3 rounded-lg border border-[#1e293b] bg-[#111827] flex gap-3">
+          <div key={row.aspect} className="p-3 rounded-lg border border-border-ui bg-surface flex gap-3">
             <div className="w-2 rounded-full shrink-0" style={{ backgroundColor: row.color }} />
             <div className="flex-1 grid grid-cols-3 gap-2 text-xs">
-              <span className="font-semibold text-[#f1f5f9]">{row.aspect}</span>
-              <span className="text-[#94a3b8]">2PC: {row.twopc}</span>
-              <span className="text-[#94a3b8]">Saga: {row.saga}</span>
+              <span className="font-semibold text-txt">{row.aspect}</span>
+              <span className="text-txt-2">2PC: {row.twopc}</span>
+              <span className="text-txt-2">Saga: {row.saga}</span>
             </div>
           </div>
         ))}

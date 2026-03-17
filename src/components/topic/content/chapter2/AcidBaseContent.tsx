@@ -25,12 +25,12 @@ const questions = [
 
 export default function AcidBaseContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">ACID</strong> and <strong className="text-[#f1f5f9]">BASE</strong> are competing consistency models for databases. ACID prioritizes correctness; BASE prioritizes availability and performance. The rise of distributed systems made BASE models popular — they're more achievable across multiple machines.
+        <strong className="text-txt">ACID</strong> and <strong className="text-txt">BASE</strong> are competing consistency models for databases. ACID prioritizes correctness; BASE prioritizes availability and performance. The rise of distributed systems made BASE models popular — they're more achievable across multiple machines.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">ACID Properties</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">ACID Properties</h2>
       <div className="space-y-3">
         {[
           { prop: "Atomicity", desc: "All operations in a transaction succeed or ALL fail together. No partial updates. If your bank transfer debits one account but crashes before crediting the other, it rolls back.", color: "#3b82f6" },
@@ -38,17 +38,17 @@ export default function AcidBaseContent({ slug }: { slug: string; chapterId: num
           { prop: "Isolation", desc: "Concurrent transactions don't interfere. You never see partial writes from another transaction. Levels: READ UNCOMMITTED → READ COMMITTED → REPEATABLE READ → SERIALIZABLE.", color: "#8b5cf6" },
           { prop: "Durability", desc: "Committed transactions survive crashes. Written to disk (WAL logs). Even if power fails, committed data is not lost.", color: "#10b981" },
         ].map((p) => (
-          <div key={p.prop} className="p-4 rounded-xl border border-[#1e293b] bg-[#111827] flex gap-3">
+          <div key={p.prop} className="p-4 rounded-xl border border-border-ui bg-surface flex gap-3">
             <div className="w-1 rounded-full shrink-0" style={{ backgroundColor: p.color }} />
             <div>
               <div className="font-bold text-sm font-heading mb-1" style={{ color: p.color }}>{p.prop}</div>
-              <p className="text-xs text-[#94a3b8]">{p.desc}</p>
+              <p className="text-xs text-txt-2">{p.desc}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">BASE Properties</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">BASE Properties</h2>
       <p className="text-sm">BASE is the opposite philosophy — sacrifice strict consistency for higher availability and performance in distributed systems.</p>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
         {[
@@ -58,7 +58,7 @@ export default function AcidBaseContent({ slug }: { slug: string; chapterId: num
         ].map((p) => (
           <div key={p.prop} className="p-3 rounded-xl border border-[#f59e0b]/30 bg-[#f59e0b]/5">
             <div className="font-bold text-xs text-[#f59e0b] mb-1 font-heading">{p.prop}</div>
-            <p className="text-xs text-[#94a3b8]">{p.desc}</p>
+            <p className="text-xs text-txt-2">{p.desc}</p>
           </div>
         ))}
       </div>

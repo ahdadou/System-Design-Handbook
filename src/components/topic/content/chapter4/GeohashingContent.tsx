@@ -8,14 +8,14 @@ import { Node, Edge } from "@xyflow/react";
 const nodeTypes = { system: SystemNode, database: DatabaseNode };
 
 const nodes: Node[] = [
-  { id: "world", type: "system", position: { x: 180, y: 0 }, data: { label: "World Map", sublabel: "Full coordinate space", icon: "🌍", color: "#3b82f6", description: "Entire Earth divided into a grid using Base32 characters. Precision increases with string length." } },
-  { id: "r1", type: "system", position: { x: 0, y: 120 }, data: { label: "Region: 9q8y", sublabel: "San Francisco area", icon: "📍", color: "#06b6d4", description: "6-char geohash ≈ 1.2km × 0.6km precision. First chars shared = nearby location." } },
-  { id: "r2", type: "system", position: { x: 180, y: 120 }, data: { label: "Region: dp3w", sublabel: "New York area", icon: "📍", color: "#8b5cf6", description: "Geohash uses interleaved bits of lat/lng. Nearby locations share a common prefix." } },
-  { id: "r3", type: "system", position: { x: 360, y: 120 }, data: { label: "Region: u4pr", sublabel: "London area", icon: "📍", color: "#10b981", description: "Quadtree subdivides space recursively into 4 cells only where data exists — ideal for sparse datasets." } },
-  { id: "q1", type: "system", position: { x: 0, y: 260 }, data: { label: "Quadrant NW", sublabel: "9q8y → 9q8yt", icon: "↖️", color: "#06b6d4", description: "Each subdivision appends one more Base32 character, narrowing the geographic area by ~32x." } },
-  { id: "q2", type: "system", position: { x: 180, y: 260 }, data: { label: "Quadrant NE", sublabel: "9q8y → 9q8yv", icon: "↗️", color: "#06b6d4" } },
-  { id: "q3", type: "system", position: { x: 0, y: 380 }, data: { label: "Quadrant SW", sublabel: "9q8y → 9q8ym", icon: "↙️", color: "#f59e0b", description: "Uber uses geohash cells to group drivers. Querying nearby cells = finding nearby drivers in O(1)." } },
-  { id: "q4", type: "system", position: { x: 180, y: 380 }, data: { label: "Quadrant SE", sublabel: "9q8y → 9q8yq", icon: "↘️", color: "#f59e0b" } },
+  { id: "world", type: "system", position: { x: 220, y: 20 }, data: { label: "World Map", sublabel: "Full coordinate space", icon: "🌍", color: "#3b82f6", description: "Entire Earth divided into a grid using Base32 characters. Precision increases with string length." } },
+  { id: "r1", type: "system", position: { x: 60, y: 150 }, data: { label: "Region: 9q8y", sublabel: "San Francisco area", icon: "📍", color: "#06b6d4", description: "6-char geohash ≈ 1.2km × 0.6km precision. First chars shared = nearby location." } },
+  { id: "r2", type: "system", position: { x: 230, y: 150 }, data: { label: "Region: dp3w", sublabel: "New York area", icon: "📍", color: "#8b5cf6", description: "Geohash uses interleaved bits of lat/lng. Nearby locations share a common prefix." } },
+  { id: "r3", type: "system", position: { x: 400, y: 150 }, data: { label: "Region: u4pr", sublabel: "London area", icon: "📍", color: "#10b981", description: "Quadtree subdivides space recursively into 4 cells only where data exists — ideal for sparse datasets." } },
+  { id: "q1", type: "system", position: { x: 0, y: 300 }, data: { label: "Quadrant NW", sublabel: "9q8y → 9q8yt", icon: "↖️", color: "#06b6d4", description: "Each subdivision appends one more Base32 character, narrowing the geographic area by ~32x." } },
+  { id: "q2", type: "system", position: { x: 90, y: 300 }, data: { label: "Quadrant NE", sublabel: "9q8y → 9q8yv", icon: "↗️", color: "#06b6d4" } },
+  { id: "q3", type: "system", position: { x: 180, y: 300 }, data: { label: "Quadrant SW", sublabel: "9q8y → 9q8ym", icon: "↙️", color: "#f59e0b", description: "Uber uses geohash cells to group drivers. Querying nearby cells = finding nearby drivers in O(1)." } },
+  { id: "q4", type: "system", position: { x: 270, y: 300 }, data: { label: "Quadrant SE", sublabel: "9q8y → 9q8yq", icon: "↘️", color: "#f59e0b" } },
 ];
 
 const edges: Edge[] = [
@@ -55,9 +55,9 @@ const questions = [
 
 export default function GeohashingContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">Geohashing</strong> encodes a geographic location (latitude, longitude) into a short alphanumeric string. <strong className="text-[#f1f5f9]">Quadtrees</strong> recursively partition 2D space into four quadrants. Both are foundational to location-based services — used by Uber, Yelp, Tinder, and Google Maps to answer the deceptively hard question: "What's near me?"
+        <strong className="text-txt">Geohashing</strong> encodes a geographic location (latitude, longitude) into a short alphanumeric string. <strong className="text-txt">Quadtrees</strong> recursively partition 2D space into four quadrants. Both are foundational to location-based services — used by Uber, Yelp, Tinder, and Google Maps to answer the deceptively hard question: "What's near me?"
       </p>
       <p>
         Without a spatial index, finding nearby restaurants means scanning every row in your database, computing distance for each one. At scale (millions of POIs, millions of queries per second), this is catastrophic. Geohashing and quadtrees turn O(n) scans into O(1) lookups.
@@ -72,9 +72,9 @@ export default function GeohashingContent({ slug }: { slug: string; chapterId: n
         height={460}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">How Geohashing Works</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">How Geohashing Works</h2>
       <p>
-        Geohashing interleaves the binary representations of latitude and longitude, then encodes the result in Base32 (32 characters: 0-9, b-z minus a, i, l, o). The resulting string has a powerful property: <strong className="text-[#f1f5f9]">the longer the shared prefix, the closer two locations are.</strong>
+        Geohashing interleaves the binary representations of latitude and longitude, then encodes the result in Base32 (32 characters: 0-9, b-z minus a, i, l, o). The resulting string has a powerful property: <strong className="text-txt">the longer the shared prefix, the closer two locations are.</strong>
       </p>
       <div className="grid grid-cols-1 gap-3">
         {[
@@ -84,15 +84,15 @@ export default function GeohashingContent({ slug }: { slug: string; chapterId: n
           { precision: 8, chars: "8 chars", area: "~38m × 19m", example: "9q8yy9e2", use: "Building-level" },
           { precision: 12, chars: "12 chars", area: "~3.7cm × 1.9cm", example: "9q8yy9e2s5f7", use: "Sub-meter GPS" },
         ].map((row) => (
-          <div key={row.precision} className="flex items-center gap-3 p-3 rounded-lg bg-[#111827] border border-[#1e293b]">
-            <div className="w-8 h-8 rounded-full bg-[#3b82f6]/20 border border-[#3b82f6]/40 flex items-center justify-center text-xs font-bold text-[#3b82f6] shrink-0">
+          <div key={row.precision} className="flex items-center gap-3 p-3 rounded-lg bg-surface border border-border-ui">
+            <div className="w-8 h-8 rounded-full bg-[#3b82f6]/20 border border-[#3b82f6]/40 flex items-center justify-center text-xs font-bold text-accent shrink-0">
               {row.precision}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-xs font-semibold text-[#f1f5f9]">{row.chars} — {row.use}</div>
-              <div className="text-[10px] text-[#475569] font-mono mt-0.5">{row.example}</div>
+              <div className="text-xs font-semibold text-txt">{row.chars} — {row.use}</div>
+              <div className="text-[10px] text-txt-3 font-mono mt-0.5">{row.example}</div>
             </div>
-            <div className="text-[10px] text-[#94a3b8] text-right shrink-0">{row.area}</div>
+            <div className="text-[10px] text-txt-2 text-right shrink-0">{row.area}</div>
           </div>
         ))}
       </div>
@@ -101,9 +101,9 @@ export default function GeohashingContent({ slug }: { slug: string; chapterId: n
         For proximity search, query the target cell AND its 8 neighbors. Two points can be very close geographically but have different prefixes if they straddle a cell boundary. Always check adjacent cells to avoid false negatives.
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Quadtrees: Adaptive Spatial Indexing</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Quadtrees: Adaptive Spatial Indexing</h2>
       <p>
-        A Quadtree is a tree where each internal node has exactly 4 children representing NW, NE, SW, SE quadrants. Subdivision only happens when a cell contains more than a threshold of points. This makes quadtrees ideal for <strong className="text-[#f1f5f9]">sparse, unevenly distributed data</strong> — like drivers in a city.
+        A Quadtree is a tree where each internal node has exactly 4 children representing NW, NE, SW, SE quadrants. Subdivision only happens when a cell contains more than a threshold of points. This makes quadtrees ideal for <strong className="text-txt">sparse, unevenly distributed data</strong> — like drivers in a city.
       </p>
       <div className="space-y-3">
         {[
@@ -111,17 +111,17 @@ export default function GeohashingContent({ slug }: { slug: string; chapterId: n
           { title: "Querying nearby points", color: "#06b6d4", desc: "Given a location, traverse the quadtree to find the leaf cell. Return all points in that cell + neighboring cells. Only traverse branches that intersect the search radius." },
           { title: "Dynamic updates", color: "#8b5cf6", desc: "Drivers move constantly. Update = delete from old leaf + insert into new leaf. Much cheaper than rebuilding a geohash index. Uber's H3 library builds on hexagonal hierarchical geospatial indexing for even better uniformity." },
         ].map((item) => (
-          <div key={item.title} className="flex gap-3 p-4 rounded-xl bg-[#111827] border border-[#1e293b]">
+          <div key={item.title} className="flex gap-3 p-4 rounded-xl bg-surface border border-border-ui">
             <div className="w-1 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
             <div>
-              <div className="font-semibold text-sm text-[#f1f5f9] font-heading mb-1">{item.title}</div>
-              <p className="text-xs text-[#94a3b8] leading-relaxed">{item.desc}</p>
+              <div className="font-semibold text-sm text-txt font-heading mb-1">{item.title}</div>
+              <p className="text-xs text-txt-2 leading-relaxed">{item.desc}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Real-World Use Cases</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Real-World Use Cases</h2>
       <div className="grid grid-cols-2 gap-3">
         {[
           { company: "Uber / Lyft", icon: "🚗", tech: "Geohash + Quadtree", detail: "Driver locations indexed by geohash cells. Rider app queries cell + neighbors. Updated every few seconds per driver.", color: "#f59e0b" },
@@ -129,15 +129,15 @@ export default function GeohashingContent({ slug }: { slug: string; chapterId: n
           { company: "Tinder", icon: "❤️", tech: "Geohash", detail: "Profiles stored with geohash. Match candidates queried from same + adjacent geohash cells within configurable radius.", color: "#ef4444" },
           { company: "PostGIS / MongoDB", icon: "🗄️", tech: "2D Spatial Index", detail: "Both support native geospatial indexing using R-trees or geohash. MongoDB's $near uses a 2dsphere index under the hood.", color: "#8b5cf6" },
         ].map((item) => (
-          <div key={item.company} className="p-3 rounded-xl border bg-[#111827]" style={{ borderColor: `${item.color}40` }}>
+          <div key={item.company} className="p-3 rounded-xl border bg-surface" style={{ borderColor: `${item.color}40` }}>
             <div className="flex items-center gap-2 mb-1.5">
               <span className="text-xl">{item.icon}</span>
               <div>
-                <div className="text-xs font-bold text-[#f1f5f9] font-heading">{item.company}</div>
+                <div className="text-xs font-bold text-txt font-heading">{item.company}</div>
                 <div className="text-[10px]" style={{ color: item.color }}>{item.tech}</div>
               </div>
             </div>
-            <p className="text-[10px] text-[#94a3b8] leading-relaxed">{item.detail}</p>
+            <p className="text-[10px] text-txt-2 leading-relaxed">{item.detail}</p>
           </div>
         ))}
       </div>

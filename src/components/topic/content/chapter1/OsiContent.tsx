@@ -26,26 +26,26 @@ const questions = [
 
 export default function OsiContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        The <strong className="text-[#f1f5f9]">OSI (Open Systems Interconnection) model</strong> is a conceptual framework that standardizes the functions of a telecommunication or computing system into seven distinct layers. Created by ISO in 1984, it provides a universal language for understanding how different network protocols interact.
+        The <strong className="text-txt">OSI (Open Systems Interconnection) model</strong> is a conceptual framework that standardizes the functions of a telecommunication or computing system into seven distinct layers. Created by ISO in 1984, it provides a universal language for understanding how different network protocols interact.
       </p>
       <p>
         While the OSI model is theoretical (real internet uses TCP/IP which compresses some layers), every engineer needs to understand it. When you debug a network issue, trace a security vulnerability, or design a distributed system, you're thinking in OSI layers whether you know it or not.
       </p>
 
       <KeyTakeaway variant="tip">
-        Remember the layers with: <strong className="text-[#f1f5f9]">"All People Seem To Need Data Processing"</strong> (Application, Presentation, Session, Transport, Network, Data Link, Physical).
+        Remember the layers with: <strong className="text-txt">"All People Seem To Need Data Processing"</strong> (Application, Presentation, Session, Transport, Network, Data Link, Physical).
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Interactive OSI Model</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Interactive OSI Model</h2>
       <p>Click each layer to see its details, protocols, and responsibilities. Use the animate button to see data flow.</p>
 
       <OsiModelDiagram />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">The TCP/IP Model (Real World)</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">The TCP/IP Model (Real World)</h2>
       <p>
-        In practice, the internet uses the <strong className="text-[#f1f5f9]">TCP/IP model</strong>, which collapses OSI's 7 layers into 4:
+        In practice, the internet uses the <strong className="text-txt">TCP/IP model</strong>, which collapses OSI's 7 layers into 4:
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-4">
         {[
@@ -54,15 +54,15 @@ export default function OsiContent({ slug }: { slug: string; chapterId: number }
           { name: "Internet", osi: "Layer 3", color: "#f59e0b", protocols: "IP, ICMP" },
           { name: "Link", osi: "Layers 1-2", color: "#10b981", protocols: "Ethernet, WiFi" },
         ].map((layer) => (
-          <div key={layer.name} className="p-3 rounded-xl border border-[#1e293b]" style={{ backgroundColor: `${layer.color}10` }}>
+          <div key={layer.name} className="p-3 rounded-xl border border-border-ui" style={{ backgroundColor: `${layer.color}10` }}>
             <div className="font-semibold text-sm font-heading" style={{ color: layer.color }}>{layer.name}</div>
-            <div className="text-xs text-[#475569] mt-0.5">{layer.osi}</div>
-            <div className="text-xs text-[#94a3b8] mt-1">{layer.protocols}</div>
+            <div className="text-xs text-txt-3 mt-0.5">{layer.osi}</div>
+            <div className="text-xs text-txt-2 mt-1">{layer.protocols}</div>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Why It Matters for System Design</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Why It Matters for System Design</h2>
       <ul className="space-y-2 list-none text-sm">
         {[
           "Load balancers operate at L4 (TCP) or L7 (HTTP) — understanding this helps you choose the right type",
@@ -71,7 +71,7 @@ export default function OsiContent({ slug }: { slug: string; chapterId: number }
           "VPNs operate at L3 — they create a secure tunnel by wrapping packets in new IP packets",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="text-[#3b82f6] mt-1">→</span>
+            <span className="text-accent mt-1">→</span>
             <span>{item}</span>
           </li>
         ))}

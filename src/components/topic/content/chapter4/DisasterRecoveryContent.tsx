@@ -51,9 +51,9 @@ const questions = [
 
 export default function DisasterRecoveryContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">Disaster Recovery (DR)</strong> is the set of policies, tools, and procedures to recover IT systems after a catastrophic event — data center fire, region-wide cloud outage, ransomware attack, or accidental mass deletion. Two metrics define every DR strategy: <strong className="text-[#f1f5f9]">RTO</strong> (how quickly you recover) and <strong className="text-[#f1f5f9]">RPO</strong> (how much data you can afford to lose).
+        <strong className="text-txt">Disaster Recovery (DR)</strong> is the set of policies, tools, and procedures to recover IT systems after a catastrophic event — data center fire, region-wide cloud outage, ransomware attack, or accidental mass deletion. Two metrics define every DR strategy: <strong className="text-txt">RTO</strong> (how quickly you recover) and <strong className="text-txt">RPO</strong> (how much data you can afford to lose).
       </p>
       <p>
         In 2017, AWS S3 had a major us-east-1 outage. Companies that replicated to other regions stayed up; those that didn't went dark for hours. DR is not theoretical — it's the difference between a bad day and a business-ending event.
@@ -68,22 +68,22 @@ export default function DisasterRecoveryContent({ slug }: { slug: string; chapte
         height={500}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">RTO and RPO Explained</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">RTO and RPO Explained</h2>
       <div className="grid grid-cols-2 gap-4">
         {[
           { metric: "RTO", full: "Recovery Time Objective", color: "#3b82f6", icon: "⏱️", desc: "Maximum acceptable time from disaster to full service restoration. RTO = 0 means your system must never go down (active-active). RTO = 24h means you can be dark for a day. Lower RTO = higher cost." },
           { metric: "RPO", full: "Recovery Point Objective", color: "#8b5cf6", icon: "💾", desc: "Maximum acceptable data loss measured in time. RPO = 0 means zero data loss (synchronous replication required). RPO = 1h means you can lose 1 hour of transactions. Lower RPO = more frequent backups or sync replication." },
         ].map((m) => (
-          <div key={m.metric} className="p-4 rounded-xl border bg-[#111827]" style={{ borderColor: `${m.color}40` }}>
+          <div key={m.metric} className="p-4 rounded-xl border bg-surface" style={{ borderColor: `${m.color}40` }}>
             <div className="text-3xl mb-2">{m.icon}</div>
             <div className="font-bold text-base font-heading mb-0.5" style={{ color: m.color }}>{m.metric}</div>
-            <div className="text-[10px] text-[#475569] mb-2">{m.full}</div>
-            <p className="text-xs text-[#94a3b8] leading-relaxed">{m.desc}</p>
+            <div className="text-[10px] text-txt-3 mb-2">{m.full}</div>
+            <p className="text-xs text-txt-2 leading-relaxed">{m.desc}</p>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Standby Strategies</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Standby Strategies</h2>
       <div className="space-y-3">
         {[
           { type: "Cold Standby", rto: "Hours", rpo: "Hours to days", cost: "$", color: "#94a3b8", desc: "Infrastructure exists but is powered off or minimal. Recovery requires: provision servers, restore from backup (S3/tape), reconfigure networking, run smoke tests. Cheapest option — 90%+ less than hot standby. Good for development, test environments, or non-critical systems with tolerant business stakeholders." },
@@ -91,16 +91,16 @@ export default function DisasterRecoveryContent({ slug }: { slug: string; chapte
           { type: "Hot Standby (Active-Passive)", rto: "Seconds", rpo: "Near zero", cost: "$$$", color: "#ef4444", desc: "Full-capacity replica running in sync in another region. Only DNS/load balancer change needed to failover. Synchronous database replication ensures near-zero RPO. Required for financial transactions, healthcare records, mission-critical e-commerce." },
           { type: "Active-Active", rto: "Zero", rpo: "Zero", cost: "$$$$", color: "#10b981", desc: "Traffic runs through multiple regions simultaneously. No 'failover' — other regions absorb traffic instantly when one region dies. Requires conflict-free data replication or strong consistency across regions. Most complex and expensive. Used by Netflix, Amazon, Google for global services." },
         ].map((s) => (
-          <div key={s.type} className="p-4 rounded-xl border border-[#1e293b] bg-[#111827]">
+          <div key={s.type} className="p-4 rounded-xl border border-border-ui bg-surface">
             <div className="flex items-center justify-between mb-2">
               <div className="font-bold text-sm font-heading" style={{ color: s.color }}>{s.type}</div>
               <div className="flex gap-3 text-[10px]">
-                <span className="text-[#94a3b8]">RTO: <span className="text-[#f1f5f9] font-semibold">{s.rto}</span></span>
-                <span className="text-[#94a3b8]">RPO: <span className="text-[#f1f5f9] font-semibold">{s.rpo}</span></span>
-                <span className="text-[#94a3b8]">Cost: <span style={{ color: s.color }}>{s.cost}</span></span>
+                <span className="text-txt-2">RTO: <span className="text-txt font-semibold">{s.rto}</span></span>
+                <span className="text-txt-2">RPO: <span className="text-txt font-semibold">{s.rpo}</span></span>
+                <span className="text-txt-2">Cost: <span style={{ color: s.color }}>{s.cost}</span></span>
               </div>
             </div>
-            <p className="text-xs text-[#94a3b8] leading-relaxed">{s.desc}</p>
+            <p className="text-xs text-txt-2 leading-relaxed">{s.desc}</p>
           </div>
         ))}
       </div>
@@ -109,7 +109,7 @@ export default function DisasterRecoveryContent({ slug }: { slug: string; chapte
         A DR plan that's never been tested is not a DR plan — it's a wish. Chaos Engineering (popularized by Netflix's Chaos Monkey) deliberately kills production services to verify that DR mechanisms actually work. At minimum, run a DR drill quarterly: actually execute your failover runbook and measure actual RTO vs target.
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Backup Strategies</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Backup Strategies</h2>
       <div className="space-y-2">
         {[
           { strategy: "Full Backup", color: "#3b82f6", desc: "Complete copy of all data. Slowest to create, fastest to restore. High storage cost. Typically weekly." },
@@ -117,11 +117,11 @@ export default function DisasterRecoveryContent({ slug }: { slug: string; chapte
           { strategy: "Differential Backup", color: "#8b5cf6", desc: "Changes since last full backup. Grows over time. Faster restore than incremental (just full + latest differential). Middle ground." },
           { strategy: "Continuous Replication", color: "#10b981", desc: "Real-time streaming of data changes to replica. Near-zero RPO. Database log shipping, AWS DMS, Google Spanner multi-region. Most expensive but lowest data loss." },
         ].map((b) => (
-          <div key={b.strategy} className="flex gap-3 p-3 rounded-lg bg-[#111827] border border-[#1e293b]">
+          <div key={b.strategy} className="flex gap-3 p-3 rounded-lg bg-surface border border-border-ui">
             <div className="w-1 rounded-full shrink-0" style={{ backgroundColor: b.color }} />
             <div>
-              <div className="font-semibold text-xs text-[#f1f5f9] font-heading">{b.strategy}</div>
-              <p className="text-[10px] text-[#94a3b8] mt-0.5">{b.desc}</p>
+              <div className="font-semibold text-xs text-txt font-heading">{b.strategy}</div>
+              <p className="text-[10px] text-txt-2 mt-0.5">{b.desc}</p>
             </div>
           </div>
         ))}

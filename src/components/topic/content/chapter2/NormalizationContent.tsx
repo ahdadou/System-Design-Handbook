@@ -49,12 +49,12 @@ const questions = [
 
 export default function NormalizationContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">Normalization</strong> is the process of organizing a relational database to reduce data redundancy and improve data integrity. It works by decomposing large, flat tables into smaller, well-structured ones connected by foreign keys. The process is guided by a series of progressively stricter rules called <strong className="text-[#f1f5f9]">normal forms</strong>.
+        <strong className="text-txt">Normalization</strong> is the process of organizing a relational database to reduce data redundancy and improve data integrity. It works by decomposing large, flat tables into smaller, well-structured ones connected by foreign keys. The process is guided by a series of progressively stricter rules called <strong className="text-txt">normal forms</strong>.
       </p>
       <p className="text-sm leading-relaxed">
-        <strong className="text-[#f1f5f9]">Denormalization</strong> is the deliberate reversal of some normalization to improve read performance. In practice, most production systems normalize for correctness during design, then selectively denormalize for performance when profiling reveals bottlenecks.
+        <strong className="text-txt">Denormalization</strong> is the deliberate reversal of some normalization to improve read performance. In practice, most production systems normalize for correctness during design, then selectively denormalize for performance when profiling reveals bottlenecks.
       </p>
 
       <InteractiveDiagram
@@ -66,7 +66,7 @@ export default function NormalizationContent({ slug }: { slug: string; chapterId
         height={320}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Normal Forms</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Normal Forms</h2>
       <div className="space-y-3">
         {[
           {
@@ -94,15 +94,15 @@ export default function NormalizationContent({ slug }: { slug: string; chapterId
             example: "Handles edge cases involving multiple overlapping candidate keys that 3NF misses. Most tables in 3NF are also in BCNF.",
           },
         ].map((nf) => (
-          <div key={nf.form} className="p-4 rounded-xl border border-[#1e293b]" style={{ backgroundColor: `${nf.color}10` }}>
+          <div key={nf.form} className="p-4 rounded-xl border border-border-ui" style={{ backgroundColor: `${nf.color}10` }}>
             <div className="font-bold text-sm font-heading mb-1" style={{ color: nf.color }}>{nf.form}</div>
-            <p className="text-xs text-[#f1f5f9] mb-1"><strong>Rule:</strong> {nf.rule}</p>
-            <p className="text-xs text-[#94a3b8]"><strong>Example:</strong> {nf.example}</p>
+            <p className="text-xs text-txt mb-1"><strong>Rule:</strong> {nf.rule}</p>
+            <p className="text-xs text-txt-2"><strong>Example:</strong> {nf.example}</p>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Update Anomalies</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Update Anomalies</h2>
       <p className="text-sm leading-relaxed">
         Anomalies are data integrity problems that arise from redundancy in denormalized tables. There are three types:
       </p>
@@ -112,9 +112,9 @@ export default function NormalizationContent({ slug }: { slug: string; chapterId
           { type: "Update Anomaly", color: "#f59e0b", desc: "A fact is stored in multiple rows. Changing it in one place but missing another causes inconsistency. E.g., customer email stored on every order row." },
           { type: "Deletion Anomaly", color: "#8b5cf6", desc: "Deleting one entity accidentally removes data about another. E.g., deleting the last order for a customer also deletes all customer information." },
         ].map((a) => (
-          <div key={a.type} className="p-4 rounded-xl border border-[#1e293b]" style={{ backgroundColor: `${a.color}10` }}>
+          <div key={a.type} className="p-4 rounded-xl border border-border-ui" style={{ backgroundColor: `${a.color}10` }}>
             <div className="font-bold text-sm font-heading mb-2" style={{ color: a.color }}>{a.type}</div>
-            <p className="text-xs text-[#94a3b8]">{a.desc}</p>
+            <p className="text-xs text-txt-2">{a.desc}</p>
           </div>
         ))}
       </div>
@@ -123,7 +123,7 @@ export default function NormalizationContent({ slug }: { slug: string; chapterId
         In system design interviews, knowing when to denormalize is as important as knowing how to normalize. If your read:write ratio is 10:1 or higher and queries require expensive multi-table JOINs, pre-joining (denormalization) or using a read-optimized copy of data (CQRS, materialized views) is often the right call.
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">When to Denormalize</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">When to Denormalize</h2>
       <ul className="space-y-2 text-sm">
         {[
           "Read performance is the bottleneck and profiling shows expensive JOIN operations.",
@@ -133,7 +133,7 @@ export default function NormalizationContent({ slug }: { slug: string; chapterId
           "The join columns are stable and rarely update (e.g., country name, category name).",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2 list-none">
-            <span className="text-[#3b82f6] shrink-0 mt-1">→</span>
+            <span className="text-accent shrink-0 mt-1">→</span>
             <span>{item}</span>
           </li>
         ))}

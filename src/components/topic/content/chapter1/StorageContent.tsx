@@ -20,12 +20,12 @@ const questions = [
 
 export default function StorageContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
         Storage is fundamental to every system. The type of storage you choose affects performance, cost, scalability, and consistency. Understanding storage options is critical for system design interviews and real-world architectures.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Storage Types</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Storage Types</h2>
       <div className="space-y-3">
         {[
           { type: "Block Storage", icon: "💽", desc: "Raw storage volumes. No built-in file system. Used by VMs and databases (EBS, SAN). Fastest and most flexible, but requires OS to manage.", examples: "AWS EBS, Google Persistent Disk", color: "#3b82f6" },
@@ -33,18 +33,18 @@ export default function StorageContent({ slug }: { slug: string; chapterId: numb
           { type: "Object Storage", icon: "🪣", desc: "Store any file as an object with metadata and unique key. No directory structure. Infinitely scalable. Access via HTTP API.", examples: "AWS S3, Google GCS, Cloudflare R2", color: "#8b5cf6" },
           { type: "HDFS", icon: "🗂️", desc: "Hadoop Distributed File System for massive datasets. Splits large files into 128MB blocks across many servers. Fault-tolerant via replication.", examples: "Hadoop clusters, data lakes", color: "#f59e0b" },
         ].map((s) => (
-          <div key={s.type} className="p-4 rounded-xl border border-[#1e293b] bg-[#111827]">
+          <div key={s.type} className="p-4 rounded-xl border border-border-ui bg-surface">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xl">{s.icon}</span>
               <div className="font-semibold text-sm font-heading" style={{ color: s.color }}>{s.type}</div>
             </div>
-            <p className="text-xs text-[#94a3b8]">{s.desc}</p>
-            <p className="text-xs text-[#475569] mt-1.5">Examples: {s.examples}</p>
+            <p className="text-xs text-txt-2">{s.desc}</p>
+            <p className="text-xs text-txt-3 mt-1.5">Examples: {s.examples}</p>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">RAID Levels</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">RAID Levels</h2>
       <ComparisonTable
         title="Common RAID Configurations"
         columns={[

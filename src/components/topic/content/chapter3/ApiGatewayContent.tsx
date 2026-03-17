@@ -38,14 +38,14 @@ const questions = [
 
 export default function ApiGatewayContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        An <strong className="text-[#f1f5f9]">API Gateway</strong> is a server that acts as the single entry point for all client requests to backend services. Instead of clients calling dozens of microservices directly, they call the gateway, which handles routing, authentication, rate limiting, and other cross-cutting concerns.
+        An <strong className="text-txt">API Gateway</strong> is a server that acts as the single entry point for all client requests to backend services. Instead of clients calling dozens of microservices directly, they call the gateway, which handles routing, authentication, rate limiting, and other cross-cutting concerns.
       </p>
 
       <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="API Gateway Pattern" description="All traffic enters through the gateway" height={320} />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">What an API Gateway Does</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">What an API Gateway Does</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {[
           { fn: "Authentication", icon: "🔑", desc: "Verify JWT tokens, API keys, OAuth" },
@@ -55,10 +55,10 @@ export default function ApiGatewayContent({ slug }: { slug: string; chapterId: n
           { fn: "Response Aggregation", icon: "🔗", desc: "Combine responses from multiple services" },
           { fn: "Logging & Metrics", icon: "📊", desc: "Centralized request logging, latency tracking" },
         ].map((f) => (
-          <div key={f.fn} className="p-3 rounded-lg bg-[#111827] border border-[#1e293b]">
+          <div key={f.fn} className="p-3 rounded-lg bg-surface border border-border-ui">
             <span className="text-xl">{f.icon}</span>
-            <div className="font-semibold text-xs text-[#f1f5f9] mt-1 font-heading">{f.fn}</div>
-            <p className="text-[10px] text-[#475569] mt-0.5">{f.desc}</p>
+            <div className="font-semibold text-xs text-txt mt-1 font-heading">{f.fn}</div>
+            <p className="text-[10px] text-txt-3 mt-0.5">{f.desc}</p>
           </div>
         ))}
       </div>

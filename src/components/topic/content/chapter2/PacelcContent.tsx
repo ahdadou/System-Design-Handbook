@@ -8,13 +8,13 @@ import { Node, Edge } from "@xyflow/react";
 const nodeTypes = { system: SystemNode, database: DatabaseNode };
 
 const nodes: Node[] = [
-  { id: "start", type: "system", position: { x: 180, y: 20 }, data: { label: "Network Partition?", icon: "❓", color: "#06b6d4" } },
-  { id: "yes", type: "system", position: { x: 60, y: 130 }, data: { label: "YES → PAC", sublabel: "Choose: Availability or Consistency", icon: "⚡", color: "#ef4444" } },
-  { id: "no", type: "system", position: { x: 320, y: 130 }, data: { label: "NO → ELC", sublabel: "Choose: Latency or Consistency", icon: "✅", color: "#10b981" } },
-  { id: "avail", type: "database", position: { x: 20, y: 260 }, data: { label: "Availability", type: "PA: Serve stale data", color: "#f59e0b" } },
-  { id: "cons1", type: "database", position: { x: 160, y: 260 }, data: { label: "Consistency", type: "PC: Reject requests", color: "#3b82f6" } },
-  { id: "latency", type: "database", position: { x: 290, y: 260 }, data: { label: "Low Latency", type: "EL: Eventual consistency", color: "#8b5cf6" } },
-  { id: "cons2", type: "database", position: { x: 400, y: 260 }, data: { label: "Consistency", type: "EC: Synchronous writes", color: "#3b82f6" } },
+  { id: "start", type: "system", position: { x: 215, y: 20 }, data: { label: "Network Partition?", icon: "❓", color: "#06b6d4" } },
+  { id: "yes", type: "system", position: { x: 70, y: 140 }, data: { label: "YES → PAC", sublabel: "Choose: Availability or Consistency", icon: "⚡", color: "#ef4444" } },
+  { id: "no", type: "system", position: { x: 370, y: 140 }, data: { label: "NO → ELC", sublabel: "Choose: Latency or Consistency", icon: "✅", color: "#10b981" } },
+  { id: "avail", type: "database", position: { x: 10, y: 290 }, data: { label: "Availability", type: "PA: Serve stale data", color: "#f59e0b" } },
+  { id: "cons1", type: "database", position: { x: 160, y: 290 }, data: { label: "Consistency", type: "PC: Reject requests", color: "#3b82f6" } },
+  { id: "latency", type: "database", position: { x: 320, y: 290 }, data: { label: "Low Latency", type: "EL: Eventual consistency", color: "#8b5cf6" } },
+  { id: "cons2", type: "database", position: { x: 465, y: 290 }, data: { label: "Consistency", type: "EC: Synchronous writes", color: "#3b82f6" } },
 ];
 
 const edges: Edge[] = [
@@ -53,12 +53,12 @@ const questions = [
 
 export default function PacelcContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        The <strong className="text-[#f1f5f9]">PACELC theorem</strong>, proposed by Daniel Abadi in 2012, extends the CAP theorem to describe trade-offs in distributed systems even when no network partition is occurring. CAP only captures failure behavior; PACELC captures normal operation as well.
+        The <strong className="text-txt">PACELC theorem</strong>, proposed by Daniel Abadi in 2012, extends the CAP theorem to describe trade-offs in distributed systems even when no network partition is occurring. CAP only captures failure behavior; PACELC captures normal operation as well.
       </p>
       <p className="text-sm leading-relaxed">
-        The formula is: <strong className="text-[#f1f5f9]">P → A|C, E → L|C</strong>. When a <strong className="text-[#f1f5f9]">P</strong>artition occurs, choose <strong className="text-[#f1f5f9]">A</strong>vailability or <strong className="text-[#f1f5f9]">C</strong>onsistency. <strong className="text-[#f1f5f9]">E</strong>lse (no partition), choose <strong className="text-[#f1f5f9]">L</strong>atency or <strong className="text-[#f1f5f9]">C</strong>onsistency.
+        The formula is: <strong className="text-txt">P → A|C, E → L|C</strong>. When a <strong className="text-txt">P</strong>artition occurs, choose <strong className="text-txt">A</strong>vailability or <strong className="text-txt">C</strong>onsistency. <strong className="text-txt">E</strong>lse (no partition), choose <strong className="text-txt">L</strong>atency or <strong className="text-txt">C</strong>onsistency.
       </p>
 
       <InteractiveDiagram
@@ -70,11 +70,11 @@ export default function PacelcContent({ slug }: { slug: string; chapterId: numbe
         height={360}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">CAP vs PACELC</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">CAP vs PACELC</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30">
-          <div className="font-bold text-[#3b82f6] text-sm font-heading mb-2">CAP Theorem</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <div className="font-bold text-accent text-sm font-heading mb-2">CAP Theorem</div>
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• Formalized by Eric Brewer (2000)</li>
             <li>• Only addresses network partition behavior</li>
             <li>• Partition Tolerance is mandatory in distributed systems</li>
@@ -83,8 +83,8 @@ export default function PacelcContent({ slug }: { slug: string; chapterId: numbe
           </ul>
         </div>
         <div className="p-4 rounded-xl bg-[#06b6d4]/10 border border-[#06b6d4]/30">
-          <div className="font-bold text-[#06b6d4] text-sm font-heading mb-2">PACELC Theorem</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <div className="font-bold text-accent-2 text-sm font-heading mb-2">PACELC Theorem</div>
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• Extended by Daniel Abadi (2012)</li>
             <li>• Captures both failure AND normal operation</li>
             <li>• Adds latency as an explicit trade-off dimension</li>
@@ -94,7 +94,7 @@ export default function PacelcContent({ slug }: { slug: string; chapterId: numbe
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Real-World Database Classifications</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Real-World Database Classifications</h2>
       <div className="space-y-3">
         {[
           {
@@ -128,14 +128,14 @@ export default function PacelcContent({ slug }: { slug: string; chapterId: numbe
             desc: "Designed for coordination and consensus. Consistency is paramount — a stale read in a distributed lock manager would be catastrophic. Latency is sacrificed for linearizability.",
           },
         ].map((item) => (
-          <div key={item.db} className="p-3 rounded-lg border border-[#1e293b] bg-[#111827] flex gap-3">
+          <div key={item.db} className="p-3 rounded-lg border border-border-ui bg-surface flex gap-3">
             <div className="w-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
-                <span className="font-semibold text-sm text-[#f1f5f9] font-heading">{item.db}</span>
+                <span className="font-semibold text-sm text-txt font-heading">{item.db}</span>
                 <span className="text-xs px-2 py-0.5 rounded-full font-mono" style={{ backgroundColor: `${item.color}20`, color: item.color }}>{item.classification}</span>
               </div>
-              <p className="text-xs text-[#94a3b8]">{item.desc}</p>
+              <p className="text-xs text-txt-2">{item.desc}</p>
             </div>
           </div>
         ))}
@@ -145,7 +145,7 @@ export default function PacelcContent({ slug }: { slug: string; chapterId: numbe
         PACELC classifications are not fixed. Most modern databases offer tunable consistency (Cassandra's consistency levels, DynamoDB's strongly consistent reads). PA/EL vs PC/EC describes the default behavior. In interviews, say "X defaults to PA/EL but can be tuned toward consistency at the cost of latency."
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Latency-Consistency Trade-off in Practice</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Latency-Consistency Trade-off in Practice</h2>
       <p className="text-sm leading-relaxed">
         The EL vs EC trade-off is present in every write to a multi-node database. To achieve consistency (EC), the primary must wait for replicas to acknowledge the write before confirming to the client. This adds round-trip latency. To achieve low latency (EL), the primary acknowledges immediately and replicates in the background — but a crash before replication completes means data loss.
       </p>
@@ -156,7 +156,7 @@ export default function PacelcContent({ slug }: { slug: string; chapterId: numbe
           "Leaderboards, view counts: use EL — approximate values are acceptable and fast enough.",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2 list-none">
-            <span className="text-[#06b6d4] shrink-0 mt-1">→</span>
+            <span className="text-accent-2 shrink-0 mt-1">→</span>
             <span>{item}</span>
           </li>
         ))}

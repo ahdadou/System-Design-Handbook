@@ -8,15 +8,15 @@ import { Node, Edge } from "@xyflow/react";
 const nodeTypes = { system: SystemNode, database: DatabaseNode };
 
 const nodes: Node[] = [
-  { id: "hr", type: "system", position: { x: 10, y: 30 }, data: { label: "HR System", sublabel: "SAP HR", icon: "👥", color: "#3b82f6" } },
-  { id: "crm", type: "system", position: { x: 10, y: 130 }, data: { label: "CRM", sublabel: "Salesforce", icon: "🤝", color: "#3b82f6" } },
-  { id: "erp", type: "system", position: { x: 10, y: 230 }, data: { label: "ERP", sublabel: "Oracle ERP", icon: "🏭", color: "#3b82f6" } },
-  { id: "legacy", type: "database", position: { x: 10, y: 330 }, data: { label: "Legacy DB", sublabel: "Mainframe", color: "#3b82f6" } },
-  { id: "esb", type: "system", position: { x: 195, y: 185 }, data: { label: "Enterprise Service Bus", sublabel: "MuleSoft / IBM MQ", icon: "🔀", color: "#f59e0b", description: "Central hub: transforms protocols, routes messages, orchestrates workflows, enforces security, monitors SLAs." } },
-  { id: "web", type: "system", position: { x: 390, y: 60 }, data: { label: "Web Portal", icon: "🌐", color: "#10b981" } },
-  { id: "mobile", type: "system", position: { x: 390, y: 160 }, data: { label: "Mobile App", icon: "📱", color: "#10b981" } },
-  { id: "partner", type: "system", position: { x: 390, y: 260 }, data: { label: "Partner API", icon: "🔗", color: "#10b981" } },
-  { id: "analytics", type: "system", position: { x: 390, y: 360 }, data: { label: "Analytics", icon: "📊", color: "#10b981" } },
+  { id: "hr", type: "system", position: { x: 20, y: 40 }, data: { label: "HR System", sublabel: "SAP HR", icon: "👥", color: "#3b82f6" } },
+  { id: "crm", type: "system", position: { x: 20, y: 140 }, data: { label: "CRM", sublabel: "Salesforce", icon: "🤝", color: "#3b82f6" } },
+  { id: "erp", type: "system", position: { x: 20, y: 240 }, data: { label: "ERP", sublabel: "Oracle ERP", icon: "🏭", color: "#3b82f6" } },
+  { id: "legacy", type: "database", position: { x: 20, y: 340 }, data: { label: "Legacy DB", sublabel: "Mainframe", color: "#3b82f6" } },
+  { id: "esb", type: "system", position: { x: 195, y: 190 }, data: { label: "Enterprise Service Bus", sublabel: "MuleSoft / IBM MQ", icon: "🔀", color: "#f59e0b", description: "Central hub: transforms protocols, routes messages, orchestrates workflows, enforces security, monitors SLAs." } },
+  { id: "web", type: "system", position: { x: 390, y: 40 }, data: { label: "Web Portal", icon: "🌐", color: "#10b981" } },
+  { id: "mobile", type: "system", position: { x: 390, y: 140 }, data: { label: "Mobile App", icon: "📱", color: "#10b981" } },
+  { id: "partner", type: "system", position: { x: 390, y: 240 }, data: { label: "Partner API", icon: "🔗", color: "#10b981" } },
+  { id: "analytics", type: "system", position: { x: 390, y: 340 }, data: { label: "Analytics", icon: "📊", color: "#10b981" } },
 ];
 
 const edges: Edge[] = [
@@ -57,9 +57,9 @@ const questions = [
 
 export default function EnterpriseServiceBusContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        An <strong className="text-[#f1f5f9]">Enterprise Service Bus (ESB)</strong> is a centralized middleware platform that connects multiple enterprise applications by acting as a hub for message routing, protocol translation, data transformation, and workflow orchestration. It originated in the SOA (Service-Oriented Architecture) era as a solution to the "N×M integration problem."
+        An <strong className="text-txt">Enterprise Service Bus (ESB)</strong> is a centralized middleware platform that connects multiple enterprise applications by acting as a hub for message routing, protocol translation, data transformation, and workflow orchestration. It originated in the SOA (Service-Oriented Architecture) era as a solution to the "N×M integration problem."
       </p>
       <p className="text-base leading-relaxed">
         Without an ESB, N enterprise systems each needing to talk to M others requires up to N×M direct point-to-point integrations. With an ESB, every system connects to one hub — reducing connections to N+M. Popular ESB platforms include <span className="text-[#f59e0b] font-medium">MuleSoft</span>, <span className="text-[#f59e0b] font-medium">IBM MQ / App Connect</span>, <span className="text-[#f59e0b] font-medium">TIBCO</span>, and <span className="text-[#f59e0b] font-medium">WSO2</span>.
@@ -74,7 +74,7 @@ export default function EnterpriseServiceBusContent({ slug }: { slug: string; ch
         height={450}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">ESB Core Capabilities</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">ESB Core Capabilities</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
           { title: "Protocol Conversion", color: "#3b82f6", icon: "🔄", desc: "Translates between SOAP, REST, FTP, JMS, AMQP, and proprietary protocols. A mainframe that speaks CICS can communicate with a mobile app via JSON without either changing." },
@@ -89,19 +89,19 @@ export default function EnterpriseServiceBusContent({ slug }: { slug: string; ch
               <span>{c.icon}</span>
               <span className="font-semibold text-sm font-heading" style={{ color: c.color }}>{c.title}</span>
             </div>
-            <p className="text-xs text-[#94a3b8] leading-relaxed">{c.desc}</p>
+            <p className="text-xs text-txt-2 leading-relaxed">{c.desc}</p>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">ESB vs Microservices: The Monolithic Bus Problem</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">ESB vs Microservices: The Monolithic Bus Problem</h2>
       <p>
         The ESB pattern predates microservices and reflects a different era. In practice, ESBs often accumulate business logic — routing rules, transformations, and orchestration that belong in services end up in the bus. This creates an <span className="text-[#ef4444] font-medium">integration monolith</span>: all teams depend on the ESB team for deployments, and the ESB becomes both a bottleneck and a single point of failure.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[#f59e0b]/10 border border-[#f59e0b]/30">
           <div className="font-bold text-[#f59e0b] text-sm font-heading mb-2">When ESB Makes Sense</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• Integrating many legacy systems you cannot modify</li>
             <li>• Enterprise with strict centralized governance requirements</li>
             <li>• When N×M point-to-point integrations already exist</li>
@@ -109,8 +109,8 @@ export default function EnterpriseServiceBusContent({ slug }: { slug: string; ch
           </ul>
         </div>
         <div className="p-4 rounded-xl bg-[#10b981]/10 border border-[#10b981]/30">
-          <div className="font-bold text-[#10b981] text-sm font-heading mb-2">Modern Alternative</div>
-          <ul className="text-xs space-y-1 text-[#94a3b8]">
+          <div className="font-bold text-c-success text-sm font-heading mb-2">Modern Alternative</div>
+          <ul className="text-xs space-y-1 text-txt-2">
             <li>• Microservices with lightweight message brokers (Kafka)</li>
             <li>• "Dumb pipes, smart endpoints" — services own their logic</li>
             <li>• API Gateway for external-facing orchestration</li>

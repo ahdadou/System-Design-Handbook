@@ -31,21 +31,21 @@ const questions = [
 
 export default function DnsContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        The <strong className="text-[#f1f5f9]">Domain Name System (DNS)</strong> is the internet's phonebook. It translates human-readable domain names (like <code className="text-[#06b6d4] bg-[#06b6d4]/10 px-1 rounded">google.com</code>) into machine-readable IP addresses (<code className="text-[#06b6d4] bg-[#06b6d4]/10 px-1 rounded">142.250.80.46</code>). Without DNS, you'd need to memorize IP addresses for every website.
+        The <strong className="text-txt">Domain Name System (DNS)</strong> is the internet's phonebook. It translates human-readable domain names (like <code className="text-accent-2 bg-[#06b6d4]/10 px-1 rounded">google.com</code>) into machine-readable IP addresses (<code className="text-accent-2 bg-[#06b6d4]/10 px-1 rounded">142.250.80.46</code>). Without DNS, you'd need to memorize IP addresses for every website.
       </p>
       <p>
         DNS is distributed, hierarchical, and designed to be fault-tolerant. The entire system resolves roughly 1 trillion queries per day, making it one of the most critical pieces of internet infrastructure.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">The DNS Resolution Flow</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">The DNS Resolution Flow</h2>
       <p>
         When you type a URL in your browser, DNS performs an 8-step resolution process. It's designed to be fast through caching at every level — your browser, OS, router, and ISP all cache DNS results.
       </p>
       <DnsFlowDiagram />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Common DNS Record Types</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Common DNS Record Types</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {[
           { type: "A", desc: "Maps hostname → IPv4 address", example: "example.com → 93.184.216.34", color: "#3b82f6" },
@@ -55,12 +55,12 @@ export default function DnsContent({ slug }: { slug: string; chapterId: number }
           { type: "TXT", desc: "Arbitrary text (SPF, DKIM, verification)", example: "v=spf1 include:... -all", color: "#10b981" },
           { type: "NS", desc: "Authoritative nameservers for domain", example: "ns1.example.com", color: "#ef4444" },
         ].map((r) => (
-          <div key={r.type} className="p-3 rounded-xl border border-[#1e293b] bg-[#111827]">
+          <div key={r.type} className="p-3 rounded-xl border border-border-ui bg-surface">
             <div className="flex items-center gap-2 mb-1">
               <code className="text-xs px-2 py-0.5 rounded font-mono font-bold" style={{ backgroundColor: `${r.color}20`, color: r.color }}>{r.type}</code>
-              <span className="text-xs text-[#94a3b8]">{r.desc}</span>
+              <span className="text-xs text-txt-2">{r.desc}</span>
             </div>
-            <code className="text-[10px] text-[#475569]">{r.example}</code>
+            <code className="text-[10px] text-txt-3">{r.example}</code>
           </div>
         ))}
       </div>
@@ -69,7 +69,7 @@ export default function DnsContent({ slug }: { slug: string; chapterId: number }
         DNS is a critical failure point. During the 2016 Dyn DNS attack, much of the internet went down because major websites relied on a single DNS provider. Best practice: use multiple DNS providers (Route 53 + Cloudflare) for redundancy.
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">DNS for System Design</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">DNS for System Design</h2>
       <ul className="space-y-2 list-none text-sm">
         {[
           "Use DNS-based load balancing by returning multiple A records (round-robin DNS) — simple but no health checking",
@@ -78,7 +78,7 @@ export default function DnsContent({ slug }: { slug: string; chapterId: number }
           "Latency-based routing (Route 53): DNS returns different IPs based on user's geographic location",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="text-[#3b82f6] mt-1 shrink-0">→</span>
+            <span className="text-accent mt-1 shrink-0">→</span>
             <span>{item}</span>
           </li>
         ))}

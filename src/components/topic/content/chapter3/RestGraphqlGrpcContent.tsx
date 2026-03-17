@@ -30,7 +30,7 @@ const questions = [
 
 export default function RestGraphqlGrpcContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
         REST, GraphQL, and gRPC are three dominant API paradigms, each with distinct trade-offs. Choosing the right one depends on your use case, client types, and performance requirements.
       </p>
@@ -60,10 +60,10 @@ export default function RestGraphqlGrpcContent({ slug }: { slug: string; chapter
           { api: "GraphQL", color: "#f59e0b", example: 'query {\n  user(id: "123") {\n    name\n    posts { title }\n    followers { count }\n  }\n}', when: "Mobile apps, complex data relationships, BFF pattern" },
           { api: "gRPC", color: "#10b981", example: 'service UserService {\n  rpc GetUser(GetUserReq)\n    returns (User);\n}', when: "Internal microservices, streaming, high-performance" },
         ].map((a) => (
-          <div key={a.api} className="p-4 rounded-xl border border-[#1e293b] bg-[#111827]">
+          <div key={a.api} className="p-4 rounded-xl border border-border-ui bg-surface">
             <div className="font-bold text-sm font-heading mb-2" style={{ color: a.color }}>{a.api}</div>
-            <pre className="text-[10px] font-mono text-[#94a3b8] mb-3 bg-[#0a0e17] p-2 rounded overflow-x-auto">{a.example}</pre>
-            <p className="text-xs text-[#475569]"><strong className="text-[#94a3b8]">Use when:</strong> {a.when}</p>
+            <pre className="text-[10px] font-mono text-txt-2 mb-3 bg-canvas p-2 rounded overflow-x-auto">{a.example}</pre>
+            <p className="text-xs text-txt-3"><strong className="text-txt-2">Use when:</strong> {a.when}</p>
           </div>
         ))}
       </div>

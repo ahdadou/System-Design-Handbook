@@ -1,24 +1,27 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, Fira_Code } from "next/font/google";
+import { Syne, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SidebarLayout } from "@/components/layout/SidebarLayout";
 
-const spaceGrotesk = Space_Grotesk({
+const syne = Syne({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
+  weight: ["300", "400", "500", "600"],
 });
 
-const firaCode = Fira_Code({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
   display: "swap",
+  weight: ["300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -32,14 +35,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`dark ${spaceGrotesk.variable} ${inter.variable} ${firaCode.variable}`}>
-      <body className="bg-[#0a0e17] text-[#f1f5f9] min-h-screen">
+    <html lang="en" className={`dark ${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}>
+      <body className="bg-canvas text-txt min-h-screen theme-transition">
         <SidebarLayout>{children}</SidebarLayout>
       </body>
     </html>

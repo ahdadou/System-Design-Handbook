@@ -30,9 +30,9 @@ const questions = [
 
 export default function CircuitBreakerContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        The <strong className="text-[#f1f5f9]">Circuit Breaker</strong> is a fault-tolerance design pattern inspired by electrical circuit breakers. When calls to a service start failing repeatedly, the circuit "opens" and subsequent calls fail fast without trying, preventing cascading failures across your system.
+        The <strong className="text-txt">Circuit Breaker</strong> is a fault-tolerance design pattern inspired by electrical circuit breakers. When calls to a service start failing repeatedly, the circuit "opens" and subsequent calls fail fast without trying, preventing cascading failures across your system.
       </p>
       <p>
         Netflix's Hystrix library popularized this pattern. Imagine a payment service goes down. Without a circuit breaker, your order service keeps retrying, threads pile up, connection pools exhaust, and your entire app goes down. With a circuit breaker, failed calls return immediately, and you can serve a degraded experience (cached prices, fallback data) instead.
@@ -40,7 +40,7 @@ export default function CircuitBreakerContent({ slug }: { slug: string; chapterI
 
       <CircuitBreakerDiagram />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">The Three States</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">The Three States</h2>
       <div className="space-y-3">
         {[
           { state: "CLOSED", icon: "✅", color: "#10b981", desc: "Normal operation. Requests flow through. Failure counter tracks errors. When failures exceed threshold, circuit OPENS." },
@@ -51,7 +51,7 @@ export default function CircuitBreakerContent({ slug }: { slug: string; chapterI
             <span className="text-2xl">{s.icon}</span>
             <div>
               <div className="font-bold text-sm font-heading mb-1" style={{ color: s.color }}>{s.state}</div>
-              <p className="text-xs text-[#94a3b8]">{s.desc}</p>
+              <p className="text-xs text-txt-2">{s.desc}</p>
             </div>
           </div>
         ))}

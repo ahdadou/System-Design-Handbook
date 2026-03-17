@@ -58,9 +58,9 @@ const questions = [
 
 export default function VmsContainersContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-[#f1f5f9]">Virtual Machines (VMs)</strong> emulate an entire computer — CPU, memory, storage, network — through a hypervisor. <strong className="text-[#f1f5f9]">Containers</strong> package just the application and its dependencies, sharing the host OS kernel through Linux namespaces and cgroups. Both technologies solve the same problem — running multiple isolated workloads on shared hardware — but with radically different approaches and trade-offs.
+        <strong className="text-txt">Virtual Machines (VMs)</strong> emulate an entire computer — CPU, memory, storage, network — through a hypervisor. <strong className="text-txt">Containers</strong> package just the application and its dependencies, sharing the host OS kernel through Linux namespaces and cgroups. Both technologies solve the same problem — running multiple isolated workloads on shared hardware — but with radically different approaches and trade-offs.
       </p>
       <p>
         The shift from VMs to containers fundamentally changed how software is deployed. Docker (2013) made containers accessible; Kubernetes (2014) made them orchestratable at scale. Understanding both remains essential — most production environments use VMs (EC2 instances) running containers (pods) simultaneously.
@@ -75,7 +75,7 @@ export default function VmsContainersContent({ slug }: { slug: string; chapterId
         height={360}
       />
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Side-by-Side Comparison</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Side-by-Side Comparison</h2>
       <div className="space-y-2">
         {[
           { aspect: "Startup Time", vm: "30-60 seconds (OS boot)", container: "Milliseconds to seconds", winner: "container", color: "#10b981" },
@@ -87,30 +87,30 @@ export default function VmsContainersContent({ slug }: { slug: string; chapterId
           { aspect: "OS Flexibility", vm: "Any OS (Linux, Windows, BSD) on same hypervisor", container: "Must match host kernel type (Linux on Linux, etc)", winner: "vm", color: "#8b5cf6" },
           { aspect: "Provisioning", vm: "Minutes (cloud API)", container: "Seconds (scheduler places immediately)", winner: "container", color: "#10b981" },
         ].map((row) => (
-          <div key={row.aspect} className="grid grid-cols-3 gap-2 p-3 rounded-lg bg-[#111827] border border-[#1e293b] text-xs">
-            <div className="font-semibold text-[#f1f5f9] font-heading">{row.aspect}</div>
-            <div className={`text-[#94a3b8] ${row.winner === "vm" ? "font-semibold" : ""}`} style={row.winner === "vm" ? { color: row.color } : {}}>
+          <div key={row.aspect} className="grid grid-cols-3 gap-2 p-3 rounded-lg bg-surface border border-border-ui text-xs">
+            <div className="font-semibold text-txt font-heading">{row.aspect}</div>
+            <div className={`text-txt-2 ${row.winner === "vm" ? "font-semibold" : ""}`} style={row.winner === "vm" ? { color: row.color } : {}}>
               {row.winner === "vm" && "★ "}{row.vm}
             </div>
-            <div className={`text-[#94a3b8] ${row.winner === "container" ? "font-semibold" : ""}`} style={row.winner === "container" ? { color: row.color } : {}}>
+            <div className={`text-txt-2 ${row.winner === "container" ? "font-semibold" : ""}`} style={row.winner === "container" ? { color: row.color } : {}}>
               {row.winner === "container" && "★ "}{row.container}
             </div>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">How Containers Work Under the Hood</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">How Containers Work Under the Hood</h2>
       <div className="space-y-3">
         {[
           { feature: "Linux Namespaces", color: "#06b6d4", desc: "Containers use 6 namespaces to create isolation: pid (process IDs), net (network interfaces), mnt (filesystem mounts), uts (hostname), ipc (inter-process communication), user (user IDs). Each container sees its own isolated view of these resources." },
           { feature: "cgroups (Control Groups)", color: "#3b82f6", desc: "Linux kernel feature that limits, accounts for, and isolates resource usage (CPU, memory, disk I/O, network). Docker --memory=512m and --cpus=1.5 use cgroups under the hood. Without cgroups, one container could starve all others." },
           { feature: "Union Filesystems", color: "#8b5cf6", desc: "Docker images are layered using overlay filesystems (OverlayFS). Base layers are shared between containers (e.g., Ubuntu base layer). Only the writable container layer is unique per instance. This is why pulling a 500MB image reuses cached layers — fast and storage-efficient." },
         ].map((item) => (
-          <div key={item.feature} className="flex gap-3 p-4 rounded-xl bg-[#111827] border border-[#1e293b]">
+          <div key={item.feature} className="flex gap-3 p-4 rounded-xl bg-surface border border-border-ui">
             <div className="w-1 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
             <div>
-              <div className="font-semibold text-sm text-[#f1f5f9] font-heading mb-1">{item.feature}</div>
-              <p className="text-xs text-[#94a3b8] leading-relaxed">{item.desc}</p>
+              <div className="font-semibold text-sm text-txt font-heading mb-1">{item.feature}</div>
+              <p className="text-xs text-txt-2 leading-relaxed">{item.desc}</p>
             </div>
           </div>
         ))}
@@ -120,7 +120,7 @@ export default function VmsContainersContent({ slug }: { slug: string; chapterId
         Docker is a container runtime; Kubernetes is an orchestrator. Kubernetes decides where containers run, handles restarts, scaling, rolling deployments, and service discovery across a cluster of nodes. The Kubernetes control plane itself runs in VMs (or bare metal). In production: VMs provide the infrastructure, containers provide the workload isolation.
       </KeyTakeaway>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Container Orchestration with Kubernetes</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Container Orchestration with Kubernetes</h2>
       <p>
         Running containers in production at scale requires an orchestrator. Kubernetes abstracts away individual machines — you declare desired state (3 replicas of my-service) and K8s makes it happen.
       </p>
@@ -131,12 +131,12 @@ export default function VmsContainersContent({ slug }: { slug: string; chapterId
           { concept: "Service", icon: "⚖️", color: "#8b5cf6", desc: "Stable network endpoint for a set of pods. Load balances traffic. Pods come/go; Service IP is stable." },
           { concept: "Horizontal Pod Autoscaler", icon: "📈", color: "#10b981", desc: "Automatically scales pod count based on CPU/memory/custom metrics. Ties into cloud auto-scaling." },
         ].map((item) => (
-          <div key={item.concept} className="p-3 rounded-xl border bg-[#111827]" style={{ borderColor: `${item.color}40` }}>
+          <div key={item.concept} className="p-3 rounded-xl border bg-surface" style={{ borderColor: `${item.color}40` }}>
             <div className="flex items-center gap-2 mb-1.5">
               <span className="text-xl">{item.icon}</span>
-              <div className="font-bold text-xs text-[#f1f5f9] font-heading" style={{ color: item.color }}>{item.concept}</div>
+              <div className="font-bold text-xs text-txt font-heading" style={{ color: item.color }}>{item.concept}</div>
             </div>
-            <p className="text-[10px] text-[#94a3b8] leading-relaxed">{item.desc}</p>
+            <p className="text-[10px] text-txt-2 leading-relaxed">{item.desc}</p>
           </div>
         ))}
       </div>

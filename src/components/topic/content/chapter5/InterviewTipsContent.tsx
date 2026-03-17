@@ -66,12 +66,12 @@ const questions = [
 
 export default function InterviewTipsContent({ slug }: { slug: string; chapterId: number }) {
   return (
-    <div className="space-y-6 text-[#94a3b8]">
+    <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        The <strong className="text-[#f1f5f9]">system design interview</strong> is a 45-60 minute open-ended exercise where you design a large-scale distributed system from scratch. Unlike coding interviews with a single correct answer, system design rewards structured thinking, trade-off awareness, and the ability to drive a technical conversation. The RESHADED framework gives you a repeatable playbook.
+        The <strong className="text-txt">system design interview</strong> is a 45-60 minute open-ended exercise where you design a large-scale distributed system from scratch. Unlike coding interviews with a single correct answer, system design rewards structured thinking, trade-off awareness, and the ability to drive a technical conversation. The RESHADED framework gives you a repeatable playbook.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">The RESHADED Framework</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">The RESHADED Framework</h2>
       <p className="text-sm">A structured 8-step approach that maps directly to what interviewers evaluate. Work through each step in order, spending roughly the indicated time.</p>
 
       <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="System Design Interview Framework" description="Follow these 8 steps in sequence — step through them with your interviewer" height={260} />
@@ -167,14 +167,14 @@ export default function InterviewTipsContent({ slug }: { slug: string; chapterId
             ],
           },
         ].map((s) => (
-          <div key={s.step} className="p-4 rounded-xl border border-[#1e293b] bg-[#111827] border-l-4" style={{ borderLeftColor: s.color }}>
+          <div key={s.step} className="p-4 rounded-xl border border-border-ui bg-surface border-l-4" style={{ borderLeftColor: s.color }}>
             <div className="flex items-center gap-2 mb-2">
               <div className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0" style={{ backgroundColor: s.color, color: "white" }}>{s.step}</div>
               <div className="font-bold text-sm font-heading" style={{ color: s.color }}>{s.title}</div>
             </div>
             <ul className="space-y-1">
               {s.items.map((item, i) => (
-                <li key={i} className="text-xs text-[#94a3b8] flex gap-2">
+                <li key={i} className="text-xs text-txt-2 flex gap-2">
                   <span className="shrink-0" style={{ color: s.color }}>•</span>
                   <span>{item}</span>
                 </li>
@@ -184,7 +184,7 @@ export default function InterviewTipsContent({ slug }: { slug: string; chapterId
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Back-of-the-Envelope Estimation Cheat Sheet</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Back-of-the-Envelope Estimation Cheat Sheet</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {[
           { title: "Time Constants", color: "#3b82f6", items: ["1 day = 86,400 sec ≈ 10^5", "1 month = 2.5M sec ≈ 3×10^6", "1 year = 31.5M sec ≈ 3×10^7"] },
@@ -192,31 +192,31 @@ export default function InterviewTipsContent({ slug }: { slug: string; chapterId
           { title: "Common QPS", color: "#10b981", items: ["1M DAU × 10 req/day = ~115 QPS", "100M DAU × 10 req/day = ~11,500 QPS", "1B DAU × 10 req/day = ~115,000 QPS"] },
           { title: "Latency Numbers", color: "#f59e0b", items: ["L1 cache = 1 ns", "RAM read = 100 ns", "SSD read = 100 µs", "Network RTT (same DC) = 500 µs", "Network RTT (cross-continent) = 150 ms"] },
         ].map((card) => (
-          <div key={card.title} className="p-3 rounded-xl bg-[#1a2332] border border-[#1e293b]">
+          <div key={card.title} className="p-3 rounded-xl bg-elevated border border-border-ui">
             <div className="font-bold text-xs mb-2" style={{ color: card.color }}>{card.title}</div>
             {card.items.map((item, i) => (
-              <div key={i} className="text-xs text-[#94a3b8] font-mono py-0.5">{item}</div>
+              <div key={i} className="text-xs text-txt-2 font-mono py-0.5">{item}</div>
             ))}
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Common CAP Theorem Choices</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Common CAP Theorem Choices</h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {[
           { type: "CP Systems", color: "#3b82f6", examples: "Zookeeper, etcd, HBase, MongoDB (strong consistency mode)", desc: "Return an error during a network partition rather than serve stale data. Correct choice for: financial transactions, distributed locks, leader election." },
           { type: "AP Systems", color: "#10b981", examples: "Cassandra, DynamoDB, CouchDB, DNS", desc: "Stay available during partitions, serving potentially stale data. Correct choice for: social media feeds, shopping carts, DNS, anything where eventual consistency is acceptable." },
           { type: "CA Systems", color: "#f59e0b", examples: "Traditional RDBMS (single node)", desc: "Consistent and available but cannot tolerate partitions. Only feasible for single-node or tightly coupled systems. Not suitable for distributed systems." },
         ].map((c) => (
-          <div key={c.type} className="p-3 rounded-xl border border-[#1e293b] bg-[#111827]" style={{ borderTopColor: c.color, borderTopWidth: 2 }}>
+          <div key={c.type} className="p-3 rounded-xl border border-border-ui bg-surface" style={{ borderTopColor: c.color, borderTopWidth: 2 }}>
             <div className="font-bold text-sm font-heading mb-1" style={{ color: c.color }}>{c.type}</div>
-            <div className="text-[10px] font-mono text-[#475569] mb-2">{c.examples}</div>
-            <p className="text-xs text-[#94a3b8]">{c.desc}</p>
+            <div className="text-[10px] font-mono text-txt-3 mb-2">{c.examples}</div>
+            <p className="text-xs text-txt-2">{c.desc}</p>
           </div>
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-[#f1f5f9]">Common Mistakes to Avoid</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Common Mistakes to Avoid</h2>
       <div className="space-y-2">
         {[
           { mistake: "Jumping to solutions without clarifying requirements", fix: "Always spend 5 min on requirements. Ask about scale, latency, consistency needs." },
@@ -226,11 +226,11 @@ export default function InterviewTipsContent({ slug }: { slug: string; chapterId
           { mistake: "Forgetting failure modes", fix: "Always ask 'what if X fails?' Add replicas, retry logic, circuit breakers. Discuss graceful degradation." },
           { mistake: "Over-engineering from the start", fix: "Start simple. 'First, let's design a single-region system. Then we can discuss global replication.' Show you can scale incrementally." },
         ].map((item, i) => (
-          <div key={i} className="p-3 rounded-xl bg-[#1a2332] border border-[#1e293b] flex gap-3">
+          <div key={i} className="p-3 rounded-xl bg-elevated border border-border-ui flex gap-3">
             <div className="text-[#ef4444] text-xs font-bold shrink-0 pt-0.5">✗</div>
             <div>
               <div className="text-xs font-semibold text-[#ef4444] mb-0.5">{item.mistake}</div>
-              <div className="text-xs text-[#94a3b8]"><span className="text-[#10b981] font-semibold">Fix: </span>{item.fix}</div>
+              <div className="text-xs text-txt-2"><span className="text-c-success font-semibold">Fix: </span>{item.fix}</div>
             </div>
           </div>
         ))}
