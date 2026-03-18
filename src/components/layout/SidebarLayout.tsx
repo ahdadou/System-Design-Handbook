@@ -18,7 +18,11 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    darkMode ? root.classList.add("dark") : root.classList.remove("dark");
+    if (darkMode) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
   }, [darkMode]);
 
   // On small screens default to sidebar closed (but not collapsed — mini still shows)
