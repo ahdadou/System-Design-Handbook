@@ -6,6 +6,7 @@ interface LearningStore {
   quizScores: Record<string, number>;
   darkMode: boolean;
   sidebarOpen: boolean;
+  sidebarCollapsed: boolean;
   markComplete: (slug: string) => void;
   markIncomplete: (slug: string) => void;
   setQuizScore: (slug: string, score: number) => void;
@@ -13,6 +14,7 @@ interface LearningStore {
   getOverallProgress: () => number;
   toggleSidebar: () => void;
   setSidebarOpen: (open: boolean) => void;
+  setSidebarCollapsed: (collapsed: boolean) => void;
   toggleDarkMode: () => void;
 }
 
@@ -53,6 +55,7 @@ export const useLearningStore = create<LearningStore>()(
       quizScores: {},
       darkMode: true,
       sidebarOpen: true,
+      sidebarCollapsed: false,
 
       markComplete: (slug: string) => {
         set((state) => ({
@@ -97,6 +100,10 @@ export const useLearningStore = create<LearningStore>()(
         set({ sidebarOpen: open });
       },
 
+      setSidebarCollapsed: (collapsed: boolean) => {
+        set({ sidebarCollapsed: collapsed });
+      },
+
       toggleDarkMode: () => {
         set((state) => ({ darkMode: !state.darkMode }));
       },
@@ -105,6 +112,7 @@ export const useLearningStore = create<LearningStore>()(
     {
       name: 'system-design-academy',
       storage: createJSONStorage(() => localStorage),
+      skipHydration: true,
     }
   )
 );

@@ -8,8 +8,21 @@ import { useMemo } from "react";
 import { motion } from "framer-motion";
 
 export function TopNav() {
-  const { sidebarOpen, toggleSidebar, darkMode, toggleDarkMode } = useLearningStore();
+  const { sidebarOpen, toggleSidebar, sidebarCollapsed, setSidebarCollapsed, darkMode, toggleDarkMode } = useLearningStore();
   const pathname = usePathname();
+
+  const handleMenuClick = () => {
+    if (sidebarCollapsed) {
+      // Expand mini → full
+      setSidebarCollapsed(false);
+    } else if (sidebarOpen) {
+      // Close full sidebar
+      toggleSidebar();
+    } else {
+      // Open full sidebar
+      toggleSidebar();
+    }
+  };
 
   const breadcrumbs = useMemo(() => {
     const parts = pathname.split("/").filter(Boolean);
@@ -40,7 +53,7 @@ export function TopNav() {
     >
       {/* Sidebar toggle */}
       <button
-        onClick={toggleSidebar}
+        onClick={handleMenuClick}
         className="p-2 rounded-lg transition-all"
         style={{ color: "var(--ui-text-2)" }}
         onMouseEnter={e => {
@@ -54,12 +67,12 @@ export function TopNav() {
         aria-label="Toggle sidebar"
       >
         <motion.div
-          key={sidebarOpen ? "open" : "closed"}
+          key={sidebarCollapsed ? "mini" : sidebarOpen ? "open" : "closed"}
           initial={{ rotate: -90, opacity: 0 }}
           animate={{ rotate: 0, opacity: 1 }}
           transition={{ duration: 0.15 }}
         >
-          {sidebarOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          {!sidebarCollapsed && sidebarOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
         </motion.div>
       </button>
 

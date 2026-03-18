@@ -1,0 +1,194 @@
+"use client";
+import { useId } from "react";
+
+interface Props {
+  size?: number;
+  className?: string;
+}
+
+export function LogoIcon({ size = 40, className = "" }: Props) {
+  const uid = useId().replace(/:/g, "");
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-label="System Design Academy Logo"
+    >
+      <defs>
+        {/* Gradient for hexagon border */}
+        <linearGradient id={`${uid}bg`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#FFD600" />
+          <stop offset="100%" stopColor="#A855F7" />
+        </linearGradient>
+        {/* Yellow eye radial */}
+        <radialGradient id={`${uid}el`} cx="38%" cy="32%" r="65%">
+          <stop offset="0%" stopColor="#FFFDE7" />
+          <stop offset="40%" stopColor="#FFD600" />
+          <stop offset="100%" stopColor="#B45309" />
+        </radialGradient>
+        {/* Purple eye radial */}
+        <radialGradient id={`${uid}er`} cx="38%" cy="32%" r="65%">
+          <stop offset="0%" stopColor="#F5F3FF" />
+          <stop offset="40%" stopColor="#A855F7" />
+          <stop offset="100%" stopColor="#5B21B6" />
+        </radialGradient>
+        {/* Body gradient */}
+        <linearGradient id={`${uid}bd`} x1="0.3" y1="0" x2="0.7" y2="1">
+          <stop offset="0%" stopColor="#2a2a2a" />
+          <stop offset="100%" stopColor="#101010" />
+        </linearGradient>
+        {/* Yellow glow filter */}
+        <filter id={`${uid}gy`} x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        {/* Purple glow filter */}
+        <filter id={`${uid}gp`} x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        {/* Subtle outer glow on hex */}
+        <filter id={`${uid}hx`} x="-10%" y="-10%" width="120%" height="120%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      {/* ── Hexagonal badge ───────────────────────────────────────── */}
+      {/* Outer glow ring */}
+      <polygon
+        points="50,1 95,25.5 95,74.5 50,99 5,74.5 5,25.5"
+        fill="none"
+        stroke="url(#sd-border)"
+        strokeWidth="1"
+        opacity="0.2"
+        filter={`url(#${uid}hx)`}
+      />
+      {/* Main hex */}
+      <polygon
+        points="50,4 92,27 92,73 50,96 8,73 8,27"
+        fill="#0c0c0c"
+        stroke={`url(#${uid}bg)`}
+        strokeWidth="2.5"
+      />
+
+      {/* ── Ear tufts ─────────────────────────────────────────────── */}
+      {/* Left ear — yellow */}
+      <polygon points="35,21 27.5,36 42.5,36" fill="#FFD600" />
+      {/* Left ear inner shadow */}
+      <polygon points="35,25 30,36 40,36" fill="#B45309" opacity="0.35" />
+      {/* Right ear — purple */}
+      <polygon points="65,21 57.5,36 72.5,36" fill="#A855F7" />
+      {/* Right ear inner shadow */}
+      <polygon points="65,25 60,36 70,36" fill="#5B21B6" opacity="0.35" />
+
+      {/* ── Owl head & body ───────────────────────────────────────── */}
+      {/* Head */}
+      <circle cx="50" cy="53" r="31" fill={`url(#${uid}bd)`} />
+      {/* Facial disc (subtle lighter oval) */}
+      <ellipse cx="50" cy="52" rx="22" ry="20" fill="none" stroke="#1e1e1e" strokeWidth="1.2" />
+
+      {/* ── Eye sockets ───────────────────────────────────────────── */}
+      <circle cx="39" cy="50" r="12.5" fill="#060606" />
+      <circle cx="61" cy="50" r="12.5" fill="#060606" />
+      {/* Socket rim highlights */}
+      <circle cx="39" cy="50" r="12.5" fill="none" stroke="#1c1c1c" strokeWidth="1" />
+      <circle cx="61" cy="50" r="12.5" fill="none" stroke="#1c1c1c" strokeWidth="1" />
+      {/* Brow bridge between eyes */}
+      <rect x="44.5" y="42" width="11" height="4" rx="2" fill="#060606" />
+
+      {/* ── Irises ────────────────────────────────────────────────── */}
+      {/* Left iris — yellow with glow */}
+      <circle
+        cx="39" cy="50" r="9"
+        fill={`url(#${uid}el)`}
+        filter={`url(#${uid}gy)`}
+      />
+      {/* Right iris — purple with glow */}
+      <circle
+        cx="61" cy="50" r="9"
+        fill={`url(#${uid}er)`}
+        filter={`url(#${uid}gp)`}
+      />
+
+      {/* ── Pupils ────────────────────────────────────────────────── */}
+      <circle cx="39" cy="50" r="4" fill="#030303" />
+      <circle cx="61" cy="50" r="4" fill="#030303" />
+
+      {/* ── Eye shines ────────────────────────────────────────────── */}
+      <circle cx="36.2" cy="46.8" r="2.2" fill="rgba(255,255,255,0.7)" />
+      <circle cx="58.2" cy="46.8" r="2.2" fill="rgba(255,255,255,0.7)" />
+      {/* Secondary smaller shine */}
+      <circle cx="41.5" cy="53" r="1" fill="rgba(255,255,255,0.3)" />
+      <circle cx="63.5" cy="53" r="1" fill="rgba(255,255,255,0.3)" />
+
+      {/* ── Beak ──────────────────────────────────────────────────── */}
+      {/* Beak body */}
+      <polygon points="50,61 44.5,70 55.5,70" fill="#F59E0B" />
+      {/* Beak crease */}
+      <line x1="50" y1="61" x2="50" y2="70" stroke="#B45309" strokeWidth="1" opacity="0.5" />
+      {/* Beak tip highlight */}
+      <polygon points="50,61 44.5,70 50,66" fill="#FDE68A" opacity="0.4" />
+
+      {/* ── Feather arc rows on chest ─────────────────────────────── */}
+      <path d="M 30 65 Q 40 60 50 65" stroke="#202020" strokeWidth="1.5" fill="none" />
+      <path d="M 50 65 Q 60 60 70 65" stroke="#202020" strokeWidth="1.5" fill="none" />
+      <path d="M 32 72 Q 41 67 50 72" stroke="#1c1c1c" strokeWidth="1.2" fill="none" />
+      <path d="M 50 72 Q 59 67 68 72" stroke="#1c1c1c" strokeWidth="1.2" fill="none" />
+
+      {/* ── Wings ─────────────────────────────────────────────────── */}
+      {/* Left wing */}
+      <path
+        d="M 19 61 Q 9 72 19 86 Q 30 79 31 67"
+        fill="#151515"
+        stroke="#1e1e1e"
+        strokeWidth="1.5"
+      />
+      {/* Left wing inner detail */}
+      <path d="M 21 65 Q 14 73 21 82" stroke="#252525" strokeWidth="1" fill="none" />
+      {/* Right wing */}
+      <path
+        d="M 81 61 Q 91 72 81 86 Q 70 79 69 67"
+        fill="#151515"
+        stroke="#1e1e1e"
+        strokeWidth="1.5"
+      />
+      {/* Right wing inner detail */}
+      <path d="M 79 65 Q 86 73 79 82" stroke="#252525" strokeWidth="1" fill="none" />
+
+      {/* ── Circuit traces (bottom of body) ───────────────────────── */}
+      {/* Left circuit arm */}
+      <line x1="29" y1="74" x2="42" y2="74" stroke="#FFD600" strokeWidth="1.2" strokeLinecap="round" opacity="0.5" />
+      <circle cx="29" cy="74" r="2.2" fill="#FFD600" opacity="0.7" />
+      <line x1="42" y1="74" x2="42" y2="82" stroke="#FFD600" strokeWidth="1.2" strokeLinecap="round" opacity="0.5" />
+      <circle cx="42" cy="82" r="2.2" fill="#FFD600" opacity="0.7" />
+
+      {/* Right circuit arm */}
+      <line x1="71" y1="74" x2="58" y2="74" stroke="#A855F7" strokeWidth="1.2" strokeLinecap="round" opacity="0.5" />
+      <circle cx="71" cy="74" r="2.2" fill="#A855F7" opacity="0.7" />
+      <line x1="58" y1="74" x2="58" y2="82" stroke="#A855F7" strokeWidth="1.2" strokeLinecap="round" opacity="0.5" />
+      <circle cx="58" cy="82" r="2.2" fill="#A855F7" opacity="0.7" />
+
+      {/* Center green node — convergence point */}
+      <line x1="42" y1="82" x2="50" y2="86" stroke="#1f1f1f" strokeWidth="1.2" />
+      <line x1="58" y1="82" x2="50" y2="86" stroke="#1f1f1f" strokeWidth="1.2" />
+      <circle cx="50" cy="86" r="2.8" fill="#22C55E" opacity="0.85" />
+      {/* Green center glow dot */}
+      <circle cx="50" cy="86" r="1.2" fill="#86EFAC" opacity="0.8" />
+    </svg>
+  );
+}

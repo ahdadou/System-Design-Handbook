@@ -1,33 +1,30 @@
 "use client";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Sidebar } from "./Sidebar";
+import { Sidebar, SidebarMini } from "./Sidebar";
 import { TopNav } from "./TopNav";
 import { useLearningStore } from "@/lib/store";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function SidebarLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { sidebarOpen, setSidebarOpen, darkMode } = useLearningStore();
+  const { sidebarOpen, setSidebarOpen, sidebarCollapsed, darkMode } = useLearningStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    useLearningStore.persist.rehydrate();
     setMounted(true);
   }, []);
 
-  // Sync dark mode preference to <html> class
   useEffect(() => {
     const root = document.documentElement;
-    if (darkMode) {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
+    darkMode ? root.classList.add("dark") : root.classList.remove("dark");
   }, [darkMode]);
 
+  // On small screens default to sidebar closed (but not collapsed — mini still shows)
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 1024) setSidebarOpen(false);
+      if (window.innerWidth < 768) setSidebarOpen(false);
     };
     window.addEventListener("resize", handleResize);
     handleResize();
@@ -36,12 +33,19 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
 
   if (!mounted) return null;
 
+  // Show full sidebar: explicitly open AND not collapsed
+  const showFull = sidebarOpen && !sidebarCollapsed;
+  // Show mini sidebar: collapsed (always, any screen size)
+  const showMini = sidebarCollapsed;
+
   return (
     <div className="flex h-screen overflow-hidden bg-canvas theme-transition">
-      {/* Sidebar */}
-      <AnimatePresence mode="wait">
-        {sidebarOpen && (
+
+      {/* ── Full sidebar ───────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {showFull && (
           <motion.aside
+            key="full"
             initial={{ x: -288, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -288, opacity: 0 }}
@@ -53,18 +57,38 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
 
-      {/* Mobile overlay */}
-      {sidebarOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+      {/* ── Mini sidebar ───────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {showMini && (
+          <motion.aside
+            key="mini"
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: 56, opacity: 1 }}
+            exit={{ width: 0, opacity: 0 }}
+            transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+            className="relative z-40 h-full shrink-0"
+            style={{ width: 56, minWidth: 56 }}
+          >
+            <SidebarMini />
+          </motion.aside>
+        )}
+      </AnimatePresence>
 
-      {/* Main content */}
+      {/* Mobile overlay for full sidebar */}
+      <AnimatePresence>
+        {showFull && (
+          <motion.div
+            key="overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* ── Main content ───────────────────────────────────────────────── */}
       <div className="flex flex-col flex-1 overflow-hidden min-w-0">
         <TopNav />
         <main className="flex-1 overflow-y-auto">

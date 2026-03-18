@@ -30,27 +30,27 @@
 }
 
 .dark {
-  /* Dark mode — Deep Infrastructure */
-  --bg-canvas:    #060b14;
-  --bg-surface:   #0b1524;
-  --bg-elevated:  #101e30;
-  --bg-highlight: #172842;
+  /* Dark mode — Moondu-inspired near-black */
+  --bg-canvas:    #0f0f0f;
+  --bg-surface:   #161616;
+  --bg-elevated:  #1f1f1f;
+  --bg-highlight: #282828;
 
-  --ui-border:        #1c3050;
-  --ui-border-strong: #2c4a70;
+  --ui-border:        #262626;
+  --ui-border-strong: #383838;
 
-  --ui-text:   #bdd8f4;
-  --ui-text-2: #506e8e;
-  --ui-text-3: #28445c;
+  --ui-text:   #ffffff;
+  --ui-text-2: #888888;
+  --ui-text-3: #444444;
 
-  --ui-accent:      #00c2e8;
-  --ui-accent-rgb:  0, 194, 232;
-  --ui-accent-glow: rgba(0, 194, 232, 0.14);
-  --ui-accent-2:    #f97316;
-  --ui-accent-3:    #a78bfa;
-  --ui-success:     #10b981;
-  --ui-warning:     #f59e0b;
-  --ui-danger:      #ef4444;
+  --ui-accent:      #FFD600;
+  --ui-accent-rgb:  255, 214, 0;
+  --ui-accent-glow: rgba(255, 214, 0, 0.10);
+  --ui-accent-2:    #A855F7;
+  --ui-accent-3:    #22C55E;
+  --ui-success:     #22C55E;
+  --ui-warning:     #F59E0B;
+  --ui-danger:      #EF4444;
 
   color-scheme: dark;
 }
