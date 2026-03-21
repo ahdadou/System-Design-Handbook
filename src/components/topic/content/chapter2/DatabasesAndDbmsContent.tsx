@@ -54,7 +54,7 @@ export default function DatabasesAndDbmsContent({ slug }: { slug: string; chapte
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        A <strong className="text-txt">database</strong> is an organized collection of structured data. A <strong className="text-txt">Database Management System (DBMS)</strong> is the software layer that sits between your application and that raw data — it handles storage, retrieval, concurrency, and durability so you don't have to.
+        A <strong className="text-txt">database</strong> is an organized collection of structured data. A <strong className="text-txt">Database Management System (DBMS)</strong> is the software layer that sits between your application and that raw data  it handles storage, retrieval, concurrency, and durability so you don't have to.
       </p>
       <p className="text-sm leading-relaxed">
         Without a DBMS you'd need to manage file formats, handle concurrent writes, implement crash recovery, and write your own query language. A DBMS abstracts all of that. PostgreSQL, MySQL, Oracle, and SQL Server are RDBMS examples; MongoDB, Cassandra, and Redis are non-relational DBMS examples.
@@ -108,7 +108,7 @@ export default function DatabasesAndDbmsContent({ slug }: { slug: string; chapte
         <div className="p-4 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30">
           <div className="font-bold text-accent text-sm font-heading mb-2">Schema</div>
           <p className="text-xs text-txt-2">
-            A schema defines the structure of the database: which tables exist, what columns they have, data types, constraints (NOT NULL, UNIQUE, FOREIGN KEY), and relationships. In relational databases the schema is enforced at write time — you cannot insert a row that violates it.
+            A schema defines the structure of the database: which tables exist, what columns they have, data types, constraints (NOT NULL, UNIQUE, FOREIGN KEY), and relationships. In relational databases the schema is enforced at write time  you cannot insert a row that violates it.
           </p>
         </div>
         <div className="p-4 rounded-xl bg-[#06b6d4]/10 border border-[#06b6d4]/30">

@@ -87,13 +87,13 @@ export default function UrlShortenerContent({ slug }: { slug: string; chapterId:
 
       <h2 className="text-2xl font-bold font-heading text-txt">Short Code Generation</h2>
       <div className="space-y-2 text-sm">
-        <p><strong className="text-txt">Approach 1: Hash + truncate</strong> — MD5(longURL) → take first 7 chars. Problem: collisions for different URLs that hash to the same prefix.</p>
-        <p><strong className="text-txt">Approach 2: Base62(counter)</strong> — Use distributed counter (Redis INCR), encode as base62. Predictable, no collisions, but reveals usage volume.</p>
-        <p><strong className="text-txt">Approach 3: Random + check</strong> — Generate random 7-char base62 string, check DB for uniqueness. Probabilistically collision-free at this scale.</p>
+        <p><strong className="text-txt">Approach 1: Hash + truncate</strong>  MD5(longURL) → take first 7 chars. Problem: collisions for different URLs that hash to the same prefix.</p>
+        <p><strong className="text-txt">Approach 2: Base62(counter)</strong>  Use distributed counter (Redis INCR), encode as base62. Predictable, no collisions, but reveals usage volume.</p>
+        <p><strong className="text-txt">Approach 3: Random + check</strong>  Generate random 7-char base62 string, check DB for uniqueness. Probabilistically collision-free at this scale.</p>
       </div>
 
       <KeyTakeaway variant="important">
-        With 10B redirects/day, the redirect path MUST be sub-millisecond. Cache shortcode→URL mappings in Redis with a TTL. Set Redis maxmemory policy to LRU. 7-char shortcodes fit in ~56 bytes — 100M codes = ~6GB of Redis memory. Easily fits in RAM.
+        With 10B redirects/day, the redirect path MUST be sub-millisecond. Cache shortcode→URL mappings in Redis with a TTL. Set Redis maxmemory policy to LRU. 7-char shortcodes fit in ~56 bytes  100M codes = ~6GB of Redis memory. Easily fits in RAM.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

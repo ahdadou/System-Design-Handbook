@@ -72,27 +72,27 @@ export default function NoSqlDatabasesContent({ slug }: { slug: string; chapterI
       <div className="space-y-3">
         {[
           {
-            name: "Document Store — MongoDB, CouchDB",
+            name: "Document Store  MongoDB, CouchDB",
             color: "#10b981",
             desc: "Stores self-contained JSON/BSON documents. Each document can have a different structure (schema-flexible). Great for catalogs, user profiles, and content management. Supports rich queries but struggles with complex multi-collection joins.",
           },
           {
-            name: "Key-Value Store — Redis, DynamoDB",
+            name: "Key-Value Store  Redis, DynamoDB",
             color: "#ef4444",
-            desc: "The simplest model: a giant hash map. O(1) lookups by key. Used for caching, session storage, rate limiting, and feature flags. Cannot query by value — only by key. Redis extends this with lists, sorted sets, pub/sub, and more.",
+            desc: "The simplest model: a giant hash map. O(1) lookups by key. Used for caching, session storage, rate limiting, and feature flags. Cannot query by value  only by key. Redis extends this with lists, sorted sets, pub/sub, and more.",
           },
           {
-            name: "Wide-Column Store — Cassandra, HBase",
+            name: "Wide-Column Store  Cassandra, HBase",
             color: "#8b5cf6",
             desc: "Rows have a fixed row key but a dynamic, sparse set of columns. Optimized for time-series and append-heavy workloads. Cassandra's ring topology gives linear write scalability with no single point of failure. Queries must be designed around partition keys.",
           },
           {
-            name: "Graph Database — Neo4j, Amazon Neptune",
+            name: "Graph Database  Neo4j, Amazon Neptune",
             color: "#f59e0b",
             desc: "Models data as nodes (entities) and edges (relationships). Traversal queries ('find all users within 3 hops of this user who bought product X') are fast because relationships are stored explicitly, not computed via joins. Used for fraud detection, recommendation engines, and knowledge graphs.",
           },
           {
-            name: "Time-Series — InfluxDB, TimescaleDB, Prometheus",
+            name: "Time-Series  InfluxDB, TimescaleDB, Prometheus",
             color: "#06b6d4",
             desc: "Optimized for ingesting, storing, and querying timestamped measurements. Automatic data retention policies, downsampling (roll up minute data into hourly), and specialized query functions (rate of change, moving averages). Used for metrics, IoT sensor data, and financial tick data.",
           },
@@ -121,16 +121,16 @@ export default function NoSqlDatabasesContent({ slug }: { slug: string; chapterI
         <div className="p-4 rounded-xl bg-[#10b981]/10 border border-[#10b981]/30">
           <div className="font-bold text-c-success text-sm font-heading mb-2">BASE (NoSQL)</div>
           <ul className="text-xs space-y-1 text-txt-2">
-            <li>• Basically Available — system stays up</li>
-            <li>• Soft state — data may change without input</li>
-            <li>• Eventual consistency — nodes converge over time</li>
+            <li>• Basically Available  system stays up</li>
+            <li>• Soft state  data may change without input</li>
+            <li>• Eventual consistency  nodes converge over time</li>
             <li>• Designed for horizontal scale-out</li>
           </ul>
         </div>
       </div>
 
       <KeyTakeaway variant="info">
-        Schema flexibility is NoSQL's most misunderstood feature. It doesn't mean no schema — it means the schema is enforced by your application code, not the database. This gives you faster iteration in early development but requires disciplined migration strategies as your data evolves.
+        Schema flexibility is NoSQL's most misunderstood feature. It doesn't mean no schema  it means the schema is enforced by your application code, not the database. This gives you faster iteration in early development but requires disciplined migration strategies as your data evolves.
       </KeyTakeaway>
 
       <h2 className="text-2xl font-bold font-heading text-txt">When to Choose NoSQL</h2>

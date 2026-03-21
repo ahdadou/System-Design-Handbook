@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Topic, Chapter } from "@/lib/content";
 import { useLearningStore } from "@/lib/store";
-import { Clock, ChevronLeft, ChevronRight, CheckCircle2, BookOpen } from "lucide-react";
+import { Clock, ChevronLeft, ChevronRight, CheckCircle2, Circle, BookOpen, Sparkles } from "lucide-react";
 import { TopicContent } from "./TopicContent";
 
 interface Props {
@@ -83,30 +83,75 @@ export function TopicPageClient({ topic, chapter, next, prev }: Props) {
             <span className="mx-2">·</span>
             <span>Topic {topic.order} of {chapter.topics.length}</span>
           </div>
-          <button
-            onClick={() => isCompleted ? markIncomplete(topic.slug) : markComplete(topic.slug)}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all"
-            style={
-              isCompleted
-                ? { background: "var(--ui-success-bg, rgba(16,185,129,0.15))", border: "1px solid rgba(16,185,129,0.4)", color: "var(--ui-success)" }
-                : { background: "var(--bg-elevated)", border: "1px solid var(--ui-border)", color: "var(--ui-text-3)" }
-            }
-            onMouseEnter={e => {
-              if (!isCompleted) {
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(16,185,129,0.4)";
-                (e.currentTarget as HTMLButtonElement).style.color = "var(--ui-success, #10b981)";
-              }
-            }}
-            onMouseLeave={e => {
-              if (!isCompleted) {
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--ui-border)";
-                (e.currentTarget as HTMLButtonElement).style.color = "var(--ui-text-3)";
-              }
-            }}
-          >
-            <CheckCircle2 className="w-4 h-4" />
-            {isCompleted ? "Completed" : "Mark Complete"}
-          </button>
+          <AnimatePresence mode="wait">
+            {isCompleted ? (
+              <motion.button
+                key="completed"
+                onClick={() => markIncomplete(topic.slug)}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.1))",
+                  border: "1px solid rgba(16,185,129,0.5)",
+                  color: "#10b981",
+                  boxShadow: "0 0 16px rgba(16,185,129,0.2)",
+                }}
+              >
+                <motion.span
+                  initial={{ rotate: -180, scale: 0 }}
+                  animate={{ rotate: 0, scale: 1 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                </motion.span>
+                Completed
+              </motion.button>
+            ) : (
+              <motion.button
+                key="incomplete"
+                onClick={() => markComplete(topic.slug)}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                whileHover={{ scale: 1.05, boxShadow: "0 0 24px rgba(16,185,129,0.5)" }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                className="relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold overflow-hidden"
+                style={{
+                  background: "linear-gradient(135deg, #10b981, #059669)",
+                  border: "1px solid rgba(16,185,129,0.6)",
+                  color: "#ffffff",
+                  boxShadow: "0 0 20px rgba(16,185,129,0.35)",
+                }}
+              >
+                {/* Pulsing glow ring */}
+                <motion.span
+                  className="absolute inset-0 rounded-xl"
+                  animate={{ boxShadow: ["0 0 0px rgba(16,185,129,0.4)", "0 0 20px rgba(16,185,129,0.6)", "0 0 0px rgba(16,185,129,0.4)"] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                />
+                {/* Shimmer sweep */}
+                <motion.span
+                  className="absolute inset-0 rounded-xl"
+                  style={{ background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%)" }}
+                  animate={{ x: ["-100%", "200%"] }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
+                />
+                <motion.span
+                  animate={{ rotate: [0, -10, 10, -6, 6, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
+                >
+                  <Sparkles className="w-4 h-4 relative z-10" />
+                </motion.span>
+                <span className="relative z-10">Mark Complete</span>
+              </motion.button>
+            )}
+          </AnimatePresence>
         </div>
       </motion.div>
 

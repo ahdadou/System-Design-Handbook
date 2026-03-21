@@ -32,7 +32,7 @@ const questions = [
       "Kafka does not support consumer groups",
     ],
     correct: 1,
-    explanation: "Kafka is a durable log — messages persist on disk and consumers can replay them from any offset. RabbitMQ is a traditional message queue where messages are removed once acknowledged. Kafka is ideal for event sourcing and audit logs; RabbitMQ for task queues and complex routing.",
+    explanation: "Kafka is a durable log  messages persist on disk and consumers can replay them from any offset. RabbitMQ is a traditional message queue where messages are removed once acknowledged. Kafka is ideal for event sourcing and audit logs; RabbitMQ for task queues and complex routing.",
   },
   {
     question: "Which exchange type in RabbitMQ delivers a message to ALL bound queues regardless of routing key?",
@@ -43,7 +43,7 @@ const questions = [
       "Headers exchange",
     ],
     correct: 2,
-    explanation: "A fanout exchange broadcasts every message to all queues bound to it — routing keys are ignored. This is the pub/sub pattern in RabbitMQ. Direct exchange routes by exact routing key; topic exchange by pattern matching.",
+    explanation: "A fanout exchange broadcasts every message to all queues bound to it  routing keys are ignored. This is the pub/sub pattern in RabbitMQ. Direct exchange routes by exact routing key; topic exchange by pattern matching.",
   },
 ];
 
@@ -51,11 +51,11 @@ export default function MessageBrokersContent({ slug }: { slug: string; chapterI
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        A <strong className="text-txt">message broker</strong> is middleware that receives messages from producers, optionally transforms or routes them, and delivers them to consumers. It decouples services so they do not need to know about each other — producers send to the broker, consumers receive from the broker.
+        A <strong className="text-txt">message broker</strong> is middleware that receives messages from producers, optionally transforms or routes them, and delivers them to consumers. It decouples services so they do not need to know about each other  producers send to the broker, consumers receive from the broker.
       </p>
       <p className="text-base leading-relaxed">
         Without a broker, Service A must know Service B's address, format, and availability. With a broker, Service A publishes an{" "}
-        <code className="text-[#f59e0b] bg-[#f59e0b]/10 px-1 rounded">order.placed</code> message and is done. Three services might consume it — Service A does not care.
+        <code className="text-[#f59e0b] bg-[#f59e0b]/10 px-1 rounded">order.placed</code> message and is done. Three services might consume it  Service A does not care.
       </p>
 
       <InteractiveDiagram
@@ -90,7 +90,7 @@ export default function MessageBrokersContent({ slug }: { slug: string; chapterI
         <div className="p-4 rounded-xl bg-[#f59e0b]/10 border border-[#f59e0b]/30">
           <div className="font-bold text-[#f59e0b] text-sm font-heading mb-3">Apache Kafka</div>
           <ul className="text-xs space-y-1.5 text-txt-2">
-            <li>• Distributed commit log — messages stored on disk</li>
+            <li>• Distributed commit log  messages stored on disk</li>
             <li>• Consumers track their own offset (can replay)</li>
             <li>• Optimized for high throughput (millions/sec)</li>
             <li>• Retention-based deletion (not ack-based)</li>
@@ -114,15 +114,15 @@ export default function MessageBrokersContent({ slug }: { slug: string; chapterI
       <h2 className="text-2xl font-bold font-heading text-txt">Durability and Guarantees</h2>
       <p>
         Brokers provide configurable delivery semantics. Producers can require acknowledgement before the broker confirms receipt. Consumers acknowledge messages to prevent re-delivery. Together these enable{" "}
-        <span className="text-accent-2 font-medium">at-least-once delivery</span> — the most common guarantee — where every message is processed, though possibly more than once on failure. Idempotent consumers handle duplicates safely.
+        <span className="text-accent-2 font-medium">at-least-once delivery</span>  the most common guarantee  where every message is processed, though possibly more than once on failure. Idempotent consumers handle duplicates safely.
       </p>
 
       <KeyTakeaway variant="important">
-        The broker pattern solves the "fan-out" problem elegantly: one event triggers N downstream services with zero coupling. As you add services, you add consumers — the producer is never modified. This is the foundation of event-driven microservices at companies like LinkedIn, Uber, and Airbnb.
+        The broker pattern solves the "fan-out" problem elegantly: one event triggers N downstream services with zero coupling. As you add services, you add consumers  the producer is never modified. This is the foundation of event-driven microservices at companies like LinkedIn, Uber, and Airbnb.
       </KeyTakeaway>
 
       <KeyTakeaway variant="tip">
-        Choose Kafka when you need replay, high throughput, or event sourcing. Choose RabbitMQ when you need flexible routing, priority queues, or task distribution at moderate scale. Both are production-proven — it is a use-case decision, not a quality decision.
+        Choose Kafka when you need replay, high throughput, or event sourcing. Choose RabbitMQ when you need flexible routing, priority queues, or task distribution at moderate scale. Both are production-proven  it is a use-case decision, not a quality decision.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

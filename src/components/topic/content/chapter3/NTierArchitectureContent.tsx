@@ -30,7 +30,7 @@ const questions = [
       "All three tiers share business logic equally",
     ],
     correct: 1,
-    explanation: "The application (middle) tier handles business logic — rules, calculations, and orchestration. The presentation tier handles UI, and the data tier handles persistence. Keeping business logic in the middle tier makes it independently scalable and testable.",
+    explanation: "The application (middle) tier handles business logic  rules, calculations, and orchestration. The presentation tier handles UI, and the data tier handles persistence. Keeping business logic in the middle tier makes it independently scalable and testable.",
   },
   {
     question: "What is the primary advantage of separating tiers physically (on different servers)?",
@@ -52,7 +52,7 @@ export default function NTierArchitectureContent({ slug }: { slug: string; chapt
         <strong className="text-txt">N-Tier Architecture</strong> organizes an application into distinct horizontal layers (tiers) where each tier has a specific responsibility and communicates only with adjacent tiers. The classic form is 3-tier: Presentation, Business Logic, and Data.
       </p>
       <p className="text-base leading-relaxed">
-        The word <em>tier</em> implies physical separation — tiers can run on separate servers. This is distinct from <em>layer</em>, which is a logical code separation within the same process. A 3-tier deployment might have 10 web servers, 20 app servers, and a database cluster — all independently scaled.
+        The word <em>tier</em> implies physical separation  tiers can run on separate servers. This is distinct from <em>layer</em>, which is a logical code separation within the same process. A 3-tier deployment might have 10 web servers, 20 app servers, and a database cluster  all independently scaled.
       </p>
 
       <InteractiveDiagram
@@ -60,7 +60,7 @@ export default function NTierArchitectureContent({ slug }: { slug: string; chapt
         edges={edges}
         nodeTypes={nodeTypes}
         title="Classic 3-Tier Architecture"
-        description="Browser → Web Server → App Server → Database — each tier has a distinct role. Click nodes for details."
+        description="Browser → Web Server → App Server → Database  each tier has a distinct role. Click nodes for details."
         height={460}
       />
 
@@ -131,7 +131,7 @@ export default function NTierArchitectureContent({ slug }: { slug: string; chapt
       </KeyTakeaway>
 
       <KeyTakeaway variant="warning">
-        Avoid business logic in stored procedures or database triggers — that blurs the data tier and the application tier, making the system harder to scale and test. Keep SQL dumb (data retrieval), and keep business rules in the application tier.
+        Avoid business logic in stored procedures or database triggers  that blurs the data tier and the application tier, making the system harder to scale and test. Keep SQL dumb (data retrieval), and keep business rules in the application tier.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

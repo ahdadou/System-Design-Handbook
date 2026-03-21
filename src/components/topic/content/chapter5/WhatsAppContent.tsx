@@ -34,12 +34,12 @@ const questions = [
     question: "Why does WhatsApp use WebSockets instead of HTTP polling for messaging?",
     options: [
       "WebSockets are more secure",
-      "WebSockets provide bidirectional persistent connections — push messages instantly without polling overhead",
+      "WebSockets provide bidirectional persistent connections  push messages instantly without polling overhead",
       "HTTP polling is not supported on mobile",
       "WebSockets use less data",
     ],
     correct: 1,
-    explanation: "HTTP polling would require clients to check for new messages every N seconds — wasteful and slow. WebSockets maintain a persistent connection; server pushes messages instantly when they arrive. Essential for real-time chat.",
+    explanation: "HTTP polling would require clients to check for new messages every N seconds  wasteful and slow. WebSockets maintain a persistent connection; server pushes messages instantly when they arrive. Essential for real-time chat.",
   },
   {
     question: "Why does WhatsApp use Cassandra for message storage?",
@@ -50,7 +50,7 @@ const questions = [
       "Cassandra supports full-text search",
     ],
     correct: 1,
-    explanation: "WhatsApp processes billions of messages/day. Cassandra handles extreme write throughput. Message access pattern is always 'get messages for conversation X, sorted by time' — a perfect fit for Cassandra's partition key + clustering key design.",
+    explanation: "WhatsApp processes billions of messages/day. Cassandra handles extreme write throughput. Message access pattern is always 'get messages for conversation X, sorted by time'  a perfect fit for Cassandra's partition key + clustering key design.",
   },
 ];
 
@@ -76,14 +76,14 @@ export default function WhatsAppContent({ slug }: { slug: string; chapterId: num
         ))}
       </div>
 
-      <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="WhatsApp — System Architecture" description="Real-time messaging at global scale" height={440} />
+      <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="WhatsApp  System Architecture" description="Real-time messaging at global scale" height={440} />
 
       <h2 className="text-2xl font-bold font-heading text-txt">Key Design Decisions</h2>
       <div className="space-y-3">
         {[
-          { title: "WebSocket Connections", desc: "Each active user maintains a persistent WebSocket connection to a gateway server. With 500M concurrent users, this requires careful connection management (Erlang/Elixir excels here — handles millions of concurrent processes cheaply).", color: "#3b82f6" },
+          { title: "WebSocket Connections", desc: "Each active user maintains a persistent WebSocket connection to a gateway server. With 500M concurrent users, this requires careful connection management (Erlang/Elixir excels here  handles millions of concurrent processes cheaply).", color: "#3b82f6" },
           { title: "Message Delivery", desc: "1. Store message in Cassandra. 2. If recipient online: push via WebSocket. 3. If offline: store in a delivery queue, push when they reconnect. 4. Send delivery receipts (✓ = sent, ✓✓ = delivered, blue = read).", color: "#10b981" },
-          { title: "End-to-End Encryption", desc: "WhatsApp uses the Signal Protocol. Messages are encrypted on sender's device; only recipient can decrypt. WhatsApp's servers only store encrypted blobs — they can't read your messages.", color: "#8b5cf6" },
+          { title: "End-to-End Encryption", desc: "WhatsApp uses the Signal Protocol. Messages are encrypted on sender's device; only recipient can decrypt. WhatsApp's servers only store encrypted blobs  they can't read your messages.", color: "#8b5cf6" },
           { title: "Media Storage", desc: "Media files stored in distributed object storage (similar to S3). Client uploads media, gets a URL. Message contains URL reference. CDN serves media files globally with low latency.", color: "#f59e0b" },
         ].map((d) => (
           <div key={d.title} className="p-4 rounded-xl border border-border-ui bg-surface border-l-4" style={{ borderLeftColor: d.color }}>

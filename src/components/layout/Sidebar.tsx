@@ -186,11 +186,11 @@ export function Sidebar() {
                             style={
                               isActive
                                 ? {
-                                    background: `${color}15`,
-                                    color,
-                                    borderLeft: `2px solid ${color}`,
-                                    marginLeft: "-1px",
-                                  }
+                                  background: `${color}15`,
+                                  color,
+                                  borderLeft: `2px solid ${color}`,
+                                  marginLeft: "-1px",
+                                }
                                 : { color: "var(--ui-text-2)" }
                             }
                             onMouseEnter={e => {
@@ -245,7 +245,7 @@ export function SidebarMini() {
         width: "56px",
       }}
     >
-      {/* Logo icon — click to expand */}
+      {/* Logo icon  click to expand */}
       <button
         onClick={() => setSidebarCollapsed(false)}
         className="mb-2 shrink-0 transition-opacity hover:opacity-80"

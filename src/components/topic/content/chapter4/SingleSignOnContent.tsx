@@ -55,7 +55,7 @@ export default function SingleSignOnContent({ slug }: { slug: string; chapterId:
         <strong className="text-txt">Single Sign-On (SSO)</strong> lets users authenticate once with a central Identity Provider and then access multiple applications without logging in again. Instead of each app maintaining its own user database, they all trust the same IdP to verify identity.
       </p>
       <p>
-        You use SSO every day: logging in with Google to access YouTube, Gmail, and Drive without separate passwords. Enterprise SSO (Okta, Azure AD) extends this to internal tools — log in once to access Slack, GitHub, Jira, Confluence, and your HR portal.
+        You use SSO every day: logging in with Google to access YouTube, Gmail, and Drive without separate passwords. Enterprise SSO (Okta, Azure AD) extends this to internal tools  log in once to access Slack, GitHub, Jira, Confluence, and your HR portal.
       </p>
 
       <InteractiveDiagram
@@ -75,7 +75,7 @@ export default function SingleSignOnContent({ slug }: { slug: string; chapterId:
           { step: 3, action: "IdP authenticates user (username/password or MFA)", color: "#8b5cf6" },
           { step: 4, action: "IdP issues signed SAML assertion (XML) and redirects back", color: "#8b5cf6" },
           { step: 5, action: "App A validates assertion signature and grants access", color: "#10b981" },
-          { step: 6, action: "User visits App B — IdP session exists, assertion issued instantly", color: "#10b981" },
+          { step: 6, action: "User visits App B  IdP session exists, assertion issued instantly", color: "#10b981" },
         ].map((item) => (
           <div key={item.step} className="flex items-center gap-3 p-2.5 rounded-lg bg-surface border border-border-ui">
             <div className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 text-white" style={{ backgroundColor: item.color }}>

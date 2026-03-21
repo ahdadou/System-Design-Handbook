@@ -8,21 +8,21 @@ import { Node, Edge } from "@xyflow/react";
 const nodeTypes = { system: SystemNode, database: DatabaseNode };
 
 const nodes: Node[] = [
-  // Column 1 — Entry
+  // Column 1  Entry
   { id: "user", type: "system", position: { x: 0, y: 90 }, data: { label: "User / Client", icon: "👤", color: "#3b82f6" } },
   { id: "cdn", type: "system", position: { x: 0, y: 210 }, data: { label: "CDN", sublabel: "Static assets & media", icon: "🌐", color: "#06b6d4", description: "Serves static assets, images, and videos globally. Reduces latency for media-heavy timelines." } },
   { id: "gateway", type: "system", position: { x: 160, y: 150 }, data: { label: "API Gateway", sublabel: "Auth, rate limiting", icon: "🔀", color: "#8b5cf6", description: "Rate limiting: 300 writes/15min per user. Auth via OAuth 2.0 tokens. Routes to downstream services." } },
-  // Column 2 — Services
+  // Column 2  Services
   { id: "tweet", type: "system", position: { x: 320, y: 50 }, data: { label: "Tweet Service", sublabel: "Write path", icon: "✍️", color: "#f59e0b", description: "Handles tweet creation, deletion, retweets, likes. Writes to Cassandra and enqueues fanout jobs." } },
   { id: "timeline", type: "system", position: { x: 320, y: 190 }, data: { label: "Timeline Service", sublabel: "Feed generation", icon: "📰", color: "#3b82f6", description: "Assembles the home timeline. Merges pre-computed timelines from Redis with live tweets from celebrities." } },
-  // Column 3 — Streaming
+  // Column 3  Streaming
   { id: "kafka", type: "system", position: { x: 490, y: 110 }, data: { label: "Kafka", sublabel: "Event streaming", icon: "📨", color: "#f59e0b", description: "Decouples tweet creation from fanout. Producers: Tweet Service. Consumers: Fanout workers, Search indexer, Notification service." } },
-  // Column 3 — Consumers (right of kafka)
+  // Column 3  Consumers (right of kafka)
   { id: "fanout", type: "system", position: { x: 660, y: 40 }, data: { label: "Fanout Workers", sublabel: "Async timeline push", icon: "⚡", color: "#ef4444", description: "Consume Kafka events. For each tweet, push tweet_id to the Redis sorted-set timeline of all followers. Skip celebrities (>1M followers)." } },
   { id: "search", type: "system", position: { x: 660, y: 160 }, data: { label: "Search Service", sublabel: "Elasticsearch", icon: "🔍", color: "#06b6d4", description: "Full-text search over tweets. Near real-time indexing via Kafka consumer." } },
   { id: "notif", type: "system", position: { x: 660, y: 270 }, data: { label: "Notification Service", sublabel: "Push & email", icon: "🔔", color: "#10b981", description: "Sends push notifications for mentions, retweets, likes. Consumes events from Kafka." } },
   { id: "ml", type: "system", position: { x: 490, y: 310 }, data: { label: "ML Ranking", sublabel: "Relevance scoring", icon: "🤖", color: "#8b5cf6", description: "Reranks timeline tweets using engagement signals. Applied at read time when user requests timeline." } },
-  // Column 4 — Storage
+  // Column 4  Storage
   { id: "tweetdb", type: "database", position: { x: 840, y: 40 }, data: { label: "Cassandra", sublabel: "Tweet storage", color: "#f59e0b", description: "Partition key: tweet_id (TimeUUID). Extremely high write throughput. Stores tweet content, media URLs, like counts." } },
   { id: "redis", type: "database", position: { x: 840, y: 170 }, data: { label: "Redis Cluster", sublabel: "Timeline cache", color: "#ef4444", description: "Each user's home timeline stored as a Redis sorted set (score = tweet timestamp). Max 800 tweet_ids per user. O(log N) inserts." } },
   { id: "userdb", type: "database", position: { x: 840, y: 300 }, data: { label: "User DB", sublabel: "MySQL + replicas", color: "#3b82f6", description: "User profiles, follower/following relationships. Sharded by user_id. Heavy read load served by read replicas." } },
@@ -61,7 +61,7 @@ const questions = [
       "Push model for writes, pull model for reads",
     ],
     correct: 1,
-    explanation: "The core problem: if Katy Perry (100M followers) tweets, the push model would require 100M Redis writes immediately — a fanout storm. The hybrid solution: push to followers of regular users (<~1M followers), but skip celebrities. When a user requests their timeline, the Timeline Service merges their pre-computed Redis feed with a real-time pull of tweets from the celebrities they follow.",
+    explanation: "The core problem: if Katy Perry (100M followers) tweets, the push model would require 100M Redis writes immediately  a fanout storm. The hybrid solution: push to followers of regular users (<~1M followers), but skip celebrities. When a user requests their timeline, the Timeline Service merges their pre-computed Redis feed with a real-time pull of tweets from the celebrities they follow.",
   },
   {
     question: "Why does Twitter store tweets in Cassandra rather than MySQL?",
@@ -72,7 +72,7 @@ const questions = [
       "Cassandra is cheaper to operate than MySQL",
     ],
     correct: 2,
-    explanation: "At 500M tweets/day (~6K QPS writes), a single MySQL master would struggle. Cassandra is masterless — all nodes accept writes. It uses a distributed hash ring for data distribution. The tweet access pattern (write once, read many, fetch by tweet_id or user_id + time range) is a perfect fit for Cassandra's partition key + clustering key model.",
+    explanation: "At 500M tweets/day (~6K QPS writes), a single MySQL master would struggle. Cassandra is masterless  all nodes accept writes. It uses a distributed hash ring for data distribution. The tweet access pattern (write once, read many, fetch by tweet_id or user_id + time range) is a perfect fit for Cassandra's partition key + clustering key model.",
   },
   {
     question: "When a user opens Twitter, how is their home timeline assembled?",
@@ -91,7 +91,7 @@ export default function TwitterContent({ slug }: { slug: string; chapterId: numb
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        Designing <strong className="text-txt">Twitter</strong> is one of the most instructive system design problems because it forces you to confront the <strong className="text-txt">fanout problem</strong> — how do you efficiently deliver a tweet to millions of followers in real time? Twitter operates at massive scale: 500M registered users, 250M daily active users, 500M tweets per day, 300K QPS read traffic.
+        Designing <strong className="text-txt">Twitter</strong> is one of the most instructive system design problems because it forces you to confront the <strong className="text-txt">fanout problem</strong>  how do you efficiently deliver a tweet to millions of followers in real time? Twitter operates at massive scale: 500M registered users, 250M daily active users, 500M tweets per day, 300K QPS read traffic.
       </p>
 
       <h2 className="text-2xl font-bold font-heading text-txt">Scale Estimates</h2>
@@ -109,7 +109,7 @@ export default function TwitterContent({ slug }: { slug: string; chapterId: numb
         ))}
       </div>
 
-      <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="Twitter — System Architecture" description="Full architecture including fanout workers, timeline cache, and ML ranking. Click nodes to expand details." height={500} />
+      <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="Twitter  System Architecture" description="Full architecture including fanout workers, timeline cache, and ML ranking. Click nodes to expand details." height={500} />
 
       <h2 className="text-2xl font-bold font-heading text-txt">The Fanout Problem</h2>
       <p className="text-sm leading-relaxed">The central challenge of Twitter: when a user tweets, how do you update the home timeline of all their followers efficiently? There are two fundamental approaches:</p>
@@ -118,15 +118,15 @@ export default function TwitterContent({ slug }: { slug: string; chapterId: numb
           {
             title: "Push Model (Fan-out on Write)",
             color: "#3b82f6",
-            pros: ["O(1) read — timeline is pre-computed", "Very fast timeline reads from Redis", "Consistent timeline across refreshes"],
+            pros: ["O(1) read  timeline is pre-computed", "Very fast timeline reads from Redis", "Consistent timeline across refreshes"],
             cons: ["Celebrity problem: 100M follower tweet → 100M Redis writes", "Wasted work for inactive users", "Write amplification is extreme"],
             verdict: "Good for: users with normal follower counts (<~1M)",
           },
           {
             title: "Pull Model (Fan-in on Read)",
             color: "#8b5cf6",
-            pros: ["No fanout storm — celebrities don't cause write spikes", "No wasted computation for inactive users", "Write path is simple"],
-            cons: ["O(N) read — must query N followee's tweets and merge", "Slow: fetching from 1000 followees requires 1000 DB reads", "High read latency at scale"],
+            pros: ["No fanout storm  celebrities don't cause write spikes", "No wasted computation for inactive users", "Write path is simple"],
+            cons: ["O(N) read  must query N followee's tweets and merge", "Slow: fetching from 1000 followees requires 1000 DB reads", "High read latency at scale"],
             verdict: "Good for: celebrities / users with massive follower counts",
           },
         ].map((model) => (
@@ -157,7 +157,7 @@ export default function TwitterContent({ slug }: { slug: string; chapterId: numb
         {[
           { title: "Tweet (Cassandra)", color: "#f59e0b", fields: ["tweet_id: TimeUUID (partition key)", "user_id: UUID", "content: text (max 280 chars)", "media_ids: list<UUID>", "reply_to_tweet_id: UUID", "created_at: timestamp", "like_count: counter", "retweet_count: counter"] },
           { title: "User (MySQL)", color: "#3b82f6", fields: ["user_id: BIGINT (auto-increment)", "username: VARCHAR(15) UNIQUE", "display_name: VARCHAR(50)", "bio: TEXT", "follower_count: INT", "following_count: INT", "is_verified: BOOLEAN", "created_at: TIMESTAMP"] },
-          { title: "Follower (MySQL)", color: "#06b6d4", fields: ["follower_id: BIGINT (FK users)", "followee_id: BIGINT (FK users)", "created_at: TIMESTAMP", "INDEX (followee_id) — for fanout queries", "INDEX (follower_id) — for 'who I follow'"] },
+          { title: "Follower (MySQL)", color: "#06b6d4", fields: ["follower_id: BIGINT (FK users)", "followee_id: BIGINT (FK users)", "created_at: TIMESTAMP", "INDEX (followee_id)  for fanout queries", "INDEX (follower_id)  for 'who I follow'"] },
           { title: "Timeline (Redis)", color: "#ef4444", fields: ["Key: timeline:{user_id}", "Type: Sorted Set", "Member: tweet_id", "Score: unix timestamp", "Max size: 800 tweet_ids", "TTL: none (LRU eviction)", "O(log N) insert, O(log N + K) range read"] },
         ].map((table) => (
           <div key={table.title} className="p-3 rounded-xl bg-elevated border border-border-ui">
@@ -187,7 +187,7 @@ export default function TwitterContent({ slug }: { slug: string; chapterId: numb
       <h2 className="text-2xl font-bold font-heading text-txt">Scale Considerations</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {[
-          { title: "Read Scaling", color: "#10b981", items: ["Redis cluster for timeline caches", "Cassandra scales horizontally — add nodes to increase throughput", "MySQL read replicas for user profile queries", "CDN for media (images, videos)"] },
+          { title: "Read Scaling", color: "#10b981", items: ["Redis cluster for timeline caches", "Cassandra scales horizontally  add nodes to increase throughput", "MySQL read replicas for user profile queries", "CDN for media (images, videos)"] },
           { title: "Write Scaling", color: "#f59e0b", items: ["Kafka buffers write spikes (tweet storms during events)", "Fanout workers scale horizontally as Kafka consumer group", "Cassandra write throughput scales with cluster size", "Rate limiting at API Gateway prevents abuse"] },
           { title: "Availability", color: "#3b82f6", items: ["Multi-datacenter replication for Cassandra", "Redis Sentinel or Redis Cluster for HA", "Circuit breakers between services", "Graceful degradation: show cached timeline if live feed fails"] },
           { title: "Consistency", color: "#8b5cf6", items: ["Eventual consistency for timelines is acceptable", "Like/retweet counts are eventually consistent (counter CRDTs)", "Follower relationships use strong consistency (MySQL)", "New tweets visible in ~5 seconds (fanout lag)"] },
@@ -205,7 +205,7 @@ export default function TwitterContent({ slug }: { slug: string; chapterId: numb
       </div>
 
       <KeyTakeaway variant="important">
-        The Twitter fanout problem is a perfect example of the read/write trade-off in system design. Push model optimizes reads at the cost of write amplification; pull model optimizes writes at the cost of read latency. Twitter's hybrid model — push for regular users, pull for celebrities — is the real-world answer: optimize for the common case, handle edge cases specially.
+        The Twitter fanout problem is a perfect example of the read/write trade-off in system design. Push model optimizes reads at the cost of write amplification; pull model optimizes writes at the cost of read latency. Twitter's hybrid model  push for regular users, pull for celebrities  is the real-world answer: optimize for the common case, handle edge cases specially.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

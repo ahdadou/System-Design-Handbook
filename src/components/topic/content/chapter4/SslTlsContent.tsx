@@ -1,29 +1,7 @@
 "use client";
 import { KeyTakeaway } from "@/components/ui/KeyTakeaway";
 import { QuizBlock } from "@/components/ui/QuizBlock";
-import { InteractiveDiagram } from "@/components/diagrams/InteractiveDiagram";
-import { SystemNode, StepNode } from "@/components/diagrams/CustomNodes";
-import { Node, Edge } from "@xyflow/react";
-
-const nodeTypes = { system: SystemNode, step: StepNode };
-
-const nodes: Node[] = [
-  { id: "client", type: "system", position: { x: 20, y: 140 }, data: { label: "Client", icon: "💻", color: "#3b82f6" } },
-  { id: "s1", type: "step", position: { x: 140, y: 20 }, data: { label: "ClientHello", sublabel: "Cipher suites, TLS version", step: 1, color: "#3b82f6" } },
-  { id: "s2", type: "step", position: { x: 140, y: 100 }, data: { label: "ServerHello", sublabel: "Chosen cipher + cert", step: 2, color: "#06b6d4" } },
-  { id: "s3", type: "step", position: { x: 140, y: 180 }, data: { label: "Key Exchange", sublabel: "ECDHE pre-master secret", step: 3, color: "#8b5cf6" } },
-  { id: "s4", type: "step", position: { x: 140, y: 260 }, data: { label: "Finished", sublabel: "Encrypted handshake done", step: 4, color: "#10b981" } },
-  { id: "server", type: "system", position: { x: 320, y: 140 }, data: { label: "Server", icon: "🖥️", color: "#10b981", description: "Presents its certificate signed by a trusted Certificate Authority. Client verifies the signature chain." } },
-];
-
-const edges: Edge[] = [
-  { id: "e1", source: "client", target: "s1", animated: true, style: { stroke: "#3b82f6", strokeWidth: 2 } },
-  { id: "e2", source: "s1", target: "server", animated: true, style: { stroke: "#3b82f6", strokeWidth: 2 } },
-  { id: "e3", source: "server", target: "s2", animated: true, style: { stroke: "#06b6d4", strokeWidth: 2 } },
-  { id: "e4", source: "s2", target: "client", animated: true, style: { stroke: "#06b6d4", strokeWidth: 2 } },
-  { id: "e5", source: "client", target: "s3", animated: true, style: { stroke: "#8b5cf6", strokeWidth: 2 } },
-  { id: "e6", source: "s3", target: "s4", animated: true, style: { stroke: "#10b981", strokeWidth: 2 } },
-];
+import { TlsHandshakeDiagram } from "@/components/diagrams/ssl-tls/TlsHandshakeDiagram";
 
 const questions = [
   {
@@ -54,17 +32,10 @@ export default function SslTlsContent({ slug }: { slug: string; chapterId: numbe
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-txt">TLS (Transport Layer Security)</strong> encrypts data in transit between client and server, preventing eavesdropping and tampering. SSL is the older predecessor — both terms are used interchangeably, but all modern systems use TLS 1.2 or 1.3. <strong className="text-txt">mTLS</strong> (mutual TLS) extends this by requiring both parties to authenticate.
+        <strong className="text-txt">TLS (Transport Layer Security)</strong> encrypts data in transit between client and server, preventing eavesdropping and tampering. SSL is the older predecessor  both terms are used interchangeably, but all modern systems use TLS 1.2 or 1.3. <strong className="text-txt">mTLS</strong> (mutual TLS) extends this by requiring both parties to authenticate.
       </p>
 
-      <InteractiveDiagram
-        nodes={nodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        title="TLS 1.3 Handshake"
-        description="Client and server negotiate encryption keys before any data is exchanged"
-        height={360}
-      />
+      <TlsHandshakeDiagram />
 
       <h2 className="text-2xl font-bold font-heading text-txt">TLS Handshake (Simplified)</h2>
       <div className="space-y-2">
@@ -85,8 +56,8 @@ export default function SslTlsContent({ slug }: { slug: string; chapterId: numbe
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-txt">mTLS — Mutual Authentication</h2>
-      <p className="text-sm">In standard TLS, the client verifies the server but not vice versa. With mTLS, the server also requests a certificate from the client. This ensures that only trusted clients (services) can communicate — critical in zero-trust microservice architectures.</p>
+      <h2 className="text-2xl font-bold font-heading text-txt">mTLS  Mutual Authentication</h2>
+      <p className="text-sm">In standard TLS, the client verifies the server but not vice versa. With mTLS, the server also requests a certificate from the client. This ensures that only trusted clients (services) can communicate  critical in zero-trust microservice architectures.</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
         <div className="p-4 rounded-xl border border-[#3b82f6]/30 bg-[#3b82f6]/5">
           <h3 className="font-bold text-sm text-accent font-heading mb-2">Standard TLS</h3>
@@ -109,7 +80,7 @@ export default function SslTlsContent({ slug }: { slug: string; chapterId: numbe
       </div>
 
       <KeyTakeaway variant="success">
-        TLS 1.3 reduced the handshake from 2 round trips to 1 (and supports 0-RTT resumption for returning clients). Always enforce TLS 1.2+ and disable older versions. Certificate rotation is operationally important — automated tools like cert-manager in Kubernetes handle this.
+        TLS 1.3 reduced the handshake from 2 round trips to 1 (and supports 0-RTT resumption for returning clients). Always enforce TLS 1.2+ and disable older versions. Certificate rotation is operationally important  automated tools like cert-manager in Kubernetes handle this.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

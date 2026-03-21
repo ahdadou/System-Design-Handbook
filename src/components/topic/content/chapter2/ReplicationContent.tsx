@@ -33,7 +33,7 @@ const questions = [
       "Eliminates the need for backups",
     ],
     correct: 2,
-    explanation: "Replication provides: (1) High availability — if primary fails, promote a replica. (2) Read scalability — distribute read traffic across multiple replicas.",
+    explanation: "Replication provides: (1) High availability  if primary fails, promote a replica. (2) Read scalability  distribute read traffic across multiple replicas.",
   },
   {
     question: "What is replication lag?",
@@ -63,7 +63,7 @@ export default function ReplicationContent({ slug }: { slug: string; chapterId: 
           <div className="font-bold text-accent text-sm font-heading mb-2">Synchronous</div>
           <ul className="text-xs space-y-1 text-txt-2">
             <li>• Primary waits for replica to confirm write</li>
-            <li>• Zero data loss — replica always up to date</li>
+            <li>• Zero data loss  replica always up to date</li>
             <li>• Higher write latency (must wait for all replicas)</li>
             <li>• Good for: financial data, critical writes</li>
           </ul>

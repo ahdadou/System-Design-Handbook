@@ -33,7 +33,7 @@ const questions = [
       "OpenID Connect is older than OAuth 2.0",
     ],
     correct: 1,
-    explanation: "OAuth 2.0 is an authorization framework — it grants access to resources. OpenID Connect (OIDC) is an identity layer on top of OAuth 2.0 that adds authentication — it tells you WHO the user is via an ID token.",
+    explanation: "OAuth 2.0 is an authorization framework  it grants access to resources. OpenID Connect (OIDC) is an identity layer on top of OAuth 2.0 that adds authentication  it tells you WHO the user is via an ID token.",
   },
 ];
 
@@ -41,10 +41,10 @@ export default function OAuthContent({ slug }: { slug: string; chapterId: number
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-txt">OAuth 2.0</strong> is an authorization framework that lets users grant third-party applications access to their resources without sharing passwords. <strong className="text-txt">OpenID Connect (OIDC)</strong> builds on OAuth to add authentication — proving who the user actually is.
+        <strong className="text-txt">OAuth 2.0</strong> is an authorization framework that lets users grant third-party applications access to their resources without sharing passwords. <strong className="text-txt">OpenID Connect (OIDC)</strong> builds on OAuth to add authentication  proving who the user actually is.
       </p>
       <p>
-        Every time you click "Login with Google" or "Connect with GitHub," you're using OAuth 2.0 + OIDC. The application never sees your Google password — it gets a limited access token instead.
+        Every time you click "Login with Google" or "Connect with GitHub," you're using OAuth 2.0 + OIDC. The application never sees your Google password  it gets a limited access token instead.
       </p>
 
       <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="OAuth 2.0 Authorization Code Flow" description="The most secure OAuth flow for server-side applications" height={350} />

@@ -41,7 +41,7 @@ export default function DnsContent({ slug }: { slug: string; chapterId: number }
 
       <h2 className="text-2xl font-bold font-heading text-txt">The DNS Resolution Flow</h2>
       <p>
-        When you type a URL in your browser, DNS performs an 8-step resolution process. It's designed to be fast through caching at every level — your browser, OS, router, and ISP all cache DNS results.
+        When you type a URL in your browser, DNS performs an 8-step resolution process. It's designed to be fast through caching at every level  your browser, OS, router, and ISP all cache DNS results.
       </p>
       <DnsFlowDiagram />
 
@@ -50,7 +50,7 @@ export default function DnsContent({ slug }: { slug: string; chapterId: number }
         {[
           { type: "A", desc: "Maps hostname → IPv4 address", example: "example.com → 93.184.216.34", color: "#3b82f6" },
           { type: "AAAA", desc: "Maps hostname → IPv6 address", example: "example.com → 2606:2800::1", color: "#8b5cf6" },
-          { type: "CNAME", desc: "Alias — points to another hostname", example: "www → example.com", color: "#06b6d4" },
+          { type: "CNAME", desc: "Alias  points to another hostname", example: "www → example.com", color: "#06b6d4" },
           { type: "MX", desc: "Mail exchange servers for a domain", example: "example.com → mail.example.com", color: "#f59e0b" },
           { type: "TXT", desc: "Arbitrary text (SPF, DKIM, verification)", example: "v=spf1 include:... -all", color: "#10b981" },
           { type: "NS", desc: "Authoritative nameservers for domain", example: "ns1.example.com", color: "#ef4444" },
@@ -72,7 +72,7 @@ export default function DnsContent({ slug }: { slug: string; chapterId: number }
       <h2 className="text-2xl font-bold font-heading text-txt">DNS for System Design</h2>
       <ul className="space-y-2 list-none text-sm">
         {[
-          "Use DNS-based load balancing by returning multiple A records (round-robin DNS) — simple but no health checking",
+          "Use DNS-based load balancing by returning multiple A records (round-robin DNS)  simple but no health checking",
           "Set low TTLs (60-300s) before major migrations so changes propagate quickly",
           "Use ALIAS/ANAME records (not CNAME) for apex domains to avoid CNAME restrictions",
           "Latency-based routing (Route 53): DNS returns different IPs based on user's geographic location",

@@ -53,7 +53,7 @@ export default function DistributedTransactionsContent({ slug }: { slug: string;
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        A <strong className="text-txt">distributed transaction</strong> is one that spans multiple databases, services, or nodes and must either fully commit on all of them or fully roll back — preserving atomicity across a distributed boundary. This is one of the hardest problems in distributed systems.
+        A <strong className="text-txt">distributed transaction</strong> is one that spans multiple databases, services, or nodes and must either fully commit on all of them or fully roll back  preserving atomicity across a distributed boundary. This is one of the hardest problems in distributed systems.
       </p>
       <p className="text-sm leading-relaxed">
         In a microservices architecture, a single business operation (e.g., place an order) may write to the Order Service, deduct from the Inventory Service, and charge the Payment Service. All three must succeed or the system is in an inconsistent state.
@@ -124,7 +124,7 @@ export default function DistributedTransactionsContent({ slug }: { slug: string;
           <div className="font-bold text-accent-2 text-sm font-heading mb-2">Choreography</div>
           <ul className="text-xs space-y-1 text-txt-2">
             <li>• Services react to events from other services</li>
-            <li>• No central coordinator — fully decentralized</li>
+            <li>• No central coordinator  fully decentralized</li>
             <li>• Pros: loose coupling, no single point of failure</li>
             <li>• Cons: hard to track saga state, debugging is difficult</li>
             <li>• Tools: Kafka, RabbitMQ, SNS/SQS</li>

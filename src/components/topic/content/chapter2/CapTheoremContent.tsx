@@ -19,7 +19,7 @@ const questions = [
       "It provides both consistency and availability",
     ],
     correct: 1,
-    explanation: "AP systems (like Cassandra, DynamoDB) prioritize availability — they always respond, but data may be stale (eventual consistency). During a partition, they serve old data rather than rejecting requests.",
+    explanation: "AP systems (like Cassandra, DynamoDB) prioritize availability  they always respond, but data may be stale (eventual consistency). During a partition, they serve old data rather than rejecting requests.",
   },
   {
     question: "Why can't a distributed system achieve all three CAP properties simultaneously?",
@@ -41,7 +41,7 @@ export default function CapTheoremContent({ slug }: { slug: string; chapterId: n
         The <strong className="text-txt">CAP theorem</strong>, formulated by Eric Brewer in 2000, states that a distributed data store can only guarantee two of three properties simultaneously: <strong className="text-txt">Consistency</strong>, <strong className="text-txt">Availability</strong>, and <strong className="text-txt">Partition Tolerance</strong>.
       </p>
       <p>
-        This isn't a limitation of bad engineering — it's a mathematical impossibility. In distributed systems, network partitions will occur. When they do, you're forced to make a choice.
+        This isn't a limitation of bad engineering  it's a mathematical impossibility. In distributed systems, network partitions will occur. When they do, you're forced to make a choice.
       </p>
 
       <h2 className="text-2xl font-bold font-heading text-txt">The Three Properties</h2>
@@ -62,7 +62,7 @@ export default function CapTheoremContent({ slug }: { slug: string; chapterId: n
       <CapTheoremDiagram />
 
       <KeyTakeaway variant="important">
-        "CA" systems (PostgreSQL, MySQL) are technically not distributed — they assume no partitions. In a truly distributed system, Partition Tolerance is mandatory. So the real choice is always CP vs AP.
+        "CA" systems (PostgreSQL, MySQL) are technically not distributed  they assume no partitions. In a truly distributed system, Partition Tolerance is mandatory. So the real choice is always CP vs AP.
       </KeyTakeaway>
 
       <h2 className="text-2xl font-bold font-heading text-txt">Real-World System Design</h2>

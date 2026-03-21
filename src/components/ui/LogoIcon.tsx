@@ -87,11 +87,11 @@ export function LogoIcon({ size = 40, className = "" }: Props) {
       />
 
       {/* ── Ear tufts ─────────────────────────────────────────────── */}
-      {/* Left ear — yellow */}
+      {/* Left ear  yellow */}
       <polygon points="35,21 27.5,36 42.5,36" fill="#FFD600" />
       {/* Left ear inner shadow */}
       <polygon points="35,25 30,36 40,36" fill="#B45309" opacity="0.35" />
-      {/* Right ear — purple */}
+      {/* Right ear  purple */}
       <polygon points="65,21 57.5,36 72.5,36" fill="#A855F7" />
       {/* Right ear inner shadow */}
       <polygon points="65,25 60,36 70,36" fill="#5B21B6" opacity="0.35" />
@@ -112,13 +112,13 @@ export function LogoIcon({ size = 40, className = "" }: Props) {
       <rect x="44.5" y="42" width="11" height="4" rx="2" fill="#060606" />
 
       {/* ── Irises ────────────────────────────────────────────────── */}
-      {/* Left iris — yellow with glow */}
+      {/* Left iris  yellow with glow */}
       <circle
         cx="39" cy="50" r="9"
         fill={`url(#${uid}el)`}
         filter={`url(#${uid}gy)`}
       />
-      {/* Right iris — purple with glow */}
+      {/* Right iris  purple with glow */}
       <circle
         cx="61" cy="50" r="9"
         fill={`url(#${uid}er)`}
@@ -183,7 +183,7 @@ export function LogoIcon({ size = 40, className = "" }: Props) {
       <line x1="58" y1="74" x2="58" y2="82" stroke="#A855F7" strokeWidth="1.2" strokeLinecap="round" opacity="0.5" />
       <circle cx="58" cy="82" r="2.2" fill="#A855F7" opacity="0.7" />
 
-      {/* Center green node — convergence point */}
+      {/* Center green node  convergence point */}
       <line x1="42" y1="82" x2="50" y2="86" stroke="#1f1f1f" strokeWidth="1.2" />
       <line x1="58" y1="82" x2="50" y2="86" stroke="#1f1f1f" strokeWidth="1.2" />
       <circle cx="50" cy="86" r="2.8" fill="#22C55E" opacity="0.85" />

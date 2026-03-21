@@ -82,7 +82,7 @@ export default function GenericContent({ slug, chapterId }: Props) {
         nodes={generateNodes(slug)}
         edges={defaultEdges}
         nodeTypes={nodeTypes}
-        title={`${title} — Architecture Overview`}
+        title={`${title}  Architecture Overview`}
         description="Drag nodes to explore the relationships between components"
         height={350}
       />

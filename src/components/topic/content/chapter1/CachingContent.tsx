@@ -33,10 +33,10 @@ export default function CachingContent({ slug }: { slug: string; chapterId: numb
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-txt">Caching</strong> is storing copies of frequently accessed data in a faster storage layer. Instead of computing or fetching data every time, you return the cached copy. This is one of the most impactful performance optimizations in system design — caching frequently turns an O(n) DB query into an O(1) memory lookup.
+        <strong className="text-txt">Caching</strong> is storing copies of frequently accessed data in a faster storage layer. Instead of computing or fetching data every time, you return the cached copy. This is one of the most impactful performance optimizations in system design  caching frequently turns an O(n) DB query into an O(1) memory lookup.
       </p>
       <p>
-        Instagram serves 500M+ stories per day. Without aggressive caching, their databases would be annihilated. Redis, Memcached, and CDNs cache data at different layers of the stack. The key insight: <strong className="text-txt">most data isn't read uniformly</strong> — 1% of content drives 99% of reads (Pareto principle).
+        Instagram serves 500M+ stories per day. Without aggressive caching, their databases would be annihilated. Redis, Memcached, and CDNs cache data at different layers of the stack. The key insight: <strong className="text-txt">most data isn't read uniformly</strong>  1% of content drives 99% of reads (Pareto principle).
       </p>
 
       <h2 className="text-2xl font-bold font-heading text-txt">Write Strategies</h2>
@@ -48,9 +48,9 @@ export default function CachingContent({ slug }: { slug: string; chapterId: numb
       </p>
       <div className="grid grid-cols-3 gap-3 my-4">
         {[
-          { pct: "95%+", desc: "Excellent — DB barely touched", color: "#10b981" },
-          { pct: "80-95%", desc: "Good — minimal DB pressure", color: "#f59e0b" },
-          { pct: "<80%", desc: "Poor — optimize access patterns", color: "#ef4444" },
+          { pct: "95%+", desc: "Excellent  DB barely touched", color: "#10b981" },
+          { pct: "80-95%", desc: "Good  minimal DB pressure", color: "#f59e0b" },
+          { pct: "<80%", desc: "Poor  optimize access patterns", color: "#ef4444" },
         ].map((r) => (
           <div key={r.pct} className="p-3 rounded-xl text-center border border-border-ui" style={{ backgroundColor: `${r.color}10` }}>
             <div className="text-xl font-bold font-heading" style={{ color: r.color }}>{r.pct}</div>
@@ -59,7 +59,7 @@ export default function CachingContent({ slug }: { slug: string; chapterId: numb
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold font-heading text-txt">Cache Invalidation — The Hard Problem</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">Cache Invalidation  The Hard Problem</h2>
       <p className="text-sm">
         Phil Karlton famously said: <em>"There are only two hard things in Computer Science: cache invalidation and naming things."</em>
       </p>

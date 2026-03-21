@@ -51,13 +51,13 @@ const questions = [
       "To enable faster upload from content creators",
     ],
     correct: 1,
-    explanation: "Adaptive Bitrate Streaming (ABR) adjusts video quality based on network conditions. Players switch between versions in real-time — switching to lower bitrate when bandwidth drops, higher when it improves. 1200+ versions cover all resolution/bitrate/codec combinations.",
+    explanation: "Adaptive Bitrate Streaming (ABR) adjusts video quality based on network conditions. Players switch between versions in real-time  switching to lower bitrate when bandwidth drops, higher when it improves. 1200+ versions cover all resolution/bitrate/codec combinations.",
   },
   {
     question: "What did Netflix pioneer to test system resilience?",
     options: [
       "Blue-green deployments",
-      "Chaos Engineering — intentionally injecting failures in production",
+      "Chaos Engineering  intentionally injecting failures in production",
       "Canary releases",
       "Feature flags",
     ],
@@ -100,7 +100,7 @@ export default function NetflixContent({ slug }: { slug: string; chapterId: numb
       <div className="space-y-3">
         {[
           { title: "Video Transcoding at Scale", detail: "Every uploaded title must be encoded into 1200+ variants. Netflix uses a distributed encoding pipeline (formerly on AWS EMR, now custom) that processes each video in parallel chunks across thousands of machines. Encoding a 2-hour movie takes hours even with parallelism.", color: "#ef4444" },
-          { title: "CDN Strategy", detail: "Netflix built Open Connect — their own CDN. Instead of paying for general CDN bandwidth, they deploy custom servers inside ISPs. Each box pre-loads popular content for that region. 95%+ of streaming traffic comes from Open Connect appliances, not Netflix data centers.", color: "#f59e0b" },
+          { title: "CDN Strategy", detail: "Netflix built Open Connect  their own CDN. Instead of paying for general CDN bandwidth, they deploy custom servers inside ISPs. Each box pre-loads popular content for that region. 95%+ of streaming traffic comes from Open Connect appliances, not Netflix data centers.", color: "#f59e0b" },
           { title: "Adaptive Bitrate Streaming", detail: "Players use HLS or MPEG-DASH to dynamically select video quality. If your network slows, the player seamlessly switches to a lower bitrate segment. Netflix builds custom adaptive algorithms that balance quality, buffer size, and switching frequency.", color: "#3b82f6" },
           { title: "Personalization at Scale", detail: "80% of watched content comes from recommendations. Netflix's ML models analyze viewing history, ratings, time of day, device type, and similar user behavior. The recommendation system runs on Apache Spark on AWS and updates models daily.", color: "#8b5cf6" },
         ].map((item) => (
@@ -127,7 +127,7 @@ export default function NetflixContent({ slug }: { slug: string; chapterId: numb
       </div>
 
       <KeyTakeaway variant="important">
-        Netflix invented Chaos Engineering — they run Chaos Monkey in production, randomly killing services to ensure resilience. Their microservices architecture (700+ services) is coordinated using Hystrix for circuit breaking and Eureka for service discovery. Every component is designed to degrade gracefully.
+        Netflix invented Chaos Engineering  they run Chaos Monkey in production, randomly killing services to ensure resilience. Their microservices architecture (700+ services) is coordinated using Hystrix for circuit breaking and Eureka for service discovery. Every component is designed to degrade gracefully.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

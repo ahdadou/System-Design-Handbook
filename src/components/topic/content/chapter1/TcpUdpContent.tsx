@@ -2,28 +2,7 @@
 import { KeyTakeaway } from "@/components/ui/KeyTakeaway";
 import { ComparisonTable } from "@/components/ui/ComparisonTable";
 import { QuizBlock } from "@/components/ui/QuizBlock";
-import { InteractiveDiagram } from "@/components/diagrams/InteractiveDiagram";
-import { SystemNode, StepNode } from "@/components/diagrams/CustomNodes";
-import { Node, Edge } from "@xyflow/react";
-
-const nodeTypes = { system: SystemNode, step: StepNode };
-
-const tcpNodes: Node[] = [
-  { id: "client", type: "system", position: { x: 50, y: 160 }, data: { label: "Client", icon: "💻", color: "#3b82f6" } },
-  { id: "syn", type: "step", position: { x: 220, y: 60 }, data: { label: "SYN", sublabel: "seq=0", step: 1, color: "#3b82f6" } },
-  { id: "synack", type: "step", position: { x: 220, y: 160 }, data: { label: "SYN-ACK", sublabel: "seq=0,ack=1", step: 2, color: "#06b6d4" } },
-  { id: "ack", type: "step", position: { x: 220, y: 260 }, data: { label: "ACK", sublabel: "ack=1", step: 3, color: "#10b981" } },
-  { id: "server", type: "system", position: { x: 390, y: 160 }, data: { label: "Server", icon: "🖥️", color: "#10b981" } },
-];
-
-const tcpEdges: Edge[] = [
-  { id: "e1", source: "client", target: "syn", animated: true, style: { stroke: "#3b82f6", strokeWidth: 2 } },
-  { id: "e2", source: "syn", target: "server", animated: true, style: { stroke: "#3b82f6", strokeWidth: 2 } },
-  { id: "e3", source: "server", target: "synack", animated: true, style: { stroke: "#06b6d4", strokeWidth: 2 } },
-  { id: "e4", source: "synack", target: "client", animated: true, style: { stroke: "#06b6d4", strokeWidth: 2 } },
-  { id: "e5", source: "client", target: "ack", animated: true, style: { stroke: "#10b981", strokeWidth: 2 } },
-  { id: "e6", source: "ack", target: "server", animated: true, style: { stroke: "#10b981", strokeWidth: 2 } },
-];
+import { TcpUdpAnimatedDiagram } from "@/components/diagrams/tcp-udp/TcpUdpAnimatedDiagram";
 
 const comparison = {
   columns: [
@@ -46,7 +25,7 @@ const comparison = {
 const questions = [
   {
     question: "Which protocol would you choose for a live video streaming application?",
-    options: ["TCP — because we need reliability", "UDP — because low latency matters more than perfect delivery", "Both, depending on network conditions", "Neither, use WebSockets instead"],
+    options: ["TCP  because we need reliability", "UDP  because low latency matters more than perfect delivery", "Both, depending on network conditions", "Neither, use WebSockets instead"],
     correct: 1,
     explanation: "UDP is preferred for live video/audio because a dropped frame is better than freezing the stream waiting for retransmission. Slight data loss is acceptable in real-time media.",
   },
@@ -81,21 +60,14 @@ export default function TcpUdpContent({ slug }: { slug: string; chapterId: numbe
         <strong className="text-txt">TCP (Transmission Control Protocol)</strong> and <strong className="text-txt">UDP (User Datagram Protocol)</strong> are the two core transport-layer protocols. Every internet application you've ever used chooses between them. Understanding this choice is fundamental to system design.
       </p>
 
-      <h2 className="text-2xl font-bold font-heading text-txt">TCP — The Reliable Workhorse</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">TCP  The Reliable Workhorse</h2>
       <p>
         TCP guarantees that data arrives in order, without errors, and without duplication. It achieves this through a connection establishment handshake, acknowledgment numbers, retransmission on loss, and flow/congestion control. The price is latency overhead.
       </p>
 
-      <InteractiveDiagram
-        nodes={tcpNodes}
-        edges={tcpEdges}
-        nodeTypes={nodeTypes}
-        title="TCP 3-Way Handshake"
-        description="The connection establishment dance before any data is exchanged"
-        height={360}
-      />
+      <TcpUdpAnimatedDiagram />
 
-      <h2 className="text-2xl font-bold font-heading text-txt">UDP — The Speed Demon</h2>
+      <h2 className="text-2xl font-bold font-heading text-txt">UDP  The Speed Demon</h2>
       <p>
         UDP just sends packets and doesn't care if they arrive. No connection setup, no acknowledgments, no retransmission. What you lose in reliability, you gain in raw speed and simplicity. Applications that need real-time performance often implement their own lightweight reliability on top of UDP (QUIC does this for HTTP/3).
       </p>

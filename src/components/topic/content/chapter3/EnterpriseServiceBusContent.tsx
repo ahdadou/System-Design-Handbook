@@ -47,7 +47,7 @@ const questions = [
     options: [
       "ESBs cannot handle legacy systems",
       "ESBs are too expensive for large enterprises",
-      "The ESB becomes a single point of failure and a bottleneck — all integration logic centralizes in one 'smart' bus",
+      "The ESB becomes a single point of failure and a bottleneck  all integration logic centralizes in one 'smart' bus",
       "ESBs do not support message transformation",
     ],
     correct: 2,
@@ -62,7 +62,7 @@ export default function EnterpriseServiceBusContent({ slug }: { slug: string; ch
         An <strong className="text-txt">Enterprise Service Bus (ESB)</strong> is a centralized middleware platform that connects multiple enterprise applications by acting as a hub for message routing, protocol translation, data transformation, and workflow orchestration. It originated in the SOA (Service-Oriented Architecture) era as a solution to the "N×M integration problem."
       </p>
       <p className="text-base leading-relaxed">
-        Without an ESB, N enterprise systems each needing to talk to M others requires up to N×M direct point-to-point integrations. With an ESB, every system connects to one hub — reducing connections to N+M. Popular ESB platforms include <span className="text-[#f59e0b] font-medium">MuleSoft</span>, <span className="text-[#f59e0b] font-medium">IBM MQ / App Connect</span>, <span className="text-[#f59e0b] font-medium">TIBCO</span>, and <span className="text-[#f59e0b] font-medium">WSO2</span>.
+        Without an ESB, N enterprise systems each needing to talk to M others requires up to N×M direct point-to-point integrations. With an ESB, every system connects to one hub  reducing connections to N+M. Popular ESB platforms include <span className="text-[#f59e0b] font-medium">MuleSoft</span>, <span className="text-[#f59e0b] font-medium">IBM MQ / App Connect</span>, <span className="text-[#f59e0b] font-medium">TIBCO</span>, and <span className="text-[#f59e0b] font-medium">WSO2</span>.
       </p>
 
       <InteractiveDiagram
@@ -78,9 +78,9 @@ export default function EnterpriseServiceBusContent({ slug }: { slug: string; ch
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
           { title: "Protocol Conversion", color: "#3b82f6", icon: "🔄", desc: "Translates between SOAP, REST, FTP, JMS, AMQP, and proprietary protocols. A mainframe that speaks CICS can communicate with a mobile app via JSON without either changing." },
-          { title: "Message Transformation", color: "#8b5cf6", icon: "✂️", desc: "Converts data formats — XML to JSON, CSV to XML, flat files to structured objects. Maps field names between systems (e.g. 'custId' → 'customer_id')." },
+          { title: "Message Transformation", color: "#8b5cf6", icon: "✂️", desc: "Converts data formats  XML to JSON, CSV to XML, flat files to structured objects. Maps field names between systems (e.g. 'custId' → 'customer_id')." },
           { title: "Content-Based Routing", color: "#06b6d4", icon: "🗺️", desc: "Routes messages to different destinations based on content. An order above $10,000 routes to manual approval; smaller orders go straight to fulfillment." },
-          { title: "Orchestration", color: "#f59e0b", icon: "🎼", desc: "Coordinates multi-step workflows across systems. The ESB calls System A, waits, transforms the response, calls System B with the result — acting as a process coordinator." },
+          { title: "Orchestration", color: "#f59e0b", icon: "🎼", desc: "Coordinates multi-step workflows across systems. The ESB calls System A, waits, transforms the response, calls System B with the result  acting as a process coordinator." },
           { title: "Security & Mediation", color: "#10b981", icon: "🔐", desc: "Enforces authentication (OAuth, SAML), authorization, encryption, and audit logging at the integration layer, centralizing security policy." },
           { title: "Monitoring & SLA", color: "#ef4444", icon: "📈", desc: "Tracks message throughput, latency, error rates, and SLA compliance across all integrations from a single dashboard." },
         ].map((c) => (
@@ -96,7 +96,7 @@ export default function EnterpriseServiceBusContent({ slug }: { slug: string; ch
 
       <h2 className="text-2xl font-bold font-heading text-txt">ESB vs Microservices: The Monolithic Bus Problem</h2>
       <p>
-        The ESB pattern predates microservices and reflects a different era. In practice, ESBs often accumulate business logic — routing rules, transformations, and orchestration that belong in services end up in the bus. This creates an <span className="text-[#ef4444] font-medium">integration monolith</span>: all teams depend on the ESB team for deployments, and the ESB becomes both a bottleneck and a single point of failure.
+        The ESB pattern predates microservices and reflects a different era. In practice, ESBs often accumulate business logic  routing rules, transformations, and orchestration that belong in services end up in the bus. This creates an <span className="text-[#ef4444] font-medium">integration monolith</span>: all teams depend on the ESB team for deployments, and the ESB becomes both a bottleneck and a single point of failure.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[#f59e0b]/10 border border-[#f59e0b]/30">
@@ -112,7 +112,7 @@ export default function EnterpriseServiceBusContent({ slug }: { slug: string; ch
           <div className="font-bold text-c-success text-sm font-heading mb-2">Modern Alternative</div>
           <ul className="text-xs space-y-1 text-txt-2">
             <li>• Microservices with lightweight message brokers (Kafka)</li>
-            <li>• "Dumb pipes, smart endpoints" — services own their logic</li>
+            <li>• "Dumb pipes, smart endpoints"  services own their logic</li>
             <li>• API Gateway for external-facing orchestration</li>
             <li>• Choreography over centralized orchestration</li>
           </ul>

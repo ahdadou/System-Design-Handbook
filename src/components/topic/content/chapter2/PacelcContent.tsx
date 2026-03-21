@@ -125,7 +125,7 @@ export default function PacelcContent({ slug }: { slug: string; chapterId: numbe
             db: "ZooKeeper / etcd",
             classification: "PC/EC",
             color: "#ef4444",
-            desc: "Designed for coordination and consensus. Consistency is paramount — a stale read in a distributed lock manager would be catastrophic. Latency is sacrificed for linearizability.",
+            desc: "Designed for coordination and consensus. Consistency is paramount  a stale read in a distributed lock manager would be catastrophic. Latency is sacrificed for linearizability.",
           },
         ].map((item) => (
           <div key={item.db} className="p-3 rounded-lg border border-border-ui bg-surface flex gap-3">
@@ -147,13 +147,13 @@ export default function PacelcContent({ slug }: { slug: string; chapterId: numbe
 
       <h2 className="text-2xl font-bold font-heading text-txt">Latency-Consistency Trade-off in Practice</h2>
       <p className="text-sm leading-relaxed">
-        The EL vs EC trade-off is present in every write to a multi-node database. To achieve consistency (EC), the primary must wait for replicas to acknowledge the write before confirming to the client. This adds round-trip latency. To achieve low latency (EL), the primary acknowledges immediately and replicates in the background — but a crash before replication completes means data loss.
+        The EL vs EC trade-off is present in every write to a multi-node database. To achieve consistency (EC), the primary must wait for replicas to acknowledge the write before confirming to the client. This adds round-trip latency. To achieve low latency (EL), the primary acknowledges immediately and replicates in the background  but a crash before replication completes means data loss.
       </p>
       <ul className="space-y-2 text-sm mt-3">
         {[
-          "Financial transactions, inventory management: use EC — the cost of stale data exceeds the latency penalty.",
-          "Social media feeds, product recommendations: use EL — slight staleness is invisible to users, but latency spikes hurt engagement.",
-          "Leaderboards, view counts: use EL — approximate values are acceptable and fast enough.",
+          "Financial transactions, inventory management: use EC  the cost of stale data exceeds the latency penalty.",
+          "Social media feeds, product recommendations: use EL  slight staleness is invisible to users, but latency spikes hurt engagement.",
+          "Leaderboards, view counts: use EL  approximate values are acceptable and fast enough.",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2 list-none">
             <span className="text-accent-2 shrink-0 mt-1">→</span>

@@ -32,7 +32,7 @@ const questions = [
       "To replace load balancers",
     ],
     correct: 1,
-    explanation: "An API Gateway acts as the front door for all API requests. It handles authentication, rate limiting, SSL termination, and routes requests to the appropriate microservice — so each service doesn't implement these concerns itself.",
+    explanation: "An API Gateway acts as the front door for all API requests. It handles authentication, rate limiting, SSL termination, and routes requests to the appropriate microservice  so each service doesn't implement these concerns itself.",
   },
 ];
 

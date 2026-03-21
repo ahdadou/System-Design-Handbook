@@ -3,13 +3,13 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const OSI_LAYERS = [
-  { n: 7, name: "Application", color: "#3b82f6", protocols: ["HTTP", "FTP", "SMTP", "DNS", "SSH"], desc: "Provides network services to end-user applications. This is where you interact with the network — browsers, email clients, etc.", pdu: "Data" },
-  { n: 6, name: "Presentation", color: "#06b6d4", protocols: ["SSL/TLS", "JPEG", "MPEG", "ASCII"], desc: "Translates data formats — encryption, compression, encoding. Ensures data is in a readable format for the application layer.", pdu: "Data" },
+  { n: 7, name: "Application", color: "#3b82f6", protocols: ["HTTP", "FTP", "SMTP", "DNS", "SSH"], desc: "Provides network services to end-user applications. This is where you interact with the network  browsers, email clients, etc.", pdu: "Data" },
+  { n: 6, name: "Presentation", color: "#06b6d4", protocols: ["SSL/TLS", "JPEG", "MPEG", "ASCII"], desc: "Translates data formats  encryption, compression, encoding. Ensures data is in a readable format for the application layer.", pdu: "Data" },
   { n: 5, name: "Session", color: "#8b5cf6", protocols: ["NetBIOS", "RPC", "SQL"], desc: "Manages sessions between applications. Establishes, maintains, and terminates connections between local and remote applications.", pdu: "Data" },
   { n: 4, name: "Transport", color: "#ec4899", protocols: ["TCP", "UDP", "SCTP"], desc: "End-to-end communication, segmentation, flow control, and error recovery. TCP provides reliability; UDP provides speed.", pdu: "Segment" },
   { n: 3, name: "Network", color: "#f59e0b", protocols: ["IP", "ICMP", "OSPF", "BGP"], desc: "Logical addressing (IP addresses) and routing packets across multiple networks to reach the destination.", pdu: "Packet" },
   { n: 2, name: "Data Link", color: "#ef4444", protocols: ["Ethernet", "WiFi", "ARP", "MAC"], desc: "Physical addressing (MAC addresses), error detection, and framing. Transfers data between adjacent network nodes.", pdu: "Frame" },
-  { n: 1, name: "Physical", color: "#475569", protocols: ["USB", "Ethernet cable", "Fiber", "Radio"], desc: "Raw bit transmission over physical medium — cables, radio waves, optical fiber. Defines electrical/mechanical specs.", pdu: "Bit" },
+  { n: 1, name: "Physical", color: "#475569", protocols: ["USB", "Ethernet cable", "Fiber", "Radio"], desc: "Raw bit transmission over physical medium  cables, radio waves, optical fiber. Defines electrical/mechanical specs.", pdu: "Bit" },
 ];
 
 export function OsiModelDiagram() {
@@ -31,7 +31,7 @@ export function OsiModelDiagram() {
     <div className="my-8 space-y-4">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h4 className="font-semibold text-[#f1f5f9] font-heading text-sm">OSI Model — 7 Layers</h4>
+          <h4 className="font-semibold text-[#f1f5f9] font-heading text-sm">OSI Model  7 Layers</h4>
           <p className="text-xs text-[#475569] mt-0.5">Click any layer to expand • Click 'Animate' to simulate data flow</p>
         </div>
         <button

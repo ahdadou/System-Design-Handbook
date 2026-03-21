@@ -30,7 +30,7 @@ const questions = [
     question: "What problem does CQRS solve?",
     options: [
       "Database replication lag",
-      "Read and write models have different requirements — CQRS separates them for independent optimization",
+      "Read and write models have different requirements  CQRS separates them for independent optimization",
       "Circular dependency between microservices",
       "Network latency between services",
     ],
@@ -56,7 +56,7 @@ export default function CqrsContent({ slug }: { slug: string; chapterId: number 
       </KeyTakeaway>
 
       <KeyTakeaway variant="warning">
-        CQRS adds significant complexity — separate models, eventual consistency between write and read DBs. Only use it when your read and write patterns are genuinely different at scale. For most apps, a single model is fine.
+        CQRS adds significant complexity  separate models, eventual consistency between write and read DBs. Only use it when your read and write patterns are genuinely different at scale. For most apps, a single model is fine.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

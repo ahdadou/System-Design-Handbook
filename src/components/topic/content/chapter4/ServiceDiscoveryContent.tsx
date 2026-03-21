@@ -10,10 +10,10 @@ const nodeTypes = { system: SystemNode, database: DatabaseNode };
 const nodes: Node[] = [
   { id: "client", type: "system", position: { x: 180, y: 0 }, data: { label: "Client", sublabel: "Makes service calls", icon: "💻", color: "#3b82f6", description: "In client-side discovery, the client queries the registry directly and load-balances itself. In server-side, it just calls a load balancer." } },
   { id: "registry", type: "database", position: { x: 180, y: 140 }, data: { label: "Service Registry", sublabel: "Consul / etcd / Eureka", icon: "📋", color: "#f59e0b", description: "Central source of truth for service locations. Services register on startup, deregister on shutdown. Supports health checks to auto-remove dead instances." } },
-  { id: "lb", type: "system", position: { x: 380, y: 140 }, data: { label: "Load Balancer", sublabel: "Server-side discovery", icon: "⚖️", color: "#06b6d4", description: "In server-side discovery, the LB queries the registry internally. Client only knows the LB address — simpler clients, more infra." } },
+  { id: "lb", type: "system", position: { x: 380, y: 140 }, data: { label: "Load Balancer", sublabel: "Server-side discovery", icon: "⚖️", color: "#06b6d4", description: "In server-side discovery, the LB queries the registry internally. Client only knows the LB address  simpler clients, more infra." } },
   { id: "svcA", type: "system", position: { x: 0, y: 300 }, data: { label: "Service A", sublabel: "Instance :8001", icon: "⚙️", color: "#10b981", description: "Registers: { name: 'payment', host: '10.0.1.5', port: 8001 }. Sends heartbeat every 10s. Registry marks dead after 3 missed beats." } },
   { id: "svcB", type: "system", position: { x: 180, y: 300 }, data: { label: "Service B", sublabel: "Instance :8002", icon: "⚙️", color: "#10b981", description: "Same service, different instance. Registry returns both. Client or LB picks using round-robin, least-connections, or random." } },
-  { id: "svcC", type: "system", position: { x: 360, y: 300 }, data: { label: "Service C", sublabel: "Instance :8003", icon: "⚙️", color: "#10b981", description: "Auto-scaling adds new instances. They self-register. Registry immediately reflects new capacity — no manual config." } },
+  { id: "svcC", type: "system", position: { x: 360, y: 300 }, data: { label: "Service C", sublabel: "Instance :8003", icon: "⚙️", color: "#10b981", description: "Auto-scaling adds new instances. They self-register. Registry immediately reflects new capacity  no manual config." } },
 ];
 
 const edges: Edge[] = [
@@ -36,7 +36,7 @@ const questions = [
       "Server-side discovery is always faster than client-side",
     ],
     correct: 1,
-    explanation: "Client-side discovery (e.g., Netflix Ribbon) gives the client full control and visibility but requires each client to implement load-balancing logic. Server-side discovery (e.g., AWS ALB + ECS) keeps clients simple — they just call a stable LB endpoint — but adds infrastructure complexity.",
+    explanation: "Client-side discovery (e.g., Netflix Ribbon) gives the client full control and visibility but requires each client to implement load-balancing logic. Server-side discovery (e.g., AWS ALB + ECS) keeps clients simple  they just call a stable LB endpoint  but adds infrastructure complexity.",
   },
   {
     question: "What happens in a service registry if an instance crashes without deregistering?",
@@ -55,10 +55,10 @@ export default function ServiceDiscoveryContent({ slug }: { slug: string; chapte
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        In a microservices architecture, services need to find each other to communicate. Unlike monoliths where function calls are direct, microservices run as separate processes with dynamic IPs — especially in containerized environments where Kubernetes reschedules pods constantly. <strong className="text-txt">Service Discovery</strong> solves this by maintaining a live registry of where every service instance is running.
+        In a microservices architecture, services need to find each other to communicate. Unlike monoliths where function calls are direct, microservices run as separate processes with dynamic IPs  especially in containerized environments where Kubernetes reschedules pods constantly. <strong className="text-txt">Service Discovery</strong> solves this by maintaining a live registry of where every service instance is running.
       </p>
       <p>
-        Before service discovery, ops teams hand-edited config files with IP addresses. When an instance died or scaled, configs went stale. Service discovery automates this entirely — services register themselves, the registry tracks health, and clients always get fresh, healthy endpoints.
+        Before service discovery, ops teams hand-edited config files with IP addresses. When an instance died or scaled, configs went stale. Service discovery automates this entirely  services register themselves, the registry tracks health, and clients always get fresh, healthy endpoints.
       </p>
 
       <InteractiveDiagram
@@ -128,8 +128,8 @@ export default function ServiceDiscoveryContent({ slug }: { slug: string; chapte
         {[
           { name: "Consul", icon: "🏛️", color: "#f59e0b", detail: "HashiCorp's all-in-one: service registry, health checks, KV store, service mesh. Supports multi-datacenter. Uses Raft consensus for consistency." },
           { name: "etcd", icon: "📦", color: "#3b82f6", detail: "The backbone of Kubernetes. Distributed KV store with strong consistency (Raft). Used for cluster state, not just service discovery." },
-          { name: "Eureka", icon: "☁️", color: "#ef4444", detail: "Netflix's battle-tested registry. AP system (favors availability). Clients cache the registry locally — still work if registry goes down briefly." },
-          { name: "Kubernetes DNS", icon: "⎈", color: "#06b6d4", detail: "In K8s, Services get a DNS name (my-svc.namespace.svc.cluster.local). kube-dns or CoreDNS resolves to ClusterIP. No SDK needed — just use the hostname." },
+          { name: "Eureka", icon: "☁️", color: "#ef4444", detail: "Netflix's battle-tested registry. AP system (favors availability). Clients cache the registry locally  still work if registry goes down briefly." },
+          { name: "Kubernetes DNS", icon: "⎈", color: "#06b6d4", detail: "In K8s, Services get a DNS name (my-svc.namespace.svc.cluster.local). kube-dns or CoreDNS resolves to ClusterIP. No SDK needed  just use the hostname." },
         ].map((item) => (
           <div key={item.name} className="p-3 rounded-xl border bg-surface" style={{ borderColor: `${item.color}40` }}>
             <div className="flex items-center gap-2 mb-1.5">
@@ -142,7 +142,7 @@ export default function ServiceDiscoveryContent({ slug }: { slug: string; chapte
       </div>
 
       <KeyTakeaway variant="info">
-        In Kubernetes, you rarely implement service discovery yourself — Services + CoreDNS handle it automatically. Focus on understanding the concepts for system design interviews and for environments outside K8s (multi-cloud, bare metal, hybrid). Consul remains the most popular choice for non-Kubernetes environments.
+        In Kubernetes, you rarely implement service discovery yourself  Services + CoreDNS handle it automatically. Focus on understanding the concepts for system design interviews and for environments outside K8s (multi-cloud, bare metal, hybrid). Consul remains the most popular choice for non-Kubernetes environments.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

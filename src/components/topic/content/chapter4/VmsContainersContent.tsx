@@ -11,14 +11,14 @@ const nodes: Node[] = [
   // VM side
   { id: "hw1", type: "system", position: { x: 0, y: 0 }, data: { label: "Physical Server", sublabel: "VM model", icon: "🖥️", color: "#3b82f6", description: "Same physical hardware underneath. VMs and containers both ultimately run on CPUs, RAM, and storage." } },
   { id: "hypervisor", type: "system", position: { x: 0, y: 120 }, data: { label: "Hypervisor", sublabel: "VMware / KVM / Hyper-V", icon: "⚡", color: "#3b82f6", description: "Type 1 (bare-metal): runs directly on hardware (VMware ESXi, KVM). Type 2 (hosted): runs on OS (VirtualBox, VMware Workstation). Emulates hardware for each VM." } },
-  { id: "vm1", type: "system", position: { x: 0, y: 260 }, data: { label: "VM 1", sublabel: "Guest OS + App", icon: "💻", color: "#8b5cf6", description: "Full OS (e.g., Ubuntu 22.04) + app. 1-2 GB RAM overhead just for OS. Boots in 30-60 seconds. Complete isolation — own kernel, network stack, filesystem." } },
-  { id: "vm2", type: "system", position: { x: 200, y: 260 }, data: { label: "VM 2", sublabel: "Guest OS + App", icon: "💻", color: "#8b5cf6", description: "Each VM has its own OS kernel. Can run Windows VM on Linux hypervisor. Strong security isolation — kernel exploits in one VM can't affect another." } },
+  { id: "vm1", type: "system", position: { x: 0, y: 260 }, data: { label: "VM 1", sublabel: "Guest OS + App", icon: "💻", color: "#8b5cf6", description: "Full OS (e.g., Ubuntu 22.04) + app. 1-2 GB RAM overhead just for OS. Boots in 30-60 seconds. Complete isolation  own kernel, network stack, filesystem." } },
+  { id: "vm2", type: "system", position: { x: 200, y: 260 }, data: { label: "VM 2", sublabel: "Guest OS + App", icon: "💻", color: "#8b5cf6", description: "Each VM has its own OS kernel. Can run Windows VM on Linux hypervisor. Strong security isolation  kernel exploits in one VM can't affect another." } },
   // Container side
-  { id: "hw2", type: "system", position: { x: 300, y: 0 }, data: { label: "Physical Server", sublabel: "Container model", icon: "🖥️", color: "#10b981", description: "Same physical hardware. Host OS kernel is shared by all containers — this is the key difference from VMs." } },
-  { id: "runtime", type: "system", position: { x: 300, y: 120 }, data: { label: "Container Runtime", sublabel: "Docker / containerd", icon: "🐳", color: "#06b6d4", description: "Uses Linux namespaces (process, network, filesystem isolation) and cgroups (CPU/memory limits). No hardware emulation — just OS-level isolation." } },
+  { id: "hw2", type: "system", position: { x: 300, y: 0 }, data: { label: "Physical Server", sublabel: "Container model", icon: "🖥️", color: "#10b981", description: "Same physical hardware. Host OS kernel is shared by all containers  this is the key difference from VMs." } },
+  { id: "runtime", type: "system", position: { x: 300, y: 120 }, data: { label: "Container Runtime", sublabel: "Docker / containerd", icon: "🐳", color: "#06b6d4", description: "Uses Linux namespaces (process, network, filesystem isolation) and cgroups (CPU/memory limits). No hardware emulation  just OS-level isolation." } },
   { id: "c1", type: "system", position: { x: 200, y: 260 }, data: { label: "Container 1", sublabel: "App only", icon: "📦", color: "#10b981", description: "Just the app + its dependencies. Shares host kernel. Starts in <1 second. 10-100 MB overhead vs 1-2 GB for VM. Perfect for microservices." } },
   { id: "c2", type: "system", position: { x: 360, y: 260 }, data: { label: "Container 2", sublabel: "App only", icon: "📦", color: "#10b981", description: "Shares same Linux kernel as other containers. Container escape vulnerabilities are rare but do exist. For untrusted workloads, use gVisor or Kata Containers for stronger isolation." } },
-  { id: "c3", type: "system", position: { x: 480, y: 260 }, data: { label: "Container 3", sublabel: "App only", icon: "📦", color: "#10b981", description: "More containers fit on same hardware vs VMs — typically 10-20x density improvement. This is why containers transformed cloud economics." } },
+  { id: "c3", type: "system", position: { x: 480, y: 260 }, data: { label: "Container 3", sublabel: "App only", icon: "📦", color: "#10b981", description: "More containers fit on same hardware vs VMs  typically 10-20x density improvement. This is why containers transformed cloud economics." } },
 ];
 
 const edges: Edge[] = [
@@ -36,12 +36,12 @@ const questions = [
     question: "Why do containers start up much faster than virtual machines?",
     options: [
       "Containers use faster CPUs",
-      "Containers share the host OS kernel and use namespace isolation — there is no OS to boot, just the application process",
+      "Containers share the host OS kernel and use namespace isolation  there is no OS to boot, just the application process",
       "Containers are smaller in file size",
       "Virtual machines must connect to the network before starting",
     ],
     correct: 1,
-    explanation: "VMs must boot an entire guest OS (BIOS/UEFI → kernel → init system → services) which takes 30-60 seconds. Containers use Linux namespaces and cgroups — the host kernel is already running. Starting a container is just forking a new process in an isolated namespace, which takes milliseconds.",
+    explanation: "VMs must boot an entire guest OS (BIOS/UEFI → kernel → init system → services) which takes 30-60 seconds. Containers use Linux namespaces and cgroups  the host kernel is already running. Starting a container is just forking a new process in an isolated namespace, which takes milliseconds.",
   },
   {
     question: "When would you choose a VM over a container?",
@@ -60,10 +60,10 @@ export default function VmsContainersContent({ slug }: { slug: string; chapterId
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-txt">Virtual Machines (VMs)</strong> emulate an entire computer — CPU, memory, storage, network — through a hypervisor. <strong className="text-txt">Containers</strong> package just the application and its dependencies, sharing the host OS kernel through Linux namespaces and cgroups. Both technologies solve the same problem — running multiple isolated workloads on shared hardware — but with radically different approaches and trade-offs.
+        <strong className="text-txt">Virtual Machines (VMs)</strong> emulate an entire computer  CPU, memory, storage, network  through a hypervisor. <strong className="text-txt">Containers</strong> package just the application and its dependencies, sharing the host OS kernel through Linux namespaces and cgroups. Both technologies solve the same problem  running multiple isolated workloads on shared hardware  but with radically different approaches and trade-offs.
       </p>
       <p>
-        The shift from VMs to containers fundamentally changed how software is deployed. Docker (2013) made containers accessible; Kubernetes (2014) made them orchestratable at scale. Understanding both remains essential — most production environments use VMs (EC2 instances) running containers (pods) simultaneously.
+        The shift from VMs to containers fundamentally changed how software is deployed. Docker (2013) made containers accessible; Kubernetes (2014) made them orchestratable at scale. Understanding both remains essential  most production environments use VMs (EC2 instances) running containers (pods) simultaneously.
       </p>
 
       <InteractiveDiagram
@@ -79,10 +79,10 @@ export default function VmsContainersContent({ slug }: { slug: string; chapterId
       <div className="space-y-2">
         {[
           { aspect: "Startup Time", vm: "30-60 seconds (OS boot)", container: "Milliseconds to seconds", winner: "container", color: "#10b981" },
-          { aspect: "Isolation Level", vm: "Full kernel isolation — own OS, network, filesystem", container: "Process-level — shared kernel, namespace isolation", winner: "vm", color: "#8b5cf6" },
+          { aspect: "Isolation Level", vm: "Full kernel isolation  own OS, network, filesystem", container: "Process-level  shared kernel, namespace isolation", winner: "vm", color: "#8b5cf6" },
           { aspect: "Memory Overhead", vm: "1-2 GB per VM (OS alone)", container: "10-100 MB (app + minimal libs)", winner: "container", color: "#10b981" },
           { aspect: "Instance Density", vm: "~10s per physical host", container: "100s-1000s per physical host", winner: "container", color: "#10b981" },
-          { aspect: "Security Boundary", vm: "Hypervisor — extremely hard to escape", container: "Kernel namespace — container escapes are possible", winner: "vm", color: "#8b5cf6" },
+          { aspect: "Security Boundary", vm: "Hypervisor  extremely hard to escape", container: "Kernel namespace  container escapes are possible", winner: "vm", color: "#8b5cf6" },
           { aspect: "Portability", vm: "Heavy image files (GBs), slow to move", container: "Layered OCI images, fast pull from registry", winner: "container", color: "#10b981" },
           { aspect: "OS Flexibility", vm: "Any OS (Linux, Windows, BSD) on same hypervisor", container: "Must match host kernel type (Linux on Linux, etc)", winner: "vm", color: "#8b5cf6" },
           { aspect: "Provisioning", vm: "Minutes (cloud API)", container: "Seconds (scheduler places immediately)", winner: "container", color: "#10b981" },
@@ -104,7 +104,7 @@ export default function VmsContainersContent({ slug }: { slug: string; chapterId
         {[
           { feature: "Linux Namespaces", color: "#06b6d4", desc: "Containers use 6 namespaces to create isolation: pid (process IDs), net (network interfaces), mnt (filesystem mounts), uts (hostname), ipc (inter-process communication), user (user IDs). Each container sees its own isolated view of these resources." },
           { feature: "cgroups (Control Groups)", color: "#3b82f6", desc: "Linux kernel feature that limits, accounts for, and isolates resource usage (CPU, memory, disk I/O, network). Docker --memory=512m and --cpus=1.5 use cgroups under the hood. Without cgroups, one container could starve all others." },
-          { feature: "Union Filesystems", color: "#8b5cf6", desc: "Docker images are layered using overlay filesystems (OverlayFS). Base layers are shared between containers (e.g., Ubuntu base layer). Only the writable container layer is unique per instance. This is why pulling a 500MB image reuses cached layers — fast and storage-efficient." },
+          { feature: "Union Filesystems", color: "#8b5cf6", desc: "Docker images are layered using overlay filesystems (OverlayFS). Base layers are shared between containers (e.g., Ubuntu base layer). Only the writable container layer is unique per instance. This is why pulling a 500MB image reuses cached layers  fast and storage-efficient." },
         ].map((item) => (
           <div key={item.feature} className="flex gap-3 p-4 rounded-xl bg-surface border border-border-ui">
             <div className="w-1 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
@@ -122,7 +122,7 @@ export default function VmsContainersContent({ slug }: { slug: string; chapterId
 
       <h2 className="text-2xl font-bold font-heading text-txt">Container Orchestration with Kubernetes</h2>
       <p>
-        Running containers in production at scale requires an orchestrator. Kubernetes abstracts away individual machines — you declare desired state (3 replicas of my-service) and K8s makes it happen.
+        Running containers in production at scale requires an orchestrator. Kubernetes abstracts away individual machines  you declare desired state (3 replicas of my-service) and K8s makes it happen.
       </p>
       <div className="grid grid-cols-2 gap-3">
         {[
@@ -142,7 +142,7 @@ export default function VmsContainersContent({ slug }: { slug: string; chapterId
       </div>
 
       <KeyTakeaway variant="tip">
-        For system design interviews: use containers (Kubernetes) for stateless services that need fast scaling and high density. Use VMs for stateful workloads (databases running outside K8s), legacy applications, and multi-tenant isolation. In practice, your K8s nodes are EC2 VMs — it's layers all the way down.
+        For system design interviews: use containers (Kubernetes) for stateless services that need fast scaling and high density. Use VMs for stateful workloads (databases running outside K8s), legacy applications, and multi-tenant isolation. In practice, your K8s nodes are EC2 VMs  it's layers all the way down.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

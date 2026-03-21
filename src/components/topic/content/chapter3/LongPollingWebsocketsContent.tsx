@@ -53,7 +53,7 @@ export default function LongPollingWebsocketsContent({ slug }: { slug: string; c
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        Traditional HTTP is request-response — the client asks, the server answers, connection closes. For real-time apps (chat, live scores, notifications), you need the server to push updates. Three patterns solve this: <strong className="text-txt">Long Polling</strong>, <strong className="text-txt">WebSockets</strong>, and <strong className="text-c-success">Server-Sent Events</strong>.
+        Traditional HTTP is request-response  the client asks, the server answers, connection closes. For real-time apps (chat, live scores, notifications), you need the server to push updates. Three patterns solve this: <strong className="text-txt">Long Polling</strong>, <strong className="text-txt">WebSockets</strong>, and <strong className="text-c-success">Server-Sent Events</strong>.
       </p>
 
       <InteractiveDiagram
@@ -113,7 +113,7 @@ export default function LongPollingWebsocketsContent({ slug }: { slug: string; c
       </div>
 
       <KeyTakeaway variant="tip">
-        For most real-time features (notifications, live feeds), SSE is the simplest choice — built-in reconnection, works over HTTP/2, and no extra infrastructure. Use WebSockets only when you need genuine bidirectional communication like chat or collaborative editing.
+        For most real-time features (notifications, live feeds), SSE is the simplest choice  built-in reconnection, works over HTTP/2, and no extra infrastructure. Use WebSockets only when you need genuine bidirectional communication like chat or collaborative editing.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

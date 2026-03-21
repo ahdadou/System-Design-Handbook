@@ -31,7 +31,7 @@ const questions = [
       "Federation splits data by rows; sharding splits by columns",
       "Federation splits by function/domain; sharding splits one table's rows across servers",
       "Federation only works with NoSQL; sharding only works with SQL",
-      "There is no difference — they are the same concept",
+      "There is no difference  they are the same concept",
     ],
     correct: 1,
     explanation: "Federation (functional partitioning) separates different data domains into dedicated databases (e.g., Users DB, Products DB). Sharding splits a single large table's rows across multiple servers using a shard key.",
@@ -53,10 +53,10 @@ export default function DatabaseFederationContent({ slug }: { slug: string; chap
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-txt">Database federation</strong> (also called functional partitioning) splits a monolithic database into multiple smaller, specialized databases — each responsible for a specific domain or function. Instead of one giant database handling users, products, orders, and analytics, you have four separate databases, each optimized for its purpose.
+        <strong className="text-txt">Database federation</strong> (also called functional partitioning) splits a monolithic database into multiple smaller, specialized databases  each responsible for a specific domain or function. Instead of one giant database handling users, products, orders, and analytics, you have four separate databases, each optimized for its purpose.
       </p>
       <p>
-        Unlike sharding which splits one large table across servers, federation splits entirely different <em>types</em> of data. An e-commerce platform might federate into: User DB, Product catalog DB, Order DB, and an Analytics DB. Each can use a different engine — relational for orders, Redis for sessions, ClickHouse for analytics.
+        Unlike sharding which splits one large table across servers, federation splits entirely different <em>types</em> of data. An e-commerce platform might federate into: User DB, Product catalog DB, Order DB, and an Analytics DB. Each can use a different engine  relational for orders, Redis for sessions, ClickHouse for analytics.
       </p>
 
       <InteractiveDiagram
@@ -72,7 +72,7 @@ export default function DatabaseFederationContent({ slug }: { slug: string; chap
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {[
           { icon: "⚡", title: "Better Cache Utilization", desc: "Smaller databases fit better in memory. A 10GB Users DB has a higher cache hit ratio than a 100GB monolithic DB.", color: "#3b82f6" },
-          { icon: "🔧", title: "Independent Scaling", desc: "Scale only the databases under load. If orders spike, scale only the Orders DB — don't touch Users or Products.", color: "#06b6d4" },
+          { icon: "🔧", title: "Independent Scaling", desc: "Scale only the databases under load. If orders spike, scale only the Orders DB  don't touch Users or Products.", color: "#06b6d4" },
           { icon: "🛡️", title: "Fault Isolation", desc: "A crash in the Analytics DB doesn't take down Orders or Users. Failures are contained to one domain.", color: "#10b981" },
           { icon: "🎯", title: "Technology Flexibility", desc: "Use the right DB for each job. Time-series data → InfluxDB. Graph data → Neo4j. Transactional data → PostgreSQL.", color: "#8b5cf6" },
         ].map((item) => (
@@ -90,7 +90,7 @@ export default function DatabaseFederationContent({ slug }: { slug: string; chap
       <div className="space-y-3">
         {[
           { issue: "Cross-database JOINs", detail: "You can't JOIN across databases. A query like 'get all orders with user name' requires two separate queries and in-application merging.", color: "#ef4444" },
-          { issue: "Distributed transactions", detail: "An order that updates both Orders DB and inventory in Products DB requires a distributed transaction (2PC or Saga) — complex and slow.", color: "#f59e0b" },
+          { issue: "Distributed transactions", detail: "An order that updates both Orders DB and inventory in Products DB requires a distributed transaction (2PC or Saga)  complex and slow.", color: "#f59e0b" },
           { issue: "Application complexity", detail: "The application must know which database to query for each type of data. The routing logic must be maintained as schemas evolve.", color: "#f59e0b" },
         ].map((item) => (
           <div key={item.issue} className="p-3 rounded-lg border border-border-ui bg-surface flex gap-3">

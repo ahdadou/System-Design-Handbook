@@ -2,6 +2,7 @@
 import { KeyTakeaway } from "@/components/ui/KeyTakeaway";
 import { ComparisonTable } from "@/components/ui/ComparisonTable";
 import { QuizBlock } from "@/components/ui/QuizBlock";
+import { ProxyFlowDiagram } from "@/components/diagrams/proxy/ProxyFlowDiagram";
 
 const questions = [
   {
@@ -44,6 +45,8 @@ export default function ProxyContent({ slug }: { slug: string; chapterId: number
       <p className="text-sm">
         A <strong className="text-txt">reverse proxy</strong> sits in front of your servers. Clients see the proxy's address, not your actual servers. This enables SSL termination, load balancing, rate limiting, caching, and hiding backend architecture.
       </p>
+
+      <ProxyFlowDiagram />
 
       <ComparisonTable
         title="Forward vs Reverse Proxy"

@@ -18,7 +18,7 @@ const questions = [
       "It doesn't work with HTTP",
     ],
     correct: 1,
-    explanation: "With a 100 req/min fixed window, a user can send 100 requests in the last second of one window and 100 in the first second of the next — effectively 200 req/2s. Sliding window solves this.",
+    explanation: "With a 100 req/min fixed window, a user can send 100 requests in the last second of one window and 100 in the first second of the next  effectively 200 req/2s. Sliding window solves this.",
   },
 ];
 
@@ -45,7 +45,7 @@ export default function RateLimitingContent({ slug }: { slug: string; chapterId:
             color: "#06b6d4",
             desc: "Requests queue in a fixed-size bucket. Processed at constant rate. If bucket full, request dropped.",
             pros: "Smooth, constant output rate. Good for downstream protection.",
-            cons: "Bursts are queued/dropped — no burst allowance.",
+            cons: "Bursts are queued/dropped  no burst allowance.",
             example: "Network traffic shaping, streaming pipelines",
           },
           {

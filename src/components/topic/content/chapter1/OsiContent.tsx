@@ -65,10 +65,10 @@ export default function OsiContent({ slug }: { slug: string; chapterId: number }
       <h2 className="text-2xl font-bold font-heading text-txt">Why It Matters for System Design</h2>
       <ul className="space-y-2 list-none text-sm">
         {[
-          "Load balancers operate at L4 (TCP) or L7 (HTTP) — understanding this helps you choose the right type",
-          "Firewalls can filter at L3 (IP) or L7 (application) — L7 firewalls are smarter but more expensive",
-          "CDNs operate at L7 — they can inspect HTTP headers and cache content intelligently",
-          "VPNs operate at L3 — they create a secure tunnel by wrapping packets in new IP packets",
+          "Load balancers operate at L4 (TCP) or L7 (HTTP)  understanding this helps you choose the right type",
+          "Firewalls can filter at L3 (IP) or L7 (application)  L7 firewalls are smarter but more expensive",
+          "CDNs operate at L7  they can inspect HTTP headers and cache content intelligently",
+          "VPNs operate at L3  they create a secure tunnel by wrapping packets in new IP packets",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
             <span className="text-accent mt-1">→</span>

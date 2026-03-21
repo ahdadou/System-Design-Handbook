@@ -51,7 +51,7 @@ export default function EventSourcingContent({ slug }: { slug: string; chapterId
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-txt">Event Sourcing</strong> is a pattern where instead of storing only the current state of data, you store the full sequence of events that led to that state. An order isn't a row with status=&quot;SHIPPED&quot; — it's a log of events: OrderPlaced → PaymentReceived → ItemPicked → Shipped.
+        <strong className="text-txt">Event Sourcing</strong> is a pattern where instead of storing only the current state of data, you store the full sequence of events that led to that state. An order isn't a row with status=&quot;SHIPPED&quot;  it's a log of events: OrderPlaced → PaymentReceived → ItemPicked → Shipped.
       </p>
       <p>
         The current state is computed by replaying events. This gives you a perfect audit log, the ability to travel back in time, and the ability to project the same events into multiple different read models simultaneously.
@@ -69,9 +69,9 @@ export default function EventSourcingContent({ slug }: { slug: string; chapterId
       <h2 className="text-2xl font-bold font-heading text-txt">Core Concepts</h2>
       <div className="space-y-3">
         {[
-          { term: "Event Store", def: "An append-only database that persists events in order. Never update or delete events — only append new ones. Kafka, EventStoreDB, or a simple Postgres table work.", color: "#8b5cf6" },
+          { term: "Event Store", def: "An append-only database that persists events in order. Never update or delete events  only append new ones. Kafka, EventStoreDB, or a simple Postgres table work.", color: "#8b5cf6" },
           { term: "Aggregate", def: "The domain object whose state is rebuilt by replaying its events. An Order aggregate replays all order events to compute current status.", color: "#3b82f6" },
-          { term: "Projection", def: "A read model built by processing events. Multiple projections can exist for the same events — one for customer UI, another for analytics, another for search.", color: "#10b981" },
+          { term: "Projection", def: "A read model built by processing events. Multiple projections can exist for the same events  one for customer UI, another for analytics, another for search.", color: "#10b981" },
           { term: "Snapshot", def: "A periodic capture of an aggregate's state at a specific event sequence number. Avoids replaying thousands of events on every read.", color: "#f59e0b" },
         ].map((item) => (
           <div key={item.term} className="p-3 rounded-lg border border-border-ui bg-surface flex gap-3">
@@ -89,7 +89,7 @@ export default function EventSourcingContent({ slug }: { slug: string; chapterId
         {[
           { title: "Complete Audit Trail", desc: "Every change is recorded. Perfect for compliance, debugging, and understanding exactly what happened.", icon: "📜" },
           { title: "Time Travel", desc: "Rebuild the state of any entity at any point in time by replaying events up to a specific timestamp.", icon: "⏱️" },
-          { title: "Multiple Read Models", desc: "Project the same events into different shapes for different use cases — OLTP view, analytics view, search index.", icon: "📊" },
+          { title: "Multiple Read Models", desc: "Project the same events into different shapes for different use cases  OLTP view, analytics view, search index.", icon: "📊" },
           { title: "Event Replay", desc: "Fix bugs in projections by replaying all events with corrected logic. Eliminates data migration scripts.", icon: "🔄" },
         ].map((item) => (
           <div key={item.title} className="p-4 rounded-xl border border-border-ui bg-surface">

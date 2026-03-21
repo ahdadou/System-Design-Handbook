@@ -38,10 +38,10 @@ export default function LoadBalancingContent({ slug }: { slug: string; chapterId
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        A <strong className="text-txt">load balancer</strong> sits between clients and a pool of servers, distributing incoming requests across multiple instances. It's the foundation of horizontal scalability — without it, scaling out means nothing because all traffic would hit one server.
+        A <strong className="text-txt">load balancer</strong> sits between clients and a pool of servers, distributing incoming requests across multiple instances. It's the foundation of horizontal scalability  without it, scaling out means nothing because all traffic would hit one server.
       </p>
       <p>
-        Load balancers also provide fault tolerance: if a server dies, the load balancer stops sending traffic to it. They can perform health checks, SSL termination, and rate limiting — making them a critical piece of production infrastructure.
+        Load balancers also provide fault tolerance: if a server dies, the load balancer stops sending traffic to it. They can perform health checks, SSL termination, and rate limiting  making them a critical piece of production infrastructure.
       </p>
 
       <h2 className="text-2xl font-bold font-heading text-txt">Interactive Load Balancer</h2>

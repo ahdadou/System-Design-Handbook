@@ -8,7 +8,7 @@ const questions = [
     question: "What is the main advantage of Pub/Sub over direct service-to-service calls?",
     options: [
       "Pub/Sub is always faster",
-      "Pub/Sub decouples publishers from subscribers — they don't need to know about each other",
+      "Pub/Sub decouples publishers from subscribers  they don't need to know about each other",
       "Pub/Sub provides stronger consistency",
       "Pub/Sub requires fewer servers",
     ],
@@ -30,7 +30,7 @@ export default function PubSubContent({ slug }: { slug: string; chapterId: numbe
         <strong className="text-txt">Publish-Subscribe (Pub/Sub)</strong> is a messaging pattern where senders (publishers) emit messages to named channels (topics) without knowing who receives them. Subscribers express interest in topics and receive all messages published to them.
       </p>
       <p>
-        This pattern is the backbone of event-driven architectures. When a user places an order, the Order Service publishes an <code className="text-accent-2 bg-[#06b6d4]/10 px-1 rounded">order.created</code> event. The Inventory Service, Email Service, and Analytics Service all subscribe independently — no coupling, no cascading failures.
+        This pattern is the backbone of event-driven architectures. When a user places an order, the Order Service publishes an <code className="text-accent-2 bg-[#06b6d4]/10 px-1 rounded">order.created</code> event. The Inventory Service, Email Service, and Analytics Service all subscribe independently  no coupling, no cascading failures.
       </p>
 
       <PubSubDiagram />
@@ -58,7 +58,7 @@ export default function PubSubContent({ slug }: { slug: string; chapterId: numbe
       </div>
 
       <KeyTakeaway variant="important">
-        Kafka is durable Pub/Sub — messages are retained for days/weeks on disk. A new subscriber can replay the entire event history from day 1. This is impossible with traditional message queues and enables powerful event sourcing patterns.
+        Kafka is durable Pub/Sub  messages are retained for days/weeks on disk. A new subscriber can replay the entire event history from day 1. This is impossible with traditional message queues and enables powerful event sourcing patterns.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

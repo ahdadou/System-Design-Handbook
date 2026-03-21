@@ -63,17 +63,15 @@ export function ComparisonTable({ title, columns, rows, verdict }: Props) {
             {rows.map((row, i) => (
               <tr
                 key={i}
-                className={`border-t border-[#1e293b] transition-colors ${
-                  i % 2 === 0 ? "bg-[#0a0e17]" : "bg-[#111827]/50"
-                } hover:bg-[#1a2332]`}
+                className={`border-t border-[#1e293b] transition-colors ${i % 2 === 0 ? "bg-[#0a0e17]" : "bg-[#111827]/50"
+                  } hover:bg-[#1a2332]`}
               >
                 <td className="px-4 py-3 text-sm font-medium text-[#f1f5f9]">{row.feature}</td>
                 {columns.map((col) => (
                   <td
                     key={col.key}
-                    className={`px-4 py-3 text-center transition-colors ${
-                      hoveredCol === col.key ? "bg-[#3b82f6]/5" : ""
-                    }`}
+                    className={`px-4 py-3 text-center transition-colors ${hoveredCol === col.key ? "bg-[#3b82f6]/5" : ""
+                      }`}
                   >
                     {renderCell(row[col.key] as string | boolean | null)}
                   </td>
@@ -91,7 +89,7 @@ export function ComparisonTable({ title, columns, rows, verdict }: Props) {
                       backgroundColor: `${col.color || "#3b82f6"}20`,
                       color: col.color || "#3b82f6",
                     }}>
-                      {verdict[col.key] || "—"}
+                      {verdict[col.key] || ""}
                     </span>
                   </td>
                 ))}

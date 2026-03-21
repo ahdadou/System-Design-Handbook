@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonicalUrl = `${BASE_URL}/chapter-${chapter.id}`;
 
   return {
-    title: `Chapter ${chapter.id}: ${chapter.title} — System Design`,
+    title: `Chapter ${chapter.id}: ${chapter.title}  System Design`,
     description: chapter.seoDescription,
     keywords: [
       ...chapter.keywords,

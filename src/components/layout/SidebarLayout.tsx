@@ -25,7 +25,7 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
     }
   }, [darkMode]);
 
-  // On small screens default to sidebar closed (but not collapsed — mini still shows)
+  // On small screens default to sidebar closed (but not collapsed  mini still shows)
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) setSidebarOpen(false);

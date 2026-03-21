@@ -8,18 +8,18 @@ const questions = [
     question: "What problem does GraphQL solve that REST struggles with?",
     options: [
       "GraphQL is faster than REST",
-      "Over-fetching and under-fetching — clients get exactly the data they need",
+      "Over-fetching and under-fetching  clients get exactly the data they need",
       "GraphQL provides better security",
       "GraphQL works without an internet connection",
     ],
     correct: 1,
-    explanation: "REST returns fixed response shapes. GraphQL lets clients specify exactly what fields they need — no more getting a 50-field object when you need 3 fields (over-fetching), or making 5 calls to get related data (under-fetching).",
+    explanation: "REST returns fixed response shapes. GraphQL lets clients specify exactly what fields they need  no more getting a 50-field object when you need 3 fields (over-fetching), or making 5 calls to get related data (under-fetching).",
   },
   {
     question: "Why would you choose gRPC for internal microservice communication?",
     options: [
       "gRPC has better browser support than REST",
-      "gRPC uses Protocol Buffers for efficient binary serialization — 5-10x smaller and faster than JSON",
+      "gRPC uses Protocol Buffers for efficient binary serialization  5-10x smaller and faster than JSON",
       "gRPC is easier to debug",
       "gRPC supports caching better",
     ],

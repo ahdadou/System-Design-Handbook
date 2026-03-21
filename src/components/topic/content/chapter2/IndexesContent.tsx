@@ -16,9 +16,9 @@ const questions = [
   },
   {
     question: "If your table has 1 billion rows and no index, what is the query complexity of finding a record by a non-primary-key column?",
-    options: ["O(1)", "O(log n)", "O(n) — full table scan", "O(n²)"],
+    options: ["O(1)", "O(log n)", "O(n)  full table scan", "O(n²)"],
     correct: 2,
-    explanation: "Without an index, the database must scan every row (O(n) full table scan). On a billion-row table, this could take minutes. An index reduces this to O(log n) — milliseconds.",
+    explanation: "Without an index, the database must scan every row (O(n) full table scan). On a billion-row table, this could take minutes. An index reduces this to O(log n)  milliseconds.",
   },
 ];
 
@@ -26,11 +26,11 @@ export default function IndexesContent({ slug }: { slug: string; chapterId: numb
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        A <strong className="text-txt">database index</strong> is a data structure that improves the speed of data retrieval operations at the cost of additional storage and slower writes. Without indexes, every query would require a full table scan — reading every row to find matches.
+        A <strong className="text-txt">database index</strong> is a data structure that improves the speed of data retrieval operations at the cost of additional storage and slower writes. Without indexes, every query would require a full table scan  reading every row to find matches.
       </p>
 
       <h2 className="text-2xl font-bold font-heading text-txt">How Indexes Work</h2>
-      <p className="text-sm">Most databases use <strong className="text-txt">B-tree indexes</strong> (balanced binary search tree). They maintain sorted copies of column values pointing to row locations. A B-tree lookup is O(log n) — searching 1 billion rows takes only ~30 comparisons.</p>
+      <p className="text-sm">Most databases use <strong className="text-txt">B-tree indexes</strong> (balanced binary search tree). They maintain sorted copies of column values pointing to row locations. A B-tree lookup is O(log n)  searching 1 billion rows takes only ~30 comparisons.</p>
 
       <h2 className="text-2xl font-bold font-heading text-txt">Dense vs Sparse Indexes</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -53,7 +53,7 @@ export default function IndexesContent({ slug }: { slug: string; chapterId: numb
       <h2 className="text-2xl font-bold font-heading text-txt">Index Best Practices</h2>
       <ul className="space-y-2 text-sm list-none">
         {[
-          "Always index foreign keys — JOINs without indexed FKs are extremely slow",
+          "Always index foreign keys  JOINs without indexed FKs are extremely slow",
           "Use composite indexes for multi-column WHERE clauses (index on (user_id, created_at))",
           "Index columns used in ORDER BY to avoid expensive sort operations",
           "Partial indexes for subsets of data (WHERE status = 'active') to keep indexes small",

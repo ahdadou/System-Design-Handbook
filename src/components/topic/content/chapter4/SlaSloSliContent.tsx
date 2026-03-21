@@ -30,13 +30,13 @@ const questions = [
       "9 hours",
     ],
     correct: 1,
-    explanation: "99.9% SLO means 0.1% downtime allowed. 30 days × 24h × 60min = 43,200 minutes/month. 0.001 × 43,200 = 43.2 minutes. This is the error budget — exceed it and you must freeze deployments to protect reliability.",
+    explanation: "99.9% SLO means 0.1% downtime allowed. 30 days × 24h × 60min = 43,200 minutes/month. 0.001 × 43,200 = 43.2 minutes. This is the error budget  exceed it and you must freeze deployments to protect reliability.",
   },
   {
     question: "Why should your SLA always be set lower than your SLO?",
     options: [
       "Because SLAs are measured in different units than SLOs",
-      "To create a safety buffer — if your service dips below SLO you have time to recover before breaching the contractual SLA",
+      "To create a safety buffer  if your service dips below SLO you have time to recover before breaching the contractual SLA",
       "SLAs and SLOs must always be equal for legal reasons",
       "To give customers a more optimistic view of your service",
     ],
@@ -49,10 +49,10 @@ export default function SlaSloSliContent({ slug }: { slug: string; chapterId: nu
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-txt">SLI, SLO, and SLA</strong> are the reliability vocabulary of production systems, codified by Google's Site Reliability Engineering (SRE) practice. They give engineering teams a precise, data-driven way to define, measure, and commit to service reliability — moving from vague promises ("we'll be up") to concrete, measurable targets.
+        <strong className="text-txt">SLI, SLO, and SLA</strong> are the reliability vocabulary of production systems, codified by Google's Site Reliability Engineering (SRE) practice. They give engineering teams a precise, data-driven way to define, measure, and commit to service reliability  moving from vague promises ("we'll be up") to concrete, measurable targets.
       </p>
       <p>
-        The relationship is hierarchical: SLIs are your raw measurements, SLOs are your targets built on those measurements, and SLAs are the contractual promises you make to customers backed by your SLOs — with a safety buffer in between.
+        The relationship is hierarchical: SLIs are your raw measurements, SLOs are your targets built on those measurements, and SLAs are the contractual promises you make to customers backed by your SLOs  with a safety buffer in between.
       </p>
 
       <InteractiveDiagram
@@ -68,25 +68,25 @@ export default function SlaSloSliContent({ slug }: { slug: string; chapterId: nu
       <div className="space-y-3">
         {[
           {
-            term: "SLI — Service Level Indicator",
+            term: "SLI  Service Level Indicator",
             color: "#3b82f6",
             icon: "📊",
             def: "A quantitative measurement of some aspect of the service. Must be something you can actually instrument and measure continuously.",
             examples: ["Request success rate: (successful requests / total requests) × 100", "p99 latency: 99th percentile response time in ms", "Error rate: 5xx responses / total responses", "Throughput: requests per second served"],
           },
           {
-            term: "SLO — Service Level Objective",
+            term: "SLO  Service Level Objective",
             color: "#8b5cf6",
             icon: "🎯",
-            def: "An internal target range for an SLI. 'X% of requests should complete in under Y ms over a rolling 30-day window.' SLOs drive engineering priorities — if you're burning through your error budget, you stop shipping features and fix reliability.",
+            def: "An internal target range for an SLI. 'X% of requests should complete in under Y ms over a rolling 30-day window.' SLOs drive engineering priorities  if you're burning through your error budget, you stop shipping features and fix reliability.",
             examples: ["99.9% of requests return 2xx over 30 days", "p99 latency < 200ms over 7 days", "Error rate < 0.1% per hour", "Availability > 99.95% per calendar month"],
           },
           {
-            term: "SLA — Service Level Agreement",
+            term: "SLA  Service Level Agreement",
             color: "#10b981",
             icon: "📝",
             def: "A legal contract between the service provider and the customer. Must be achievable (backed by your SLO minus a buffer) and includes consequences for breach: financial credits, refunds, or contract termination rights.",
-            examples: ["AWS EC2: 99.99% monthly uptime — 10-30% service credit if breached", "GCP: 99.9% for Compute Engine — financial credits per downtime tier", "Stripe: No formal uptime SLA — status page only", "Enterprise SaaS: Custom SLAs negotiated per contract"],
+            examples: ["AWS EC2: 99.99% monthly uptime  10-30% service credit if breached", "GCP: 99.9% for Compute Engine  financial credits per downtime tier", "Stripe: No formal uptime SLA  status page only", "Enterprise SaaS: Custom SLAs negotiated per contract"],
           },
         ].map((item) => (
           <div key={item.term} className="p-4 rounded-xl border bg-surface" style={{ borderColor: `${item.color}40` }}>
@@ -127,7 +127,7 @@ export default function SlaSloSliContent({ slug }: { slug: string; chapterId: nu
       </div>
 
       <KeyTakeaway variant="warning">
-        When your error budget is exhausted, halt all non-critical deployments. The only permitted work is reliability improvements. This creates a healthy tension: product teams want to ship fast, SRE teams want stability — the error budget is the objective arbiter between them.
+        When your error budget is exhausted, halt all non-critical deployments. The only permitted work is reliability improvements. This creates a healthy tension: product teams want to ship fast, SRE teams want stability  the error budget is the objective arbiter between them.
       </KeyTakeaway>
 
       <h2 className="text-2xl font-bold font-heading text-txt">Common SLIs by System Type</h2>
@@ -149,7 +149,7 @@ export default function SlaSloSliContent({ slug }: { slug: string; chapterId: nu
       </div>
 
       <KeyTakeaway variant="success">
-        Google's SRE book recommends starting with just 3-5 SLIs per service. Too many SLIs create alert fatigue and competing priorities. Focus on what users actually experience — not internal metrics like CPU or memory. If users can't tell, it probably shouldn't be an SLI.
+        Google's SRE book recommends starting with just 3-5 SLIs per service. Too many SLIs create alert fatigue and competing priorities. Focus on what users actually experience  not internal metrics like CPU or memory. If users can't tell, it probably shouldn't be an SLI.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

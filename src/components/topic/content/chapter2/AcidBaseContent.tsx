@@ -8,7 +8,7 @@ const questions = [
     question: "In ACID transactions, what does 'Isolation' mean?",
     options: [
       "Transactions run on isolated servers",
-      "Concurrent transactions execute as if they run sequentially — no dirty reads",
+      "Concurrent transactions execute as if they run sequentially  no dirty reads",
       "Data is isolated to one database",
       "Transactions are isolated from network failures",
     ],
@@ -17,7 +17,7 @@ const questions = [
   },
   {
     question: "Which consistency model does Cassandra use by default?",
-    options: ["ACID", "BASE — eventually consistent", "SERIALIZABLE", "READ COMMITTED"],
+    options: ["ACID", "BASE  eventually consistent", "SERIALIZABLE", "READ COMMITTED"],
     correct: 1,
     explanation: "Cassandra uses BASE (Basically Available, Soft state, Eventually consistent) by default. Writes propagate to all nodes eventually. You can tune consistency level (ONE, QUORUM, ALL) per query.",
   },
@@ -27,7 +27,7 @@ export default function AcidBaseContent({ slug }: { slug: string; chapterId: num
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-txt">ACID</strong> and <strong className="text-txt">BASE</strong> are competing consistency models for databases. ACID prioritizes correctness; BASE prioritizes availability and performance. The rise of distributed systems made BASE models popular — they're more achievable across multiple machines.
+        <strong className="text-txt">ACID</strong> and <strong className="text-txt">BASE</strong> are competing consistency models for databases. ACID prioritizes correctness; BASE prioritizes availability and performance. The rise of distributed systems made BASE models popular  they're more achievable across multiple machines.
       </p>
 
       <h2 className="text-2xl font-bold font-heading text-txt">ACID Properties</h2>
@@ -49,10 +49,10 @@ export default function AcidBaseContent({ slug }: { slug: string; chapterId: num
       </div>
 
       <h2 className="text-2xl font-bold font-heading text-txt">BASE Properties</h2>
-      <p className="text-sm">BASE is the opposite philosophy — sacrifice strict consistency for higher availability and performance in distributed systems.</p>
+      <p className="text-sm">BASE is the opposite philosophy  sacrifice strict consistency for higher availability and performance in distributed systems.</p>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
         {[
-          { prop: "Basically Available", desc: "System is available most of the time — failures are partial, not total", color: "#f59e0b" },
+          { prop: "Basically Available", desc: "System is available most of the time  failures are partial, not total", color: "#f59e0b" },
           { prop: "Soft State", desc: "State of the system may change over time, even without new input (replication lag)", color: "#f59e0b" },
           { prop: "Eventually Consistent", desc: "Given enough time with no new updates, all replicas converge to the same value", color: "#f59e0b" },
         ].map((p) => (

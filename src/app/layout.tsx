@@ -29,7 +29,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: "System Design Academy — Learn System Design Interactively",
+    default: "System Design Academy  Learn System Design Interactively",
     template: "%s | System Design Academy",
   },
   description:
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: BASE_URL,
     siteName: "System Design Academy",
-    title: "System Design Academy — Learn System Design Interactively",
+    title: "System Design Academy  Learn System Design Interactively",
     description:
       "Master system design with 55 interactive topics. Interactive diagrams, quizzes, and real-world case studies for engineers and interview prep.",
     images: [
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "System Design Academy — Learn System Design Interactively",
+    title: "System Design Academy  Learn System Design Interactively",
     description:
       "55 interactive system design topics: load balancing, caching, databases, microservices, and real-world case studies.",
     images: ["/og-image.png"],

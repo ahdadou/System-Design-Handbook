@@ -8,8 +8,8 @@ import { Node, Edge } from "@xyflow/react";
 const nodeTypes = { system: SystemNode, database: DatabaseNode };
 
 const nodes: Node[] = [
-  { id: "primary", type: "system", position: { x: 180, y: 0 }, data: { label: "Primary Site", sublabel: "Active production", icon: "🏢", color: "#3b82f6", description: "Running primary system. Disaster event occurs — data center fire, region outage, ransomware attack. RTO/RPO define acceptable recovery bounds." } },
-  { id: "disaster", type: "system", position: { x: 180, y: 120 }, data: { label: "Disaster Event", sublabel: "Region outage / failure", icon: "💥", color: "#ef4444", description: "The moment of failure. RPO is measured backward from this moment — how much data is lost. RTO is measured forward — how long until recovery." } },
+  { id: "primary", type: "system", position: { x: 180, y: 0 }, data: { label: "Primary Site", sublabel: "Active production", icon: "🏢", color: "#3b82f6", description: "Running primary system. Disaster event occurs  data center fire, region outage, ransomware attack. RTO/RPO define acceptable recovery bounds." } },
+  { id: "disaster", type: "system", position: { x: 180, y: 120 }, data: { label: "Disaster Event", sublabel: "Region outage / failure", icon: "💥", color: "#ef4444", description: "The moment of failure. RPO is measured backward from this moment  how much data is lost. RTO is measured forward  how long until recovery." } },
   { id: "cold", type: "system", position: { x: 0, y: 280 }, data: { label: "Cold Standby", sublabel: "RTO: hours", icon: "❄️", color: "#94a3b8", description: "Hardware exists but is powered off. Must provision infra, restore from backup, and reconfigure. Cheapest option. Used for non-critical workloads." } },
   { id: "warm", type: "system", position: { x: 180, y: 280 }, data: { label: "Warm Standby", sublabel: "RTO: minutes", icon: "🌤️", color: "#f59e0b", description: "Scaled-down running replica. Catches up from backups/replication. Scaled up during failover. Moderate cost. Most common production DR." } },
   { id: "hot", type: "system", position: { x: 360, y: 280 }, data: { label: "Hot Standby", sublabel: "RTO: seconds", icon: "🔥", color: "#10b981", description: "Full-capacity replica running and in sync. DNS/LB failover only. Highest cost. Required for financial systems, healthcare, critical infrastructure." } },
@@ -34,7 +34,7 @@ const questions = [
       "The system must have 1 hour of downtime tolerance",
     ],
     correct: 1,
-    explanation: "RPO (Recovery Point Objective) defines the maximum acceptable data loss measured in time. An RPO of 1 hour means backups or replication must capture data at least every hour — if disaster strikes, you may lose up to 1 hour of transactions. Lower RPO requires more frequent backups or synchronous replication.",
+    explanation: "RPO (Recovery Point Objective) defines the maximum acceptable data loss measured in time. An RPO of 1 hour means backups or replication must capture data at least every hour  if disaster strikes, you may lose up to 1 hour of transactions. Lower RPO requires more frequent backups or synchronous replication.",
   },
   {
     question: "What is the main trade-off between cold standby and hot standby DR strategies?",
@@ -53,10 +53,10 @@ export default function DisasterRecoveryContent({ slug }: { slug: string; chapte
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-txt">Disaster Recovery (DR)</strong> is the set of policies, tools, and procedures to recover IT systems after a catastrophic event — data center fire, region-wide cloud outage, ransomware attack, or accidental mass deletion. Two metrics define every DR strategy: <strong className="text-txt">RTO</strong> (how quickly you recover) and <strong className="text-txt">RPO</strong> (how much data you can afford to lose).
+        <strong className="text-txt">Disaster Recovery (DR)</strong> is the set of policies, tools, and procedures to recover IT systems after a catastrophic event  data center fire, region-wide cloud outage, ransomware attack, or accidental mass deletion. Two metrics define every DR strategy: <strong className="text-txt">RTO</strong> (how quickly you recover) and <strong className="text-txt">RPO</strong> (how much data you can afford to lose).
       </p>
       <p>
-        In 2017, AWS S3 had a major us-east-1 outage. Companies that replicated to other regions stayed up; those that didn't went dark for hours. DR is not theoretical — it's the difference between a bad day and a business-ending event.
+        In 2017, AWS S3 had a major us-east-1 outage. Companies that replicated to other regions stayed up; those that didn't went dark for hours. DR is not theoretical  it's the difference between a bad day and a business-ending event.
       </p>
 
       <InteractiveDiagram
@@ -86,10 +86,10 @@ export default function DisasterRecoveryContent({ slug }: { slug: string; chapte
       <h2 className="text-2xl font-bold font-heading text-txt">Standby Strategies</h2>
       <div className="space-y-3">
         {[
-          { type: "Cold Standby", rto: "Hours", rpo: "Hours to days", cost: "$", color: "#94a3b8", desc: "Infrastructure exists but is powered off or minimal. Recovery requires: provision servers, restore from backup (S3/tape), reconfigure networking, run smoke tests. Cheapest option — 90%+ less than hot standby. Good for development, test environments, or non-critical systems with tolerant business stakeholders." },
-          { type: "Warm Standby", rto: "Minutes", rpo: "Minutes", cost: "$$", color: "#f59e0b", desc: "A scaled-down but running replica in another region. Database replication is active but infra is minimal (e.g., 1 instance instead of 10). During failover: scale up auto-scaling groups, redirect DNS. AWS Pilot Light is a variant — just core systems run, others rebuilt. Most common production strategy." },
+          { type: "Cold Standby", rto: "Hours", rpo: "Hours to days", cost: "$", color: "#94a3b8", desc: "Infrastructure exists but is powered off or minimal. Recovery requires: provision servers, restore from backup (S3/tape), reconfigure networking, run smoke tests. Cheapest option  90%+ less than hot standby. Good for development, test environments, or non-critical systems with tolerant business stakeholders." },
+          { type: "Warm Standby", rto: "Minutes", rpo: "Minutes", cost: "$$", color: "#f59e0b", desc: "A scaled-down but running replica in another region. Database replication is active but infra is minimal (e.g., 1 instance instead of 10). During failover: scale up auto-scaling groups, redirect DNS. AWS Pilot Light is a variant  just core systems run, others rebuilt. Most common production strategy." },
           { type: "Hot Standby (Active-Passive)", rto: "Seconds", rpo: "Near zero", cost: "$$$", color: "#ef4444", desc: "Full-capacity replica running in sync in another region. Only DNS/load balancer change needed to failover. Synchronous database replication ensures near-zero RPO. Required for financial transactions, healthcare records, mission-critical e-commerce." },
-          { type: "Active-Active", rto: "Zero", rpo: "Zero", cost: "$$$$", color: "#10b981", desc: "Traffic runs through multiple regions simultaneously. No 'failover' — other regions absorb traffic instantly when one region dies. Requires conflict-free data replication or strong consistency across regions. Most complex and expensive. Used by Netflix, Amazon, Google for global services." },
+          { type: "Active-Active", rto: "Zero", rpo: "Zero", cost: "$$$$", color: "#10b981", desc: "Traffic runs through multiple regions simultaneously. No 'failover'  other regions absorb traffic instantly when one region dies. Requires conflict-free data replication or strong consistency across regions. Most complex and expensive. Used by Netflix, Amazon, Google for global services." },
         ].map((s) => (
           <div key={s.type} className="p-4 rounded-xl border border-border-ui bg-surface">
             <div className="flex items-center justify-between mb-2">
@@ -106,7 +106,7 @@ export default function DisasterRecoveryContent({ slug }: { slug: string; chapte
       </div>
 
       <KeyTakeaway variant="warning">
-        A DR plan that's never been tested is not a DR plan — it's a wish. Chaos Engineering (popularized by Netflix's Chaos Monkey) deliberately kills production services to verify that DR mechanisms actually work. At minimum, run a DR drill quarterly: actually execute your failover runbook and measure actual RTO vs target.
+        A DR plan that's never been tested is not a DR plan  it's a wish. Chaos Engineering (popularized by Netflix's Chaos Monkey) deliberately kills production services to verify that DR mechanisms actually work. At minimum, run a DR drill quarterly: actually execute your failover runbook and measure actual RTO vs target.
       </KeyTakeaway>
 
       <h2 className="text-2xl font-bold font-heading text-txt">Backup Strategies</h2>

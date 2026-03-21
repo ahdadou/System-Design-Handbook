@@ -9,8 +9,8 @@ const nodeTypes = { system: SystemNode };
 
 const nodes: Node[] = [
   { id: "lb", type: "system", position: { x: 220, y: 20 }, data: { label: "Load Balancer", icon: "⚖️", color: "#3b82f6" } },
-  { id: "primary", type: "system", position: { x: 100, y: 150 }, data: { label: "Primary Node", sublabel: "Active — handles all traffic", icon: "✅", color: "#10b981", description: "Processes all writes and reads. If it fails, the secondary takes over automatically." } },
-  { id: "secondary", type: "system", position: { x: 340, y: 150 }, data: { label: "Secondary Node", sublabel: "Standby — ready to take over", icon: "💤", color: "#f59e0b", description: "Continuously synced with primary. Ready to become primary within seconds if primary fails." } },
+  { id: "primary", type: "system", position: { x: 100, y: 150 }, data: { label: "Primary Node", sublabel: "Active  handles all traffic", icon: "✅", color: "#10b981", description: "Processes all writes and reads. If it fails, the secondary takes over automatically." } },
+  { id: "secondary", type: "system", position: { x: 340, y: 150 }, data: { label: "Secondary Node", sublabel: "Standby  ready to take over", icon: "💤", color: "#f59e0b", description: "Continuously synced with primary. Ready to become primary within seconds if primary fails." } },
   { id: "storage", type: "system", position: { x: 220, y: 280 }, data: { label: "Shared Storage", sublabel: "or replicated state", icon: "🗄️", color: "#8b5cf6" } },
 ];
 
@@ -59,7 +59,7 @@ export default function ClusteringContent({ slug }: { slug: string; chapterId: n
       <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="Active-Passive Cluster" description="Primary handles traffic; secondary is on standby with heartbeat monitoring" height={340} />
 
       <KeyTakeaway variant="important">
-        The hardest problem in clustering is "split-brain" — when the network partitions and two nodes both think they're the primary. This leads to data inconsistency. Solutions include quorum voting (majority must agree) and fencing (forcefully disabling the stale node).
+        The hardest problem in clustering is "split-brain"  when the network partitions and two nodes both think they're the primary. This leads to data inconsistency. Solutions include quorum voting (majority must agree) and fencing (forcefully disabling the stale node).
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

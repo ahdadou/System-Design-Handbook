@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ReactFlow,
   Background,
@@ -40,6 +40,19 @@ function DiagramInner({ nodes: initNodes, edges: initEdges, nodeTypes, edgeTypes
     (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     []
   );
+
+  // Sync edges from parent (edge data like triggerKey must stay fresh)
+  useEffect(() => { setEdges(initEdges); }, [initEdges]);
+
+  // Sync node data/style from parent while preserving user-dragged positions
+  useEffect(() => {
+    setNodes(prev =>
+      initNodes.map(n => {
+        const existing = prev.find(e => e.id === n.id);
+        return existing ? { ...n, position: existing.position } : n;
+      })
+    );
+  }, [initNodes]);
 
   const reset = () => {
     setNodes(initNodes);

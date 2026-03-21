@@ -51,7 +51,7 @@ const questions = [
     question: "Which scaling approach best handles a stateless web application layer?",
     options: ["Vertical scaling", "Horizontal scaling", "Database replication", "CDN caching"],
     correct: 1,
-    explanation: "Stateless web servers are ideal for horizontal scaling — just add more instances behind a load balancer. No shared state means any server can handle any request.",
+    explanation: "Stateless web servers are ideal for horizontal scaling  just add more instances behind a load balancer. No shared state means any server can handle any request.",
   },
 ];
 
@@ -73,10 +73,10 @@ export default function ScalabilityContent({ slug }: { slug: string; chapterId: 
       <h2 className="text-2xl font-bold font-heading text-txt">Making Your Service Horizontally Scalable</h2>
       <ul className="space-y-2 list-none text-sm">
         {[
-          "Store sessions in Redis (not in-memory) — any server can handle any request",
-          "Avoid local filesystem — use S3/blob storage for uploads",
-          "Use connection pooling — each of N servers shouldn't have N database connections",
-          "Design stateless services — easier to scale, test, and deploy",
+          "Store sessions in Redis (not in-memory)  any server can handle any request",
+          "Avoid local filesystem  use S3/blob storage for uploads",
+          "Use connection pooling  each of N servers shouldn't have N database connections",
+          "Design stateless services  easier to scale, test, and deploy",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
             <span className="text-accent mt-1 shrink-0">→</span>

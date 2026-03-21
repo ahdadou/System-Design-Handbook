@@ -40,7 +40,7 @@ const questions = [
       "Each service has read-only access to all databases",
     ],
     correct: 1,
-    explanation: "The 'database per service' pattern ensures loose coupling. Service A cannot directly query Service B's database — it must call Service B's API. This enforces clear boundaries and independent deployability.",
+    explanation: "The 'database per service' pattern ensures loose coupling. Service A cannot directly query Service B's database  it must call Service B's API. This enforces clear boundaries and independent deployability.",
   },
   {
     question: "When is a monolithic architecture more appropriate than microservices?",
@@ -48,7 +48,7 @@ const questions = [
       "When the system serves more than 1 million users",
       "For early-stage startups and small teams where deployment simplicity matters",
       "When using NoSQL databases",
-      "Always — monoliths are always better",
+      "Always  monoliths are always better",
     ],
     correct: 1,
     explanation: "Microservices add operational complexity (service discovery, distributed tracing, network calls). For small teams or early-stage products, a well-structured monolith is simpler to develop and debug.",

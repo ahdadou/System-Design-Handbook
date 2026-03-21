@@ -4,7 +4,7 @@
 
 /* ─── Design Tokens ──────────────────────────────────────────────────────── */
 :root {
-  /* Light mode — Blueprint */
+  /* Light mode  Blueprint */
   --bg-canvas:    #eaeff7;
   --bg-surface:   #f5f8fd;
   --bg-elevated:  #dfe7f5;
@@ -30,7 +30,7 @@
 }
 
 .dark {
-  /* Dark mode — Moondu-inspired near-black */
+  /* Dark mode  Moondu-inspired near-black */
   --bg-canvas:    #0f0f0f;
   --bg-surface:   #161616;
   --bg-elevated:  #1f1f1f;

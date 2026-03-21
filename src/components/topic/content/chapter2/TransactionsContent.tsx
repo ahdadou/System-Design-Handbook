@@ -7,7 +7,7 @@ const questions = [
     question: "A transaction that has written data but hasn't committed yet is in which state?",
     options: ["Committed", "Active", "Aborted", "Terminated"],
     correct: 1,
-    explanation: "An 'Active' transaction is currently executing — it can read and write data. It hasn't committed yet, so its changes aren't visible to others (depending on isolation level).",
+    explanation: "An 'Active' transaction is currently executing  it can read and write data. It hasn't committed yet, so its changes aren't visible to others (depending on isolation level).",
   },
   {
     question: "What happens when a transaction is aborted?",

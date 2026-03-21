@@ -38,8 +38,8 @@ const questions = [
   {
     question: "What does a materialized view store compared to a regular view?",
     options: [
-      "Only the SQL definition — it executes the query every time it is read",
-      "The precomputed, cached result set on disk — it must be refreshed to reflect new data",
+      "Only the SQL definition  it executes the query every time it is read",
+      "The precomputed, cached result set on disk  it must be refreshed to reflect new data",
       "A compressed copy of the base table with fewer columns",
       "An encrypted snapshot of the view for security purposes",
     ],
@@ -73,7 +73,7 @@ export default function SqlDatabasesContent({ slug }: { slug: string; chapterId:
           { letter: "A", word: "Atomicity", color: "#3b82f6", desc: "All operations in a transaction succeed or all are rolled back. There is no partial commit. If a bank transfer deducts money but then crashes before crediting the recipient, the deduction is undone." },
           { letter: "C", word: "Consistency", color: "#06b6d4", desc: "A transaction brings the database from one valid state to another valid state. All integrity constraints (foreign keys, unique constraints) must hold before and after." },
           { letter: "I", word: "Isolation", color: "#8b5cf6", desc: "Concurrent transactions execute as if they were serial. Isolation levels (Read Committed, Repeatable Read, Serializable) trade performance for stricter guarantees." },
-          { letter: "D", word: "Durability", color: "#10b981", desc: "Once a transaction is committed, it persists even through crashes. Achieved via the write-ahead log (WAL) — changes are logged to disk before being applied to data files." },
+          { letter: "D", word: "Durability", color: "#10b981", desc: "Once a transaction is committed, it persists even through crashes. Achieved via the write-ahead log (WAL)  changes are logged to disk before being applied to data files." },
         ].map((a) => (
           <div key={a.letter} className="p-4 rounded-xl border border-border-ui" style={{ backgroundColor: `${a.color}10` }}>
             <div className="flex items-center gap-2 mb-2">
@@ -86,7 +86,7 @@ export default function SqlDatabasesContent({ slug }: { slug: string; chapterId:
       </div>
 
       <KeyTakeaway variant="warning">
-        Schema enforcement is a double-edged sword. It prevents bad data from entering the database — great for correctness. But schema migrations on large tables can be painful: adding a column to a 500M-row table in MySQL can lock the table for minutes. Use online DDL tools (pt-online-schema-change, gh-ost) in production.
+        Schema enforcement is a double-edged sword. It prevents bad data from entering the database  great for correctness. But schema migrations on large tables can be painful: adding a column to a 500M-row table in MySQL can lock the table for minutes. Use online DDL tools (pt-online-schema-change, gh-ost) in production.
       </KeyTakeaway>
 
       <h2 className="text-2xl font-bold font-heading text-txt">The N+1 Query Problem</h2>
@@ -96,7 +96,7 @@ export default function SqlDatabasesContent({ slug }: { slug: string; chapterId:
       <div className="p-4 rounded-xl bg-[#ef4444]/10 border border-[#ef4444]/30 mt-2">
         <div className="font-bold text-[#ef4444] text-sm font-heading mb-2">Bad Pattern (N+1)</div>
         <pre className="text-xs text-txt-2 whitespace-pre-wrap font-mono">
-{`const posts = await Post.findAll();          // 1 query
+          {`const posts = await Post.findAll();          // 1 query
 for (const post of posts) {
   post.author = await User.findById(post.userId); // N queries
 }`}
@@ -105,7 +105,7 @@ for (const post of posts) {
       <div className="p-4 rounded-xl bg-[#10b981]/10 border border-[#10b981]/30 mt-2">
         <div className="font-bold text-c-success text-sm font-heading mb-2">Good Pattern (JOIN / Eager Load)</div>
         <pre className="text-xs text-txt-2 whitespace-pre-wrap font-mono">
-{`const posts = await Post.findAll({
+          {`const posts = await Post.findAll({
   include: [{ model: User, as: "author" }]  // 1 JOIN query
 });`}
         </pre>
@@ -119,7 +119,7 @@ for (const post of posts) {
         {[
           { label: "Regular View", desc: "Runs the underlying SQL every time you query it. Always fresh but can be slow for heavy aggregations.", color: "#f59e0b" },
           { label: "Materialized View", desc: "Result rows stored on disk. Reads are instant. Must be refreshed (manually or on schedule) to stay current.", color: "#06b6d4" },
-          { label: "Use Case", desc: "Dashboards, analytics, leaderboards — anything where slightly stale data is acceptable and query speed matters.", color: "#8b5cf6" },
+          { label: "Use Case", desc: "Dashboards, analytics, leaderboards  anything where slightly stale data is acceptable and query speed matters.", color: "#8b5cf6" },
         ].map((m) => (
           <div key={m.label} className="p-3 rounded-lg border border-border-ui bg-surface flex gap-3">
             <div className="w-2 rounded-full shrink-0" style={{ backgroundColor: m.color }} />
@@ -136,7 +136,7 @@ for (const post of posts) {
         {[
           "Use EXPLAIN ANALYZE to see the actual execution plan and identify full table scans.",
           "Index columns used in WHERE, JOIN, and ORDER BY clauses. Composite indexes should match query column order.",
-          "Avoid SELECT * — fetch only the columns you need to reduce I/O and network transfer.",
+          "Avoid SELECT *  fetch only the columns you need to reduce I/O and network transfer.",
           "Use pagination (LIMIT + OFFSET or keyset pagination) to avoid loading thousands of rows at once.",
           "Batch inserts: INSERT INTO … VALUES (1), (2), (3) is far faster than three individual INSERT statements.",
         ].map((tip, i) => (

@@ -9,7 +9,7 @@ const nodeTypes = { system: SystemNode, database: DatabaseNode };
 
 const nodes: Node[] = [
   { id: "denorm", type: "database", position: { x: 160, y: 20 }, data: { label: "Orders (Denormalized)", type: "orderId, custName, custEmail, prodName, prodPrice, qty", color: "#ef4444", description: "One fat table: customer and product info repeated on every order row. Update anomalies are common." } },
-  { id: "orders", type: "database", position: { x: 60, y: 220 }, data: { label: "Orders", type: "orderId, custId, prodId, qty", color: "#3b82f6", description: "Normalized orders table — only stores foreign keys to customers and products." } },
+  { id: "orders", type: "database", position: { x: 60, y: 220 }, data: { label: "Orders", type: "orderId, custId, prodId, qty", color: "#3b82f6", description: "Normalized orders table  only stores foreign keys to customers and products." } },
   { id: "customers", type: "database", position: { x: 220, y: 220 }, data: { label: "Customers", type: "custId, name, email", color: "#10b981", description: "Customer data stored once. Updating an email only requires one row change." } },
   { id: "products", type: "database", position: { x: 360, y: 220 }, data: { label: "Products", type: "prodId, name, price", color: "#8b5cf6", description: "Product data stored once. Price changes propagate automatically to all orders." } },
 ];
@@ -32,7 +32,7 @@ const questions = [
       "Boyce-Codd Normal Form (BCNF)",
     ],
     correct: 1,
-    explanation: "2NF requires that every non-key column depends on the entire primary key. Here CourseName depends only on CourseID (part of the key), which is a partial dependency — a 2NF violation. Fix it by moving CourseName to a separate Courses table.",
+    explanation: "2NF requires that every non-key column depends on the entire primary key. Here CourseName depends only on CourseID (part of the key), which is a partial dependency  a 2NF violation. Fix it by moving CourseName to a separate Courses table.",
   },
   {
     question: "Which anomaly occurs when you cannot insert a new customer into a Customer-Orders table because the customer hasn't placed any orders yet?",
@@ -70,25 +70,25 @@ export default function NormalizationContent({ slug }: { slug: string; chapterId
       <div className="space-y-3">
         {[
           {
-            form: "1NF — First Normal Form",
+            form: "1NF  First Normal Form",
             color: "#3b82f6",
             rule: "Each column holds atomic (indivisible) values. No repeating groups or arrays.",
             example: "Bad: phone column = '555-1234, 555-5678'. Good: separate rows or a PhoneNumbers table.",
           },
           {
-            form: "2NF — Second Normal Form",
+            form: "2NF  Second Normal Form",
             color: "#06b6d4",
             rule: "Must be in 1NF. Every non-key column must depend on the entire primary key (no partial dependencies).",
             example: "If (StudentID, CourseID) is the key but CourseName only depends on CourseID, move CourseName to a Courses table.",
           },
           {
-            form: "3NF — Third Normal Form",
+            form: "3NF  Third Normal Form",
             color: "#8b5cf6",
             rule: "Must be in 2NF. No non-key column should depend on another non-key column (no transitive dependencies).",
             example: "If a table has ZipCode → City → State, State depends on City which depends on ZipCode. Move City/State to a separate table.",
           },
           {
-            form: "BCNF — Boyce-Codd Normal Form",
+            form: "BCNF  Boyce-Codd Normal Form",
             color: "#10b981",
             rule: "A stricter version of 3NF. For every functional dependency X → Y, X must be a superkey.",
             example: "Handles edge cases involving multiple overlapping candidate keys that 3NF misses. Most tables in 3NF are also in BCNF.",

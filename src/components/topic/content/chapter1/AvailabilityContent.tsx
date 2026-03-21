@@ -29,7 +29,7 @@ export default function AvailabilityContent({ slug }: { slug: string; chapterId:
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-txt">Availability</strong> is the percentage of time a system is operational and accessible. High availability is one of the core requirements in system design — no one wants their service to be down.
+        <strong className="text-txt">Availability</strong> is the percentage of time a system is operational and accessible. High availability is one of the core requirements in system design  no one wants their service to be down.
       </p>
 
       <h2 className="text-2xl font-bold font-heading text-txt">The Nines of Availability</h2>

@@ -72,7 +72,7 @@ export default function IpAddressesContent({ slug }: { slug: string; chapterId: 
     <div className="space-y-6 text-txt-2">
       <div className="text-base leading-relaxed space-y-4">
         <p>
-          An <strong className="text-txt">IP address</strong> (Internet Protocol address) is a numerical label assigned to every device connected to a computer network. Think of it as the postal address of the internet — without it, data packets wouldn't know where to go.
+          An <strong className="text-txt">IP address</strong> (Internet Protocol address) is a numerical label assigned to every device connected to a computer network. Think of it as the postal address of the internet without it, data packets wouldn't know where to go.
         </p>
         <p>
           Every packet of data traveling across the internet includes a source IP (where it came from) and a destination IP (where it's going). Routers along the way read these addresses and forward packets hop-by-hop until they reach their destination.
@@ -92,9 +92,9 @@ export default function IpAddressesContent({ slug }: { slug: string; chapterId: 
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-4">
         {[
-          { range: "10.0.0.0/8", desc: "Class A private — large organizations", count: "16M addresses" },
-          { range: "172.16.0.0/12", desc: "Class B private — medium networks", count: "1M addresses" },
-          { range: "192.168.0.0/16", desc: "Class C private — home networks", count: "65K addresses" },
+          { range: "10.0.0.0/8", desc: "Class A private  large organizations", count: "16M addresses" },
+          { range: "172.16.0.0/12", desc: "Class B private  medium networks", count: "1M addresses" },
+          { range: "192.168.0.0/16", desc: "Class C private  home networks", count: "65K addresses" },
         ].map((r) => (
           <div key={r.range} className="p-3 bg-surface rounded-xl border border-border-ui">
             <code className="text-accent-2 text-sm font-mono">{r.range}</code>
@@ -110,14 +110,14 @@ export default function IpAddressesContent({ slug }: { slug: string; chapterId: 
 
       <h2 className="text-2xl font-bold font-heading text-txt">Static vs Dynamic IPs</h2>
       <p>
-        A <strong className="text-txt">static IP</strong> is permanently assigned and doesn't change — critical for servers and databases where other services need a reliable, fixed address. A <strong className="text-txt">dynamic IP</strong> is temporarily assigned via DHCP (Dynamic Host Configuration Protocol) and may change on reconnection — typical for home users and most client devices.
+        A <strong className="text-txt">static IP</strong> is permanently assigned and doesn't change  critical for servers and databases where other services need a reliable, fixed address. A <strong className="text-txt">dynamic IP</strong> is temporarily assigned via DHCP (Dynamic Host Configuration Protocol) and may change on reconnection  typical for home users and most client devices.
       </p>
 
       <InteractiveDiagram
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
-        title="IP Address Architecture — Home Network"
+        title="IP Address Architecture  Home Network"
         description="Click nodes to see details about each component"
         height={400}
       />
@@ -127,7 +127,7 @@ export default function IpAddressesContent({ slug }: { slug: string; chapterId: 
         {[
           "Use private IPs for internal services (databases, caches) to prevent direct public access",
           "Assign static IPs to servers and load balancers for DNS reliability",
-          "Design for IPv6 from the start — major cloud providers fully support it",
+          "Design for IPv6 from the start  major cloud providers fully support it",
           "Use security groups / firewalls at the IP layer to control traffic",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2 text-sm">
@@ -138,7 +138,7 @@ export default function IpAddressesContent({ slug }: { slug: string; chapterId: 
       </ul>
 
       <KeyTakeaway variant="tip">
-        In AWS/GCP/Azure, instances in private subnets use NAT Gateways to reach the internet. Databases should NEVER have public IPs — they should only be accessible within the VPC via private IPs.
+        In AWS/GCP/Azure, instances in private subnets use NAT Gateways to reach the internet. Databases should NEVER have public IPs  they should only be accessible within the VPC via private IPs.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

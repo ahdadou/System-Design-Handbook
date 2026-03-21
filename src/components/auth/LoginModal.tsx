@@ -101,7 +101,7 @@ export function LoginModal({ isOpen, onClose, onSuccess }: Props) {
                 >
                   <span className="mt-0.5">💡</span>
                   <div>
-                    <span style={{ color: "var(--ui-text-3)" }}>Demo — </span>
+                    <span style={{ color: "var(--ui-text-3)" }}>Demo  </span>
                     <span style={{ color: "var(--ui-text-2)" }}>
                       username: <span style={{ color: "var(--ui-accent)" }}>demo</span>
                       {"  ·  "}

@@ -34,7 +34,7 @@ const questions = [
     options: [
       "Start drawing the architecture immediately to show confidence",
       "Ask clarifying questions to nail down functional and non-functional requirements",
-      "Jump to database selection — it's the most important decision",
+      "Jump to database selection  it's the most important decision",
       "Estimate the scale right away before anything else",
     ],
     correct: 1,
@@ -54,7 +54,7 @@ const questions = [
   {
     question: "In CAP theorem, when a network partition occurs, what trade-off must a distributed system make?",
     options: [
-      "Choose between Consistency and Availability — you cannot have both during a partition",
+      "Choose between Consistency and Availability  you cannot have both during a partition",
       "Choose between Latency and Throughput",
       "Choose between SQL and NoSQL databases",
       "Choose between horizontal and vertical scaling",
@@ -74,7 +74,7 @@ export default function InterviewTipsContent({ slug }: { slug: string; chapterId
       <h2 className="text-2xl font-bold font-heading text-txt">The RESHADED Framework</h2>
       <p className="text-sm">A structured 8-step approach that maps directly to what interviewers evaluate. Work through each step in order, spending roughly the indicated time.</p>
 
-      <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="System Design Interview Framework" description="Follow these 8 steps in sequence — step through them with your interviewer" height={260} />
+      <InteractiveDiagram nodes={nodes} edges={edges} nodeTypes={nodeTypes} title="System Design Interview Framework" description="Follow these 8 steps in sequence  step through them with your interviewer" height={260} />
 
       <div className="space-y-3">
         {[
@@ -97,7 +97,7 @@ export default function InterviewTipsContent({ slug }: { slug: string; chapterId
               "QPS: DAU × actions/day ÷ 86,400. Peak = 2-3× average.",
               "Storage: bytes per record × records/day × retention period. 1 tweet ≈ 140 bytes text + metadata ≈ 1KB. 500M tweets/day = 500GB/day.",
               "Bandwidth: QPS × response size. 300K QPS × 1KB = 300MB/s read bandwidth.",
-              "Memory for cache: 20% of daily data × record size. Use the 80/20 rule — 20% of content gets 80% of traffic.",
+              "Memory for cache: 20% of daily data × record size. Use the 80/20 rule  20% of content gets 80% of traffic.",
             ],
           },
           {
@@ -118,7 +118,7 @@ export default function InterviewTipsContent({ slug }: { slug: string; chapterId
             items: [
               "Define your core entities (User, Tweet, Follower, Like) and their key fields.",
               "Choose database type: SQL for relational/transactional data, NoSQL for high write throughput / flexible schema.",
-              "Identify your primary access patterns — this determines your data model in NoSQL.",
+              "Identify your primary access patterns  this determines your data model in NoSQL.",
               "Consider: sharding strategy (by user_id? by tweet_id?), replication, indexing.",
             ],
           },
@@ -129,7 +129,7 @@ export default function InterviewTipsContent({ slug }: { slug: string; chapterId
             items: [
               "Draw the core components: clients, CDN, API gateway, services, databases, message queues.",
               "Show data flow for 1-2 key user journeys (e.g., 'user posts a tweet', 'user views timeline').",
-              "Keep it simple — avoid over-engineering at this stage.",
+              "Keep it simple  avoid over-engineering at this stage.",
               "Each component should have a clear single responsibility.",
             ],
           },
@@ -150,7 +150,7 @@ export default function InterviewTipsContent({ slug }: { slug: string; chapterId
             color: "#ef4444",
             items: [
               "Single Points of Failure: what happens if the database goes down? Add replicas.",
-              "Hot spots: a celebrity user's data on a single shard — use consistent hashing or virtual nodes.",
+              "Hot spots: a celebrity user's data on a single shard  use consistent hashing or virtual nodes.",
               "Slow queries: identify N+1 query problems, missing indexes, large table scans.",
               "Cascading failures: use circuit breakers, bulkheads, and timeouts to prevent failure propagation.",
             ],

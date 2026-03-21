@@ -19,7 +19,7 @@ export function CircuitBreakerDiagram() {
     const success = forceSuccess ?? Math.random() > 0.5;
 
     if (state === "open") {
-      addLog("Request BLOCKED — circuit is OPEN", false);
+      addLog("Request BLOCKED  circuit is OPEN", false);
       return;
     }
 
@@ -28,7 +28,7 @@ export function CircuitBreakerDiagram() {
       if (state === "half-open") {
         setState("closed");
         setFailures(0);
-        addLog("Request SUCCESS — circuit CLOSED again ✓", true);
+        addLog("Request SUCCESS  circuit CLOSED again ✓", true);
       } else {
         addLog("Request SUCCESS", true);
       }
@@ -37,10 +37,10 @@ export function CircuitBreakerDiagram() {
       setFailures(newFailures);
       if (newFailures >= threshold) {
         setState("open");
-        addLog(`Failure #${newFailures} — circuit OPENED! 🚨`, false);
+        addLog(`Failure #${newFailures}  circuit OPENED! 🚨`, false);
         setTimeout(() => {
           setState("half-open");
-          addLog("Timeout elapsed — circuit HALF-OPEN (testing...)", true);
+          addLog("Timeout elapsed  circuit HALF-OPEN (testing...)", true);
         }, 3000);
       } else {
         addLog(`Failure #${newFailures}/${threshold}`, false);

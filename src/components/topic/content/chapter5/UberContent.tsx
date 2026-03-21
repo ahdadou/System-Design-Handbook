@@ -42,18 +42,18 @@ const questions = [
       "By broadcasting the request to all drivers and waiting for responses",
     ],
     correct: 1,
-    explanation: "Uber uses geohashing to divide the world into grid cells. Driver locations are indexed by their geohash cell in Redis. When a ride is requested, the system queries the rider's cell and adjacent cells to find nearby available drivers — making the search O(1) rather than scanning all drivers.",
+    explanation: "Uber uses geohashing to divide the world into grid cells. Driver locations are indexed by their geohash cell in Redis. When a ride is requested, the system queries the rider's cell and adjacent cells to find nearby available drivers  making the search O(1) rather than scanning all drivers.",
   },
   {
     question: "Why does Uber use WebSockets for driver location updates?",
     options: [
       "WebSockets are required by Apple App Store guidelines",
-      "To enable real-time bidirectional communication — drivers push location, riders receive ETA updates",
+      "To enable real-time bidirectional communication  drivers push location, riders receive ETA updates",
       "WebSockets use less battery than HTTP polling",
       "For authentication purposes",
     ],
     correct: 1,
-    explanation: "WebSockets maintain a persistent connection between driver/rider apps and Uber's servers. Drivers push GPS updates every 4 seconds without HTTP overhead. The same connection pushes trip status updates back to the app in real-time — essential for showing the driver's moving position on the map.",
+    explanation: "WebSockets maintain a persistent connection between driver/rider apps and Uber's servers. Drivers push GPS updates every 4 seconds without HTTP overhead. The same connection pushes trip status updates back to the app in real-time  essential for showing the driver's moving position on the map.",
   },
   {
     question: "What is surge pricing and how is it calculated?",
@@ -102,7 +102,7 @@ export default function UberContent({ slug }: { slug: string; chapterId: number 
       <div className="space-y-3">
         {[
           { title: "Real-Time Location Tracking", detail: "3M+ active drivers send GPS updates every 4 seconds = ~750K location writes/second at peak. Uber uses WebSockets for persistent connections and writes to Redis geospatial indexes. Kafka streams location events to downstream consumers (analytics, demand prediction, ETA calculation).", color: "#10b981" },
-          { title: "Driver-Rider Matching", detail: "When a rider requests a trip, the system must find the best nearby available driver within 1 second. Geohashing divides the world into cells — query the rider's cell and adjacent cells in Redis. Rank candidates by ETA (not just distance). The matching service considers driver rating, vehicle type, and acceptance rate.", color: "#3b82f6" },
+          { title: "Driver-Rider Matching", detail: "When a rider requests a trip, the system must find the best nearby available driver within 1 second. Geohashing divides the world into cells  query the rider's cell and adjacent cells in Redis. Rank candidates by ETA (not just distance). The matching service considers driver rating, vehicle type, and acceptance rate.", color: "#3b82f6" },
           { title: "Surge Pricing", detail: "Supply-demand imbalance triggers surge pricing. The system aggregates requests vs available drivers per geohash cell every 60 seconds. An ML model calculates the surge multiplier. Higher prices incentivize idle drivers to activate and discourage excess demand, rebalancing the marketplace.", color: "#f59e0b" },
           { title: "ETA Estimation", detail: "Uber built H3 (hexagonal geospatial indexing) and a custom road network graph to compute ETAs. The system accounts for real-time traffic conditions, historical patterns by time-of-day, and weather. Maps data is updated every few minutes from GPS traces of completed trips.", color: "#8b5cf6" },
         ].map((item) => (

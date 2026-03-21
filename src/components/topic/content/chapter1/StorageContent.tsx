@@ -8,7 +8,7 @@ const questions = [
     question: "Which RAID level provides the best read performance with no redundancy?",
     options: ["RAID 0", "RAID 1", "RAID 5", "RAID 10"],
     correct: 0,
-    explanation: "RAID 0 (striping) splits data across all disks, giving maximum read/write performance. But there's zero redundancy — if any disk fails, all data is lost.",
+    explanation: "RAID 0 (striping) splits data across all disks, giving maximum read/write performance. But there's zero redundancy  if any disk fails, all data is lost.",
   },
   {
     question: "What type of storage would you use to store user-uploaded images for a web app?",
@@ -64,7 +64,7 @@ export default function StorageContent({ slug }: { slug: string; chapterId: numb
       />
 
       <KeyTakeaway variant="important">
-        For most cloud-native applications, skip RAID entirely — cloud providers handle redundancy transparently (S3 stores 3 copies across different availability zones). Use RAID only for on-premise or high-performance databases.
+        For most cloud-native applications, skip RAID entirely  cloud providers handle redundancy transparently (S3 stores 3 copies across different availability zones). Use RAID only for on-premise or high-performance databases.
       </KeyTakeaway>
 
       <QuizBlock topicSlug={slug} questions={questions} />

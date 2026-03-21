@@ -13,7 +13,7 @@ const questions = [
       "Consistent hashing eliminates hot spots",
     ],
     correct: 1,
-    explanation: "With modular hashing (key % N), adding a server changes N, invalidating ~all cache entries. Consistent hashing only remaps the keys that fall between the old and new server positions — ~1/N of keys.",
+    explanation: "With modular hashing (key % N), adding a server changes N, invalidating ~all cache entries. Consistent hashing only remaps the keys that fall between the old and new server positions  ~1/N of keys.",
   },
   {
     question: "What are virtual nodes in consistent hashing?",
@@ -35,7 +35,7 @@ export default function ConsistentHashingContent({ slug }: { slug: string; chapt
         <strong className="text-txt">Consistent hashing</strong> is a technique used by distributed caches and databases to distribute data across nodes while minimizing redistribution when nodes are added or removed. It's the backbone of systems like DynamoDB, Cassandra, and distributed caches.
       </p>
       <p>
-        The problem it solves: imagine you have a Redis cluster with 3 nodes. You use <code className="text-accent-2 bg-[#06b6d4]/10 px-1 rounded">key % 3</code> to determine which node holds each key. Now you add a 4th node — suddenly <code className="text-accent-2 bg-[#06b6d4]/10 px-1 rounded">key % 4</code> gives different results, and almost all your cache entries are invalidated. With 10M users, that's a stampede on your database.
+        The problem it solves: imagine you have a Redis cluster with 3 nodes. You use <code className="text-accent-2 bg-[#06b6d4]/10 px-1 rounded">key % 3</code> to determine which node holds each key. Now you add a 4th node  suddenly <code className="text-accent-2 bg-[#06b6d4]/10 px-1 rounded">key % 4</code> gives different results, and almost all your cache entries are invalidated. With 10M users, that's a stampede on your database.
       </p>
 
       <h2 className="text-2xl font-bold font-heading text-txt">The Hash Ring</h2>
@@ -47,7 +47,7 @@ export default function ConsistentHashingContent({ slug }: { slug: string; chapt
 
       <h2 className="text-2xl font-bold font-heading text-txt">Virtual Nodes</h2>
       <p className="text-sm">
-        Without virtual nodes, key distribution can be uneven — if servers happen to cluster on the ring, some handle more keys than others. Virtual nodes solve this by giving each server multiple positions on the ring.
+        Without virtual nodes, key distribution can be uneven  if servers happen to cluster on the ring, some handle more keys than others. Virtual nodes solve this by giving each server multiple positions on the ring.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-[#ef4444]/10 border border-[#ef4444]/30">

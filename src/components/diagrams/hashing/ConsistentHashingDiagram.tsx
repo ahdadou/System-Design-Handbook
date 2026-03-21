@@ -61,13 +61,13 @@ export function ConsistentHashingDiagram() {
 
   const allVirtualNodes = virtualNodes
     ? servers.flatMap((s) =>
-        [0, 120, 240].map((offset) => ({
-          ...s,
-          angle: (s.angle + offset) % 360,
-          id: `${s.id}_v${offset}`,
-          virtual: true,
-        }))
-      )
+      [0, 120, 240].map((offset) => ({
+        ...s,
+        angle: (s.angle + offset) % 360,
+        id: `${s.id}_v${offset}`,
+        virtual: true,
+      }))
+    )
     : servers;
 
   return (
@@ -178,7 +178,7 @@ export function ConsistentHashingDiagram() {
           </div>
 
           <div className="p-3 bg-[#1a2332] rounded-lg border border-[#1e293b] text-xs text-[#94a3b8]">
-            <strong className="text-[#8b5cf6]">Add/remove servers</strong> to see how only adjacent keys get remapped — not all keys!
+            <strong className="text-[#8b5cf6]">Add/remove servers</strong> to see how only adjacent keys get remapped  not all keys!
           </div>
         </div>
       </div>

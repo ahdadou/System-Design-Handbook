@@ -11,7 +11,7 @@ const nodes: Node[] = [
   { id: "order", type: "system", position: { x: 175, y: 20 }, data: { label: "Order Service", sublabel: "Event Producer", icon: "📦", color: "#3b82f6", description: "Emits 'order.placed' event after persisting the order. Has no knowledge of downstream consumers." } },
   { id: "bus", type: "system", position: { x: 175, y: 140 }, data: { label: "Event Bus", sublabel: "Kafka / SNS", icon: "⚡", color: "#f59e0b", description: "Durable, distributed event backbone. Retains events, supports multiple consumer groups, enables replay." } },
   { id: "inv", type: "system", position: { x: 30, y: 280 }, data: { label: "Inventory Service", sublabel: "Consumer", icon: "🏪", color: "#10b981", description: "Listens for 'order.placed'. Reserves stock. Emits 'inventory.reserved' or 'inventory.failed'." } },
-  { id: "notif", type: "system", position: { x: 195, y: 280 }, data: { label: "Notification Service", sublabel: "Consumer", icon: "🔔", color: "#10b981", description: "Sends order confirmation email/SMS. Decoupled — can be added without touching Order Service." } },
+  { id: "notif", type: "system", position: { x: 195, y: 280 }, data: { label: "Notification Service", sublabel: "Consumer", icon: "🔔", color: "#10b981", description: "Sends order confirmation email/SMS. Decoupled  can be added without touching Order Service." } },
   { id: "analytics", type: "system", position: { x: 360, y: 280 }, data: { label: "Analytics Service", sublabel: "Consumer", icon: "📊", color: "#10b981", description: "Tracks conversion metrics, revenue, funnel stats. Independent of business logic services." } },
 ];
 
@@ -32,14 +32,14 @@ const questions = [
       "Choreography requires a dedicated ESB; orchestration does not",
     ],
     correct: 1,
-    explanation: "In choreography, the Order Service emits 'order.placed' and each service reacts autonomously — no one tells Inventory what to do. In orchestration, a Saga Orchestrator explicitly calls Inventory, waits, then calls Notifications. Choreography is more decoupled but harder to debug; orchestration is easier to trace but creates a central dependency.",
+    explanation: "In choreography, the Order Service emits 'order.placed' and each service reacts autonomously  no one tells Inventory what to do. In orchestration, a Saga Orchestrator explicitly calls Inventory, waits, then calls Notifications. Choreography is more decoupled but harder to debug; orchestration is easier to trace but creates a central dependency.",
   },
   {
     question: "How does Event-Driven Architecture achieve loose coupling between services?",
     options: [
       "By requiring all services to share a common database schema",
       "By using synchronous REST calls with retries",
-      "Producers emit events without knowing consumers; consumers subscribe without knowing producers — they only share event schema contracts",
+      "Producers emit events without knowing consumers; consumers subscribe without knowing producers  they only share event schema contracts",
       "By deploying all services in the same container",
     ],
     correct: 2,
@@ -51,7 +51,7 @@ export default function EventDrivenArchitectureContent({ slug }: { slug: string;
   return (
     <div className="space-y-6 text-txt-2">
       <p className="text-base leading-relaxed">
-        <strong className="text-txt">Event-Driven Architecture (EDA)</strong> is a design paradigm where services communicate by producing and consuming events asynchronously. An event is an immutable record of something that happened —{" "}
+        <strong className="text-txt">Event-Driven Architecture (EDA)</strong> is a design paradigm where services communicate by producing and consuming events asynchronously. An event is an immutable record of something that happened {" "}
         <code className="text-accent bg-[#3b82f6]/10 px-1 rounded">order.placed</code>,{" "}
         <code className="text-accent bg-[#3b82f6]/10 px-1 rounded">payment.failed</code>,{" "}
         <code className="text-accent bg-[#3b82f6]/10 px-1 rounded">user.registered</code>. Services react to events they care about without being explicitly called.
@@ -74,7 +74,7 @@ export default function EventDrivenArchitectureContent({ slug }: { slug: string;
         <div className="p-4 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30">
           <div className="font-bold text-accent text-sm font-heading mb-2">Choreography</div>
           <ul className="text-xs space-y-1.5 text-txt-2">
-            <li>• No central coordinator — services react to events</li>
+            <li>• No central coordinator  services react to events</li>
             <li>• Order Service emits <code className="text-accent">order.placed</code></li>
             <li>• Inventory reacts → emits <code className="text-accent">stock.reserved</code></li>
             <li>• Payment reacts → emits <code className="text-accent">payment.captured</code></li>
@@ -97,7 +97,7 @@ export default function EventDrivenArchitectureContent({ slug }: { slug: string;
 
       <h2 className="text-2xl font-bold font-heading text-txt">Eventual Consistency</h2>
       <p>
-        EDA systems are <span className="text-[#f59e0b] font-medium">eventually consistent</span> — after an order is placed, inventory is not updated instantly. The event propagates, the consumer processes it, and the system converges. This is a fundamental trade-off: EDA gains availability and decoupling at the cost of strong consistency.
+        EDA systems are <span className="text-[#f59e0b] font-medium">eventually consistent</span>  after an order is placed, inventory is not updated instantly. The event propagates, the consumer processes it, and the system converges. This is a fundamental trade-off: EDA gains availability and decoupling at the cost of strong consistency.
       </p>
       <p>
         The implication for product design: your UI should account for async updates. Show "Order submitted" rather than "Order confirmed" until the downstream processing completes. Use polling or WebSockets to reflect status changes.
@@ -107,7 +107,7 @@ export default function EventDrivenArchitectureContent({ slug }: { slug: string;
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           { label: "Durable Events", color: "#3b82f6", desc: "Events stored on disk for configurable retention (days/weeks). New consumers can replay the entire event history." },
-          { label: "Consumer Groups", color: "#10b981", desc: "Multiple consumer groups each get every event independently. Adding a new service means adding a new consumer group — zero changes to producers." },
+          { label: "Consumer Groups", color: "#10b981", desc: "Multiple consumer groups each get every event independently. Adding a new service means adding a new consumer group  zero changes to producers." },
           { label: "Ordered Partitions", color: "#8b5cf6", desc: "Events for the same entity (same order ID) land in the same partition, guaranteeing causal ordering without global locking." },
         ].map((k) => (
           <div key={k.label} className="p-3 rounded-xl border" style={{ borderColor: `${k.color}30`, backgroundColor: `${k.color}0a` }}>
@@ -118,7 +118,7 @@ export default function EventDrivenArchitectureContent({ slug }: { slug: string;
       </div>
 
       <KeyTakeaway variant="important">
-        Event-Driven Architecture scales extraordinarily well because producers and consumers scale independently. Netflix processes billions of events per day with EDA. The event log is the single source of truth — every service state is a projection of events, making the system auditable and debuggable.
+        Event-Driven Architecture scales extraordinarily well because producers and consumers scale independently. Netflix processes billions of events per day with EDA. The event log is the single source of truth  every service state is a projection of events, making the system auditable and debuggable.
       </KeyTakeaway>
 
       <KeyTakeaway variant="warning">

@@ -11,9 +11,9 @@ import {
 } from "lucide-react";
 import { LogoIcon } from "@/components/ui/LogoIcon";
 
-const CHAPTER_ICONS  = [Network, Database, Layers, Shield, Rocket];
+const CHAPTER_ICONS = [Network, Database, Layers, Shield, Rocket];
 const CHAPTER_COLORS = ["#00D8FF", "#FF6B35", "#A855F7", "#FFD600", "#22C55E"];
-const CHAPTER_BG     = ["#00D8FF18","#FF6B3518","#A855F718","#FFD60018","#22C55E18"];
+const CHAPTER_BG = ["#00D8FF18", "#FF6B3518", "#A855F718", "#FFD60018", "#22C55E18"];
 
 /* ── Ambient floating orb ─────────────────────────────────────────────────── */
 function Orb({ color, size, x, y, delay, duration }: {
@@ -62,8 +62,10 @@ function FloatingRing({ size, color, x, y, delay, duration }: {
       className="absolute pointer-events-none"
       style={{ left: x, top: y }}
       animate={{ y: [0, -20, 0], rotate: [0, 360] }}
-      transition={{ y: { duration: duration * 0.6, repeat: Infinity, ease: "easeInOut", delay },
-                    rotate: { duration, repeat: Infinity, ease: "linear", delay } }}
+      transition={{
+        y: { duration: duration * 0.6, repeat: Infinity, ease: "easeInOut", delay },
+        rotate: { duration, repeat: Infinity, ease: "linear", delay }
+      }}
     >
       <div style={{
         width: size, height: size,
@@ -87,8 +89,8 @@ function ChapterCard({ chapter, idx, color, bg, pct }: {
     const el = wrapRef.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width  - 0.5;
-    const y = (e.clientY - r.top)  / r.height - 0.5;
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
     el.style.transform = `perspective(900px) rotateY(${x * 16}deg) rotateX(${-y * 16}deg) scale3d(1.03,1.03,1.03) translateZ(16px)`;
     el.style.transition = "transform 0.08s ease";
   };
@@ -200,25 +202,25 @@ export default function Dashboard() {
     target: heroRef,
     offset: ["start start", "end start"],
   });
-  const heroY       = useTransform(scrollYProgress, [0, 1], ["0%", "-22%"]);
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "-22%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
-  const heroScale   = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
 
-  const allSlugs   = Object.values(CHAPTER_TOPIC_SLUGS).flat();
-  const completed  = mounted ? allSlugs.filter(s => completedTopics.includes(s)).length : 0;
+  const allSlugs = Object.values(CHAPTER_TOPIC_SLUGS).flat();
+  const completed = mounted ? allSlugs.filter(s => completedTopics.includes(s)).length : 0;
   const overallPct = allSlugs.length > 0 ? Math.round((completed / allSlugs.length) * 100) : 0;
 
   const chapterProgress = CHAPTERS.map(ch => {
     const slugs = CHAPTER_TOPIC_SLUGS[ch.id] || [];
-    const done  = mounted ? slugs.filter(s => completedTopics.includes(s)).length : 0;
+    const done = mounted ? slugs.filter(s => completedTopics.includes(s)).length : 0;
     return slugs.length > 0 ? Math.round((done / slugs.length) * 100) : 0;
   });
 
   const stats = [
-    { icon: BookOpen,  value: "55",  label: "Topics",    color: "#00D8FF" },
-    { icon: Layers,    value: "5",   label: "Chapters",  color: "#A855F7" },
-    { icon: Zap,       value: "30+", label: "Diagrams",  color: "#FFD600" },
-    { icon: BarChart2, value: mounted ? `${overallPct}%` : "—", label: "Progress", color: "#22C55E" },
+    { icon: BookOpen, value: "55", label: "Topics", color: "#00D8FF" },
+    { icon: Layers, value: "5", label: "Chapters", color: "#A855F7" },
+    { icon: Zap, value: "30+", label: "Diagrams", color: "#FFD600" },
+    { icon: BarChart2, value: mounted ? `${overallPct}%` : "", label: "Progress", color: "#22C55E" },
   ];
 
   return (
@@ -231,16 +233,16 @@ export default function Dashboard() {
         style={{ minHeight: "82vh" }}
       >
         {/* Ambient orbs */}
-        <Orb color="#FFD600" size={520} x="-8%"  y="-25%" delay={0}   duration={7} />
-        <Orb color="#A855F7" size={420} x="52%"  y="-15%" delay={1.5} duration={9} />
-        <Orb color="#00D8FF" size={300} x="74%"  y="45%"  delay={3}   duration={8} />
-        <Orb color="#22C55E" size={240} x="8%"   y="55%"  delay={2}   duration={11} />
+        <Orb color="#FFD600" size={520} x="-8%" y="-25%" delay={0} duration={7} />
+        <Orb color="#A855F7" size={420} x="52%" y="-15%" delay={1.5} duration={9} />
+        <Orb color="#00D8FF" size={300} x="74%" y="45%" delay={3} duration={8} />
+        <Orb color="#22C55E" size={240} x="8%" y="55%" delay={2} duration={11} />
 
         {/* Floating rings */}
-        <FloatingRing size={90}  color="#FFD600" x="82%" y="12%" delay={0}   duration={14} />
-        <FloatingRing size={60}  color="#A855F7" x="12%" y="20%" delay={2}   duration={11} />
-        <FloatingRing size={120} color="#00D8FF" x="68%" y="62%" delay={1}   duration={18} />
-        <FloatingRing size={50}  color="#22C55E" x="30%" y="75%" delay={3}   duration={13} />
+        <FloatingRing size={90} color="#FFD600" x="82%" y="12%" delay={0} duration={14} />
+        <FloatingRing size={60} color="#A855F7" x="12%" y="20%" delay={2} duration={11} />
+        <FloatingRing size={120} color="#00D8FF" x="68%" y="62%" delay={1} duration={18} />
+        <FloatingRing size={50} color="#22C55E" x="30%" y="75%" delay={3} duration={13} />
 
         {/* 3D perspective grid floor */}
         <GridFloor />
@@ -296,7 +298,7 @@ export default function Dashboard() {
             style={{ color: "var(--ui-text-2)" }}
           >
             55 interactive topics across 5 chapters. Diagrams, quizzes, and real-world
-            case studies — all progress saved locally, no account needed.
+            case studies  all progress saved locally, no account needed.
           </motion.p>
 
           <motion.div
