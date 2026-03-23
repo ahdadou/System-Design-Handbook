@@ -56,13 +56,26 @@ export default async function ChapterPage({ params }: Props) {
   const chapter = getChapter(id);
   if (!chapter) notFound();
 
+  const canonicalUrl = `${BASE_URL}/chapter-${chapter.id}`;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Course",
     name: `Chapter ${chapter.id}: ${chapter.title}`,
     description: chapter.seoDescription,
-    url: `${BASE_URL}/chapter-${chapter.id}`,
+    url: canonicalUrl,
+    inLanguage: "en-US",
+    isAccessibleForFree: true,
+    educationalLevel: "intermediate",
+    keywords: chapter.keywords.join(", "),
+    numberOfCredits: chapter.topics.length,
+    image: `${BASE_URL}/og-image.png`,
     provider: {
+      "@type": "Organization",
+      name: "System Design Academy",
+      url: BASE_URL,
+    },
+    author: {
       "@type": "Organization",
       name: "System Design Academy",
       url: BASE_URL,
@@ -72,7 +85,17 @@ export default async function ChapterPage({ params }: Props) {
       name: topic.seoTitle,
       url: `${BASE_URL}/chapter-${chapter.id}/${topic.slug}`,
       description: topic.seoDescription,
+      courseMode: "online",
     })),
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "System Design Academy", item: BASE_URL },
+      { "@type": "ListItem", position: 2, name: chapter.title, item: canonicalUrl },
+    ],
   };
 
   return (
@@ -80,6 +103,10 @@ export default async function ChapterPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <ChapterOverview chapter={chapter} />
     </>

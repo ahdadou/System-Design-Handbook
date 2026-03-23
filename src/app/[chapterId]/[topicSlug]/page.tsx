@@ -71,12 +71,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+const PUBLISHED_DATE = "2024-01-01T00:00:00Z";
+
 function buildJsonLd(chapterId: number, topicSlug: string) {
   const topic = getTopic(chapterId, topicSlug);
   const chapter = getChapter(chapterId);
   if (!topic || !chapter) return null;
 
   const canonicalUrl = `${BASE_URL}/chapter-${chapter.id}/${topic.slug}`;
+  const ogImage = `${BASE_URL}/og-image.png`;
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -107,14 +110,42 @@ function buildJsonLd(chapterId: number, topicSlug: string) {
     "@context": "https://schema.org",
     "@type": "TechArticle",
     headline: topic.seoTitle,
+    name: topic.seoTitle,
     description: topic.seoDescription,
+    abstract: topic.description,
     keywords: topic.keywords.join(", "),
     url: canonicalUrl,
     inLanguage: "en-US",
+    datePublished: PUBLISHED_DATE,
+    dateModified: PUBLISHED_DATE,
+    image: {
+      "@type": "ImageObject",
+      url: ogImage,
+      width: 1200,
+      height: 630,
+    },
+    author: {
+      "@type": "Organization",
+      name: "System Design Academy",
+      url: BASE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "System Design Academy",
+      url: BASE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: ogImage,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": canonicalUrl,
+    },
     isPartOf: {
       "@type": "Course",
       name: "System Design Academy",
-      description: "Master system design with 55 interactive topics",
+      description: "Master system design with 55 interactive topics across networking, databases, architecture, and real-world case studies.",
       url: BASE_URL,
       provider: {
         "@type": "Organization",
@@ -123,9 +154,11 @@ function buildJsonLd(chapterId: number, topicSlug: string) {
       },
     },
     educationalLevel: "intermediate",
-    learningResourceType: "article",
-    teaches: topic.keywords.slice(0, 5).join(", "),
+    learningResourceType: ["article", "interactive resource"],
+    teaches: topic.keywords.slice(0, 6).join(", "),
     timeRequired: `PT${topic.readingTime}M`,
+    position: topic.order,
+    isAccessibleForFree: true,
     hasPart: {
       "@type": "Course",
       name: chapter.title,
@@ -150,13 +183,59 @@ function buildJsonLd(chapterId: number, topicSlug: string) {
         name: `How is ${topic.title} used in system design interviews?`,
         acceptedAnswer: {
           "@type": "Answer",
-          text: `${topic.title} is a core system design concept covered in Chapter ${chapter.id}: ${chapter.title}. Understanding ${topic.title} is essential for system design interviews at top tech companies. Key concepts include: ${topic.keywords.slice(0, 4).join(", ")}.`,
+          text: `${topic.title} is a core system design concept covered in Chapter ${chapter.id}: ${chapter.title}. Understanding ${topic.title} is essential for system design interviews at top tech companies like Google, Meta, Amazon, and Microsoft. Key concepts include: ${topic.keywords.slice(0, 4).join(", ")}.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `Why is ${topic.title} important for system design?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `${topic.title} is a foundational concept that appears frequently in senior engineering interviews. It relates to: ${topic.keywords.slice(0, 3).join(", ")}. Mastering ${topic.title} helps you design scalable, reliable, and efficient systems.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `How long does it take to learn ${topic.title}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `This ${topic.title} guide has an estimated reading time of ${topic.readingTime} minutes, including interactive diagrams and a 10-question knowledge check quiz. It is part of ${chapter.title} in the System Design Academy curriculum.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `What are the key concepts of ${topic.title}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `The key concepts of ${topic.title} include: ${topic.keywords.join(", ")}. This topic is part of Chapter ${chapter.id} (${chapter.title}) in the System Design Academy.`,
         },
       },
     ],
   };
 
-  return { breadcrumbJsonLd, articleJsonLd, faqJsonLd };
+  const learningResourceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    name: topic.seoTitle,
+    description: topic.seoDescription,
+    url: canonicalUrl,
+    learningResourceType: "interactive resource",
+    educationalLevel: "intermediate",
+    teaches: topic.keywords.slice(0, 5).join(", "),
+    timeRequired: `PT${topic.readingTime}M`,
+    isAccessibleForFree: true,
+    inLanguage: "en-US",
+    assesses: topic.title,
+    educationalUse: "self assessment",
+    interactivityType: "active",
+    author: {
+      "@type": "Organization",
+      name: "System Design Academy",
+      url: BASE_URL,
+    },
+  };
+
+  return { breadcrumbJsonLd, articleJsonLd, faqJsonLd, learningResourceJsonLd };
 }
 
 export default async function TopicPage({ params }: Props) {
@@ -189,6 +268,10 @@ export default async function TopicPage({ params }: Props) {
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd.faqJsonLd) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd.learningResourceJsonLd) }}
           />
         </>
       )}
