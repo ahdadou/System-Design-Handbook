@@ -37,6 +37,105 @@ const questions = [
     correct: 1,
     explanation: "Read models need denormalized, precomputed data for fast queries. Write models need normalized data for integrity. CQRS lets you optimize each independently.",
   },
+  {
+    question: "What does CQRS stand for?",
+    options: [
+      "Command Queue with Relational Storage",
+      "Command Query Responsibility Segregation",
+      "Centralized Query and Routing System",
+      "Concurrent Query with Reliable Synchronization",
+    ],
+    correct: 1,
+    explanation: "CQRS — Command Query Responsibility Segregation — separates the model used to handle write operations (commands that change state) from the model used to handle read operations (queries that return data). The pattern is named after Bertrand Meyer's 'Command Query Separation' principle, extended to the architectural level.",
+  },
+  {
+    question: "In CQRS, what is a 'command'?",
+    options: [
+      "A read operation that returns data from the database",
+      "An operation that changes system state (create, update, delete) and returns no data or only an acknowledgement",
+      "A scheduled batch job that processes multiple operations",
+      "A database query that locks rows during processing",
+    ],
+    correct: 1,
+    explanation: "Commands are write operations: PlaceOrder, CancelPayment, UpdateProfile. They mutate state but typically return only success/failure. In strict CQRS, commands are one-way — they do not return domain data. This separation allows the write side to be optimized for consistency and integrity independently of reads.",
+  },
+  {
+    question: "Why is the read model (query side) in CQRS typically denormalized?",
+    options: [
+      "Denormalization is required by the CQRS pattern specification",
+      "Denormalized, precomputed views allow reads to be served from a single table or cache without expensive joins, optimizing query performance",
+      "Normalization is too complex to implement on the read side",
+      "The write side handles all normalization, so the read side doesn't need to",
+    ],
+    correct: 1,
+    explanation: "Read patterns often need aggregated, joined data (e.g., 'show me this order with customer name, product details, and shipping status'). Joining normalized tables at query time is expensive. CQRS allows maintaining a denormalized read table that contains exactly the fields needed for common queries — updated asynchronously via events from the write side.",
+  },
+  {
+    question: "How is data synchronized between the write model and read model in CQRS?",
+    options: [
+      "Through a shared database transaction that updates both simultaneously",
+      "Via events published by the write side that are consumed by event handlers to update the read model",
+      "By running scheduled batch jobs that copy write model data to the read model",
+      "Through direct database replication between write and read databases",
+    ],
+    correct: 1,
+    explanation: "When a command is processed and the write model is updated, an event (e.g., 'OrderPlaced') is published. Event handlers consume this event and update the read model accordingly. This makes the read model eventually consistent with the write model — there is a propagation delay, but the read side is always up-to-date within a short window.",
+  },
+  {
+    question: "What consistency trade-off does CQRS introduce?",
+    options: [
+      "CQRS guarantees stronger consistency than single-model architectures",
+      "The read model is eventually consistent with the write model — there is a short delay between a write and the read model reflecting it",
+      "CQRS eliminates consistency requirements entirely",
+      "CQRS requires two-phase commit across all models",
+    ],
+    correct: 1,
+    explanation: "Because the read model is updated asynchronously via events, there is a propagation delay. Immediately after a command is processed, the read model may not yet reflect the change. Systems using CQRS must account for this in UX (e.g., showing 'processing' states) and in business logic (not relying on immediate read-your-writes consistency across models).",
+  },
+  {
+    question: "When does CQRS provide the most value?",
+    options: [
+      "For simple CRUD applications with similar read and write patterns",
+      "For small single-page applications with one user type",
+      "For systems where read and write loads are significantly different — high read volume with complex query patterns versus write-heavy with strict consistency needs",
+      "For all applications regardless of complexity",
+    ],
+    correct: 2,
+    explanation: "CQRS adds significant complexity (two models, event synchronization, eventual consistency). It provides value when read and write patterns genuinely differ: a write-heavy order processing system combined with a read-heavy analytics dashboard can scale each side independently using different databases (OLTP for writes, Elasticsearch for reads). For uniform patterns, it is over-engineering.",
+  },
+  {
+    question: "A user places an order and immediately navigates to 'My Orders'. The order doesn't appear yet. What CQRS concept explains this?",
+    options: [
+      "The order was rejected by the write model",
+      "Eventual consistency — the read model updates asynchronously from the write model, so there is a brief propagation delay",
+      "The query model cached the old result and needs to be invalidated",
+      "CQRS prohibits showing order data immediately after creation",
+    ],
+    correct: 1,
+    explanation: "This is eventual consistency in action. The command (PlaceOrder) succeeded and the write model is updated. But the event propagating to update the read model takes milliseconds to seconds. Good UX handles this by optimistically showing the new order in the UI before the read model catches up, or by polling until the read model reflects the change.",
+  },
+  {
+    question: "How does combining CQRS with Event Sourcing benefit debugging?",
+    options: [
+      "It automatically generates bug reports",
+      "The immutable event log provides a complete audit trail — every command and its resulting events can be replayed to reproduce any system state for debugging",
+      "It eliminates all bugs by providing strong consistency",
+      "It generates stack traces for all command failures",
+    ],
+    correct: 1,
+    explanation: "When CQRS commands produce events stored in an event log (Event Sourcing), you have a complete, ordered record of everything that happened. To debug 'why is this order in a weird state?', replay its events chronologically. You can reproduce the exact sequence that led to the issue in a development environment, something impossible with mutable state storage.",
+  },
+  {
+    question: "Which real-world system architecture would most benefit from implementing CQRS?",
+    options: [
+      "A personal blog with a single author",
+      "A static company website with no user interactions",
+      "An e-commerce platform handling millions of daily orders with complex analytics queries and separate reporting dashboards",
+      "A simple to-do list application for personal use",
+    ],
+    correct: 2,
+    explanation: "An e-commerce platform has naturally divergent read and write patterns: writes are transactional (order placement, payment, inventory updates) requiring strict consistency; reads are complex (product search, order history, analytics dashboards) requiring high throughput and flexible query patterns. CQRS allows using PostgreSQL for writes and Elasticsearch or a data warehouse for reads, each optimized for its pattern.",
+  },
 ];
 
 export default function CqrsContent({ slug }: { slug: string; chapterId: number }) {

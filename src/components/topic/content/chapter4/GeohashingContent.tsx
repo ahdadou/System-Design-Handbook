@@ -51,6 +51,94 @@ const questions = [
     correct: 1,
     explanation: "Quadtrees subdivide 2D space recursively only where data points exist. In ride-sharing, drivers cluster in cities and sparse in rural areas. A quadtree adapts to this density  urban areas get deep subdivisions, rural areas stay as large coarse cells  making it far more efficient than a fixed geohash grid.",
   },
+  {
+    question: "What character set does geohashing use to encode coordinates?",
+    options: [
+      "Base64 (A-Z, a-z, 0-9, +, /)",
+      "Hexadecimal (0-9, A-F)",
+      "Base32 (0-9, b-z excluding a, i, l, o)",
+      "Binary (0 and 1 only)",
+    ],
+    correct: 2,
+    explanation: "Geohashing uses Base32 encoding with 32 characters: digits 0-9 and letters b-z, deliberately excluding a, i, l, and o to avoid visual confusion. Each character adds 5 bits of precision to the hash.",
+  },
+  {
+    question: "A geohash of precision 6 covers approximately what area?",
+    options: [
+      "5,000 km × 5,000 km (country-level)",
+      "40 km × 20 km (city-level)",
+      "1.2 km × 0.6 km (neighborhood-level)",
+      "3.7 cm × 1.9 cm (sub-meter GPS)",
+    ],
+    correct: 2,
+    explanation: "A 6-character geohash covers roughly 1.2 km × 0.6 km, which is neighborhood-level precision. This is a common choice for restaurant or POI (point of interest) search. Each additional character narrows the area by approximately 32x.",
+  },
+  {
+    question: "Two restaurants are very close to each other geographically but have different geohash prefixes. What is the most likely cause?",
+    options: [
+      "The restaurants are in different cities",
+      "They are on opposite sides of a geohash cell boundary",
+      "Geohashing does not guarantee proximity for nearby locations",
+      "The precision level is too high",
+    ],
+    correct: 1,
+    explanation: "Geohash cells have boundaries, and two points straddling a boundary can have completely different prefixes despite being physically adjacent. This is why proximity search must always query the target cell AND its 8 neighboring cells to avoid false negatives.",
+  },
+  {
+    question: "How does Uber's H3 library improve upon standard rectangular geohashing?",
+    options: [
+      "H3 uses squares instead of hexagons for better coverage",
+      "H3 uses a hierarchical hexagonal grid, which provides more uniform area and neighbor distances than rectangular cells",
+      "H3 eliminates the need for neighboring cell queries",
+      "H3 stores coordinates as binary rather than Base32",
+    ],
+    correct: 1,
+    explanation: "H3 uses a hierarchical hexagonal grid system. Hexagons have the advantage that all 6 neighbors are equidistant from the center (unlike rectangles where corner neighbors are farther), leading to more uniform proximity queries. H3 also supports hierarchical aggregation across resolution levels.",
+  },
+  {
+    question: "What is the time complexity of a geohash-based proximity search compared to a brute-force coordinate scan?",
+    options: [
+      "Both are O(n) since all records must be scanned",
+      "Geohash is O(log n); brute-force is O(n)",
+      "Geohash proximity lookup is effectively O(1) via prefix index; brute-force is O(n)",
+      "Geohash is O(n log n) due to sorting requirements",
+    ],
+    correct: 2,
+    explanation: "With a geohash string index (e.g., a B-tree index on the geohash column), prefix queries resolve in O(log n) for the index traversal, but looking up cells for a fixed set of known prefixes is effectively constant-time. Brute-force scans every row computing haversine distance, which is O(n).",
+  },
+  {
+    question: "Which database feature makes geohash-based queries efficient in relational databases?",
+    options: [
+      "Full-text search indexes",
+      "A standard B-tree or string index on the geohash column, enabling fast prefix lookups",
+      "Hash indexes (which also support range queries)",
+      "Bloom filters for approximate membership testing",
+    ],
+    correct: 1,
+    explanation: "A B-tree index on a geohash column allows efficient prefix-range queries (WHERE geohash LIKE '9q8y%'). Since nearby locations share a common prefix, this translates directly to a spatial proximity query without needing a specialized spatial index.",
+  },
+  {
+    question: "In a quadtree, what triggers a node to split into four children?",
+    options: [
+      "When the node's geographic area exceeds a maximum size",
+      "When the number of data points in the node exceeds a configured threshold capacity",
+      "When the tree depth exceeds a maximum level",
+      "When two data points have identical coordinates",
+    ],
+    correct: 1,
+    explanation: "A quadtree splits a node into 4 quadrants (NW, NE, SW, SE) when the number of points in that node exceeds a threshold (e.g., 4 or 8 points). This adaptive subdivision means dense urban areas get many levels of subdivision while sparse rural areas remain as single large cells.",
+  },
+  {
+    question: "MongoDB's $near operator uses which underlying spatial index type?",
+    options: [
+      "A standard B-tree index on latitude and longitude columns",
+      "A 2dsphere index that supports geospatial queries on spherical Earth coordinates",
+      "A geohash prefix index stored as a string field",
+      "A quadtree stored as a nested document structure",
+    ],
+    correct: 1,
+    explanation: "MongoDB's $near and $geoWithin operators require a 2dsphere index (for spherical/Earth coordinates) or 2d index (for flat plane coordinates). The 2dsphere index uses an internal geohash-like representation under the hood to efficiently resolve proximity queries.",
+  },
 ];
 
 export default function GeohashingContent({ slug }: { slug: string; chapterId: number }) {

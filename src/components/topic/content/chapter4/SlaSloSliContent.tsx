@@ -43,6 +43,94 @@ const questions = [
     correct: 1,
     explanation: "SLO is your internal target (e.g., 99.95%). SLA is the customer contract (e.g., 99.9%). The gap is a safety buffer. If you breach SLO, you get an internal alert to fix things before you breach the SLA and owe customers compensation. Setting SLA = SLO leaves no room for error.",
   },
+  {
+    question: "Which of the following is the best example of an SLI for a user-facing API?",
+    options: [
+      "The number of engineers on the on-call rotation",
+      "CPU utilization of the API server fleet",
+      "The percentage of requests that return a successful response (2xx) within 200ms",
+      "The number of lines of code deployed per week",
+    ],
+    correct: 2,
+    explanation: "An SLI must directly measure what users experience. Request success rate and latency are the canonical user-facing SLIs. CPU utilization and team metrics are internal operational signals that don't directly reflect user experience and should not be used as SLIs.",
+  },
+  {
+    question: "What should an engineering team do when they have consumed 80% of their monthly error budget?",
+    options: [
+      "Immediately roll back the last deployment",
+      "Slow down risky feature deployments and prioritize reliability work to preserve the remaining budget",
+      "Increase the SLO to create more error budget",
+      "Alert customers that the SLA may be breached",
+    ],
+    correct: 1,
+    explanation: "Burning 80% of the error budget is a signal to slow down velocity on risky changes. The team should focus on reliability improvements, reduce deployment frequency, and investigate ongoing issues before the budget is fully exhausted and the SLA is at risk of breach.",
+  },
+  {
+    question: "What is the error budget for a service with a 99.99% SLO over a 30-day month?",
+    options: [
+      "43.8 minutes",
+      "21.9 minutes",
+      "4.4 minutes",
+      "8.7 hours",
+    ],
+    correct: 2,
+    explanation: "99.99% SLO means 0.01% downtime allowed. 43,200 minutes/month × 0.0001 = 4.32 minutes. This is the 'four nines' tier, common for financial systems and critical infrastructure. Achieving this requires automated failover, extensive redundancy, and zero-downtime deployments.",
+  },
+  {
+    question: "Which SLI metric is most appropriate for a data processing pipeline?",
+    options: [
+      "Request success rate (2xx responses)",
+      "Data freshness: the time elapsed since the last successful pipeline run completed",
+      "p99 latency of API responses",
+      "Number of microservices in the pipeline",
+    ],
+    correct: 1,
+    explanation: "Data pipelines don't have user requests, so latency and request success rates are not applicable. Data freshness (how recent the output data is) and completeness (what fraction of expected records were processed) are the canonical SLIs for batch and streaming data pipelines.",
+  },
+  {
+    question: "Google's SRE book recommends limiting SLIs to how many per service?",
+    options: [
+      "1-2 SLIs to keep alerting focused",
+      "3-5 SLIs covering what users actually experience",
+      "10-20 SLIs for comprehensive coverage",
+      "As many as needed to cover every metric in Prometheus",
+    ],
+    correct: 1,
+    explanation: "Google recommends 3-5 SLIs per service. Too few misses important user experiences; too many creates alert fatigue and competing priorities. Focus on what users directly perceive: availability, latency, and quality of responses. Internal metrics like CPU and memory should be monitored separately but not used as SLIs.",
+  },
+  {
+    question: "What is the consequence for a cloud provider when they breach their published SLA?",
+    options: [
+      "Their service is automatically shut down by regulators",
+      "They typically owe customers service credits as compensation, specified in the SLA terms",
+      "All customer contracts are immediately terminated",
+      "They must publish a public post-mortem within 24 hours",
+    ],
+    correct: 1,
+    explanation: "SLAs are legal contracts that define consequences for breach. Typically this means service credits (a percentage of the monthly bill) proportional to the downtime duration. For example, AWS EC2's SLA provides 10% credit for availability between 99.0-99.99% and 30% for below 99.0%.",
+  },
+  {
+    question: "How does an error budget policy govern the relationship between product and engineering teams?",
+    options: [
+      "Engineering sets the SLOs; product has no input",
+      "When the error budget is healthy, teams can move fast; when it is exhausted, reliability work takes priority over new features",
+      "Product teams decide when to deploy; engineering decides when to roll back",
+      "Error budgets only apply to infrastructure teams, not product engineering",
+    ],
+    correct: 1,
+    explanation: "The error budget creates an objective, data-driven agreement between product (wants fast feature delivery) and SRE/engineering (wants stability). While budget remains, the team can ship. When budget is exhausted, the policy mandates a shift to reliability work. This removes the subjective disagreements about 'is the system stable enough to ship?'",
+  },
+  {
+    question: "What distinguishes a p99 latency SLI from an average latency SLI?",
+    options: [
+      "p99 measures the median response time; average includes outliers",
+      "p99 captures the worst 1% of requests, revealing tail latency issues that averages hide",
+      "Average latency is always higher than p99 latency",
+      "p99 and average latency measure the same thing but in different units",
+    ],
+    correct: 1,
+    explanation: "p99 latency means 99% of requests are faster than this value; only 1% are slower. Averages are dominated by fast requests and can look healthy even when 1% of users experience severe slowdowns. At scale (1M requests/day), p99 = 10,000 users with a bad experience. Percentile-based SLIs reveal tail latency that averages completely obscure.",
+  },
 ];
 
 export default function SlaSloSliContent({ slug }: { slug: string; chapterId: number }) {

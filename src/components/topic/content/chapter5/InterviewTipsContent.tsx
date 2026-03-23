@@ -62,6 +62,83 @@ const questions = [
     correct: 0,
     explanation: "CAP theorem states: during a network Partition, a system must choose between Consistency (every read gets the most recent write) and Availability (every request gets a response, possibly stale). CP systems (Zookeeper, HBase) return errors during partitions. AP systems (Cassandra, DynamoDB) return potentially stale data but stay available.",
   },
+  {
+    question: "Which caching strategy writes data to the cache and database simultaneously, ensuring consistency?",
+    options: [
+      "Cache-aside (lazy loading)",
+      "Write-through cache",
+      "Write-back (write-behind) cache",
+      "Read-through cache",
+    ],
+    correct: 1,
+    explanation: "Write-through cache writes to both cache and database on every write. This keeps cache always consistent with the database but adds write latency. Write-back only writes to cache immediately and flushes to DB asynchronously (faster writes, risk of data loss). Cache-aside loads data on cache miss only.",
+  },
+  {
+    question: "What is a 'Single Point of Failure' (SPOF) and how do you eliminate it?",
+    options: [
+      "A database that is too slow; eliminated by adding indexes",
+      "Any component whose failure causes the entire system to fail; eliminated by adding redundancy and replication",
+      "A server with only one CPU core; eliminated by vertical scaling",
+      "A network with a single ISP; eliminated by using multiple DNS providers",
+    ],
+    correct: 1,
+    explanation: "A SPOF is any component that, if it fails, takes down the whole system. Solutions: database replication (primary + replicas), multiple load balancers, multi-AZ deployments, redundant message queue brokers. The goal is that any single component failure is automatically handled without user-visible downtime.",
+  },
+  {
+    question: "You need to design an API for paginating through a large dataset. Cursor-based pagination is preferred over offset-based because:",
+    options: [
+      "Cursor pagination is simpler to implement on the server",
+      "Offset pagination performs poorly on large datasets as the DB must scan and skip rows; cursors jump directly to the next page",
+      "Cursor pagination is required by REST standards",
+      "Offset pagination cannot be used with SQL databases",
+    ],
+    correct: 1,
+    explanation: "OFFSET N in SQL forces the database to read and discard N rows before returning results. At large offsets (page 1000 of 20 items = OFFSET 20,000), this is extremely slow. Cursor-based pagination stores a pointer (e.g., the last seen ID or timestamp) and uses WHERE id > cursor LIMIT N, which uses an index and is O(log N) regardless of position.",
+  },
+  {
+    question: "In a system design interview, what does it mean to discuss 'trade-offs'?",
+    options: [
+      "Explaining why your chosen solution is perfect with no downsides",
+      "Comparing competing approaches by articulating what each gains and what it sacrifices, then justifying your choice",
+      "Choosing the most expensive technology to ensure quality",
+      "Switching between solutions whenever the interviewer disagrees",
+    ],
+    correct: 1,
+    explanation: "Every architecture decision involves trade-offs: SQL gives strong consistency but limited horizontal write scalability; NoSQL scales writes but sacrifices ACID transactions. Synchronous calls are simpler but create tight coupling; async messaging decouples but adds complexity. Senior engineers articulate these trade-offs explicitly and choose based on requirements.",
+  },
+  {
+    question: "What is the purpose of a message queue (e.g., Kafka, RabbitMQ) in a distributed system?",
+    options: [
+      "To replace the database for faster reads",
+      "To decouple producers from consumers, absorb write spikes, and enable async processing",
+      "To encrypt data in transit between services",
+      "To replace the load balancer for routing requests",
+    ],
+    correct: 1,
+    explanation: "Message queues decouple services: the producer (e.g., tweet service) publishes an event and immediately returns, without waiting for all downstream consumers (fanout workers, search indexer, notification service) to finish. This absorbs traffic spikes (queue buffers bursts), enables retries on consumer failures, and allows independent scaling of producers and consumers.",
+  },
+  {
+    question: "What is consistent hashing, and why is it used for distributing data across servers?",
+    options: [
+      "A hashing algorithm that always produces the same output for the same input",
+      "A technique that maps both data and servers onto a ring, minimizing key remapping when servers are added or removed",
+      "A way to ensure all hash values are evenly distributed between 0 and 100",
+      "A method to hash passwords consistently across microservices",
+    ],
+    correct: 1,
+    explanation: "In simple modulo hashing (key % N servers), adding or removing a server remaps almost all keys, causing a cache stampede. Consistent hashing places servers on a virtual ring. Adding a server only reassigns keys between the new server and its neighbor, typically 1/N of all keys. This makes it ideal for distributed caches (Redis Cluster) and databases with horizontal sharding.",
+  },
+  {
+    question: "What is a 'thundering herd' problem and how do you prevent it?",
+    options: [
+      "Too many servers competing to write to a single database row; prevented with row-level locking",
+      "A massive surge of requests hitting the origin after a cache expiry or cold start; prevented with jitter, cache warming, or probabilistic early expiration",
+      "A DDoS attack from many clients; prevented with a CDN",
+      "Multiple consumers reading from a Kafka partition simultaneously; prevented with consumer groups",
+    ],
+    correct: 1,
+    explanation: "When a popular cache key expires, thousands of concurrent requests simultaneously miss the cache and hit the database, potentially overwhelming it. Solutions: (1) Add random jitter to TTLs so keys don't expire simultaneously. (2) Use a mutex/lock to allow only one request to rebuild the cache. (3) Probabilistic early expiration (PER): occasionally refresh a key before it expires based on its remaining TTL.",
+  },
 ];
 
 export default function InterviewTipsContent({ slug }: { slug: string; chapterId: number }) {

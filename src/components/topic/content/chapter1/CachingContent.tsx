@@ -27,6 +27,78 @@ const questions = [
     correct: 1,
     explanation: "A cache stampede happens when a popular cached item expires and many concurrent requests all miss the cache simultaneously, overwhelming the database.",
   },
+  {
+    question: "In the cache-aside (lazy loading) pattern, how is data loaded into the cache?",
+    options: [
+      "Data is pre-loaded into the cache when the application starts",
+      "Data is written to cache on every database write",
+      "On a cache miss, the application fetches from the database and stores in cache",
+      "The cache automatically syncs from the database every minute",
+    ],
+    correct: 2,
+    explanation: "Cache-aside (lazy loading) works as follows: check cache first; on a miss, fetch from the database, store the result in cache, then return it. This is the most common caching pattern — only frequently accessed data ends up cached.",
+  },
+  {
+    question: "What is the main risk of the Write-Back (write-behind) caching strategy?",
+    options: [
+      "High write latency because every write hits both cache and database",
+      "Data loss if the cache fails before dirty data is flushed to the database",
+      "Cache and database always being out of sync with no reconciliation",
+      "Increased database load compared to write-through",
+    ],
+    correct: 1,
+    explanation: "Write-Back writes to cache immediately and asynchronously syncs to the database. If the cache crashes before flushing, data is permanently lost. This makes it unsuitable for critical data but great for high-write-throughput scenarios.",
+  },
+  {
+    question: "What eviction policy is best for a cache where some items are requested millions of times and others rarely?",
+    options: [
+      "LRU (Least Recently Used)",
+      "FIFO (First In, First Out)",
+      "LFU (Least Frequently Used)",
+      "Random Replacement",
+    ],
+    correct: 2,
+    explanation: "LFU (Least Frequently Used) evicts items with the lowest access count. It's ideal when access frequency is a good predictor of future use, such as popular content in social media or e-commerce.",
+  },
+  {
+    question: "What technique prevents cache stampedes when a popular cached item expires?",
+    options: [
+      "Increasing cache TTL to prevent expiration",
+      "Using a mutex lock or probabilistic early expiration to let only one request rebuild the cache",
+      "Disabling caching for popular items",
+      "Sending all requests directly to the database",
+    ],
+    correct: 1,
+    explanation: "To prevent stampedes: use a mutex lock (only one request rebuilds the cache; others wait), or probabilistic early expiration (proactively refresh before TTL expires). Redis has a built-in 'lock' pattern for this.",
+  },
+  {
+    question: "Redis and Memcached are both in-memory caches. What is a key advantage Redis has over Memcached?",
+    options: [
+      "Redis is always faster than Memcached",
+      "Redis supports complex data structures (lists, sets, hashes) and persistence",
+      "Memcached does not support expiration (TTL) for cached items",
+      "Redis uses less memory than Memcached",
+    ],
+    correct: 1,
+    explanation: "Redis supports rich data structures (strings, lists, sets, sorted sets, hashes, streams) and optional persistence to disk. Memcached only supports simple string key-value pairs. Redis also supports pub/sub and Lua scripting.",
+  },
+  {
+    question: "What is a cache 'hot key' problem?",
+    options: [
+      "A cache key that has expired and needs renewal",
+      "A single cache key being accessed so frequently it saturates the cache server handling it",
+      "A cache key that is too long and causes performance issues",
+      "Multiple keys mapping to the same cache value",
+    ],
+    correct: 1,
+    explanation: "Hot key problems occur when one key (e.g., a viral post or product launch) receives millions of requests per second, overwhelming the single cache node holding it. Solutions include key replication, local in-process caching, or consistent hash with virtual nodes.",
+  },
+  {
+    question: "What cache hit ratio should you target for frequently-read data in a production system?",
+    options: ["Above 50%", "Above 70%", "Above 90%", "Exactly 100%"],
+    correct: 2,
+    explanation: "A cache hit ratio above 90% is the target for high-traffic read-heavy systems. At 99% hit ratio, your database handles only 1% of reads. Below 80% often indicates poor cache key design or too-short TTLs.",
+  },
 ];
 
 export default function CachingContent({ slug }: { slug: string; chapterId: number }) {

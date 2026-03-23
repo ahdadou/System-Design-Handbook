@@ -54,6 +54,94 @@ const questions = [
     correct: 1,
     explanation: "VMs provide stronger isolation because each has its own kernel. Use VMs for: multi-tenant cloud (AWS EC2), running Windows apps on Linux hosts, workloads where a container escape would be catastrophic, or legacy apps that require full OS environments. Containers are better for microservices, CI/CD, and high-density deployments.",
   },
+  {
+    question: "What Linux kernel features do containers use to achieve process isolation?",
+    options: [
+      "Hypervisor traps and hardware virtualization extensions (VT-x/AMD-V)",
+      "Namespaces (for resource isolation) and cgroups (for resource limits)",
+      "SELinux mandatory access control policies",
+      "POSIX capabilities and file permission ACLs",
+    ],
+    correct: 1,
+    explanation: "Containers use Linux namespaces to isolate resources (pid, network, mount, uts, ipc, user namespaces) so each container sees its own isolated view. cgroups (control groups) limit resource consumption (CPU, memory, I/O). Together these provide process-level isolation without a separate kernel.",
+  },
+  {
+    question: "What is the purpose of a Union Filesystem (like OverlayFS) in Docker?",
+    options: [
+      "To merge multiple network interfaces into a single virtual interface",
+      "To create layered, copy-on-write image layers so base layers are shared between containers while each container has its own writable layer",
+      "To synchronize files across multiple containers in real time",
+      "To encrypt container filesystem data at rest",
+    ],
+    correct: 1,
+    explanation: "Docker images consist of read-only layers (base OS, dependencies, app code) stacked using OverlayFS. Multiple containers can share the same read-only layers, saving disk space and pull time. Each running container gets a thin writable layer on top. Writes are copy-on-write, so the shared layers are never modified.",
+  },
+  {
+    question: "What is the difference between a Type 1 and Type 2 hypervisor?",
+    options: [
+      "Type 1 runs on top of a host OS; Type 2 runs directly on hardware",
+      "Type 1 (bare-metal) runs directly on hardware (e.g., VMware ESXi, KVM); Type 2 (hosted) runs as an application on a host OS (e.g., VirtualBox)",
+      "Type 1 supports Linux VMs only; Type 2 supports all operating systems",
+      "Type 1 uses software emulation; Type 2 uses hardware virtualization",
+    ],
+    correct: 1,
+    explanation: "Type 1 hypervisors run directly on the physical hardware, acting as the OS themselves (VMware ESXi, KVM, Hyper-V on Windows Server). Type 2 hypervisors run as applications on top of an existing host OS (VirtualBox, VMware Workstation). Type 1 is used in production data centers; Type 2 is common for development.",
+  },
+  {
+    question: "In Kubernetes, what is a Pod?",
+    options: [
+      "A virtual machine that runs on a Kubernetes node",
+      "The smallest deployable unit in Kubernetes, consisting of one or more containers that share network and storage",
+      "A namespace for grouping related Kubernetes deployments",
+      "A load balancer that distributes traffic across container replicas",
+    ],
+    correct: 1,
+    explanation: "A Pod is the smallest deployable unit in Kubernetes. It wraps one or more containers that share the same network namespace (same IP, same localhost) and can share volumes. Containers in a pod are always co-scheduled on the same node. Typically, one container per pod is the standard pattern.",
+  },
+  {
+    question: "What is a container escape vulnerability, and which technology provides stronger protection against it?",
+    options: [
+      "A vulnerability where container images can contain malware; solved by image scanning tools",
+      "A vulnerability where a process inside a container exploits kernel bugs to gain host-level access; gVisor or Kata Containers provide stronger isolation",
+      "A networking vulnerability where containers on different hosts can communicate without authorization",
+      "A storage vulnerability where containers can read other containers' volumes",
+    ],
+    correct: 1,
+    explanation: "Container escape occurs when malicious code inside a container exploits a Linux kernel vulnerability to break out of namespace isolation and gain access to the host or other containers. gVisor (Google) interposes system calls in user space, and Kata Containers run containers in lightweight VMs, both providing stronger isolation for untrusted workloads.",
+  },
+  {
+    question: "How many more containers can typically be packed onto a host compared to VMs with equivalent workloads?",
+    options: [
+      "About 2-3x more containers than VMs",
+      "Roughly the same density since CPU is the limiting factor",
+      "Typically 10-20x more containers than VMs due to reduced memory overhead",
+      "Containers cannot run on the same host as VMs",
+    ],
+    correct: 2,
+    explanation: "Each VM requires 1-2 GB of RAM just for the guest OS kernel and system processes. Containers add only 10-100 MB overhead each. On a 64 GB host, you might run 30-40 VMs versus 500-1000 containers. This density improvement is why containers transformed cloud economics and enabled microservices architectures.",
+  },
+  {
+    question: "What is the relationship between Docker and Kubernetes in a production system?",
+    options: [
+      "Docker and Kubernetes serve identical functions; you choose one or the other",
+      "Docker is a container runtime that builds and runs containers; Kubernetes is an orchestrator that decides where and how many containers run across a cluster",
+      "Kubernetes replaced Docker; Docker is no longer used in production",
+      "Kubernetes runs on top of Docker and requires Docker as its container runtime",
+    ],
+    correct: 1,
+    explanation: "Docker handles building container images and running individual containers (via containerd runtime). Kubernetes is an orchestration layer that manages containers at scale: scheduling, auto-scaling, rolling deployments, health checks, and service discovery across a cluster of nodes. Kubernetes today uses containerd directly (not Docker daemon) but Docker-built images are fully compatible.",
+  },
+  {
+    question: "What problem does a Kubernetes Horizontal Pod Autoscaler (HPA) solve?",
+    options: [
+      "It automatically updates container images to the latest version",
+      "It automatically scales the number of pod replicas up or down based on CPU, memory, or custom metrics to match demand",
+      "It balances network traffic across pods using a round-robin algorithm",
+      "It horizontally partitions the Kubernetes etcd cluster for scalability",
+    ],
+    correct: 1,
+    explanation: "HPA watches a target metric (e.g., average CPU utilization) and automatically adjusts the replica count of a Deployment. When load increases, HPA scales up pod count; when load decreases, it scales down to save resources. This eliminates manual intervention for traffic spikes and is the primary horizontal scaling mechanism in Kubernetes.",
+  },
 ];
 
 export default function VmsContainersContent({ slug }: { slug: string; chapterId: number }) {

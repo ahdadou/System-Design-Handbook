@@ -53,6 +53,94 @@ const questions = [
     correct: 2,
     explanation: "The ESB anti-pattern is the 'monolithic bus': business logic creeps into the ESB (routing rules, transformations, orchestration), making it a heavyweight central dependency. Any change requires ESB deployment. Microservices architectures prefer 'dumb pipes, smart endpoints' to avoid this centralization.",
   },
+  {
+    question: "What integration problem does an ESB solve that direct point-to-point integrations create?",
+    options: [
+      "ESBs eliminate the need for network communication between services",
+      "Without an ESB, N systems needing to talk to M others requires up to N×M direct integrations; an ESB reduces this to N+M connections",
+      "ESBs prevent all integration failures by providing redundancy",
+      "ESBs allow services to share a single database",
+    ],
+    correct: 1,
+    explanation: "The N×M integration problem: if you have 10 enterprise systems and each needs to talk to the other 9, you need up to 90 direct point-to-point integrations, each with custom protocol and format handling. An ESB centralizes this: each system connects to the bus (N+M = 20 connections), and the bus handles all translation and routing.",
+  },
+  {
+    question: "Which capability of an ESB allows a mainframe speaking CICS to communicate with a mobile REST API?",
+    options: [
+      "Content-based routing",
+      "Orchestration and workflow management",
+      "Protocol conversion — the ESB translates between CICS/SOAP and REST/JSON without either system changing",
+      "Security mediation with OAuth",
+    ],
+    correct: 2,
+    explanation: "Protocol conversion is one of the ESB's core capabilities. Legacy systems often speak proprietary protocols (CICS, CORBA, AS400) or older standards (SOAP, FTP, JMS). The ESB translates between these and modern protocols (REST, JSON, AMQP), allowing old and new systems to interoperate without modification.",
+  },
+  {
+    question: "What does 'content-based routing' mean in an ESB context?",
+    options: [
+      "Routing messages based on the size of the payload",
+      "Routing messages to different destinations based on the content or attributes of the message itself",
+      "Encrypting message content before routing",
+      "Routing all messages to the fastest available endpoint",
+    ],
+    correct: 1,
+    explanation: "Content-based routing inspects the message body or headers to determine where to send it. For example: an order with total > $10,000 routes to a manual approval queue; orders < $10,000 go straight to fulfillment. This logic lives in the ESB rather than being duplicated in every sending system.",
+  },
+  {
+    question: "What architectural principle do microservices favor over the ESB's centralized approach?",
+    options: [
+      "Smart pipes, dumb endpoints — the infrastructure does the heavy lifting",
+      "Dumb pipes, smart endpoints — services own their business logic, and the communication layer is kept simple",
+      "Centralized orchestration through a shared coordinator",
+      "Single shared database for all services",
+    ],
+    correct: 1,
+    explanation: "The microservices philosophy is 'dumb pipes, smart endpoints': use lightweight message brokers (Kafka, SQS) that simply route messages, while each service contains its own business logic. ESBs do the opposite — they accumulate logic in the 'smart pipe,' creating central dependency and bottleneck.",
+  },
+  {
+    question: "An enterprise has SAP HR, Salesforce CRM, Oracle ERP, and a legacy mainframe all needing to exchange data. Which scenario best justifies using an ESB?",
+    options: [
+      "The company is building a new greenfield microservices application",
+      "The company cannot modify legacy systems and needs centralized protocol translation, transformation, and governance across existing heterogeneous systems",
+      "The company wants to maximize throughput for high-frequency trading",
+      "The company needs real-time event streaming at millions of events per second",
+    ],
+    correct: 1,
+    explanation: "ESBs shine in brownfield enterprise environments where you cannot modify the existing systems. When integrating unmodifiable legacy systems with different protocols and data formats under strict governance requirements, the ESB's centralized protocol conversion and transformation capabilities provide real value.",
+  },
+  {
+    question: "What is the 'integration monolith' anti-pattern that ESBs can create?",
+    options: [
+      "When all services are deployed as a single binary",
+      "When all business logic, routing rules, and transformations accumulate in the ESB, making all teams dependent on the ESB team for any change",
+      "When all databases are consolidated into a single instance",
+      "When the ESB is replicated across too many servers",
+    ],
+    correct: 1,
+    explanation: "Over time, teams delegate more logic to the ESB — custom routing rules, business validations, data transformations. This turns the ESB into a de facto integration monolith. Every change requires ESB team involvement and deployment. Teams lose autonomy, the ESB becomes a bottleneck, and the system becomes harder to evolve than the original point-to-point mess it replaced.",
+  },
+  {
+    question: "Which modern tool is most comparable to an ESB but follows the microservices philosophy?",
+    options: [
+      "A relational database with stored procedures",
+      "A lightweight message broker (Kafka/SQS) combined with smart service endpoints that own their transformation logic",
+      "A monolithic application with an internal plugin system",
+      "A load balancer with advanced routing rules",
+    ],
+    correct: 1,
+    explanation: "Modern microservices architectures replace the ESB with lightweight brokers (Kafka, SQS, RabbitMQ) that only route messages, while services themselves handle transformation and business logic. An API Gateway handles cross-cutting concerns like auth. This preserves the integration benefits while avoiding the centralized bottleneck.",
+  },
+  {
+    question: "An ESB performing 'orchestration' is coordinating a multi-step workflow. What risk does this introduce?",
+    options: [
+      "The workflow becomes too fast to monitor",
+      "The ESB becomes a stateful coordinator whose failure halts all in-progress workflows, creating a single point of failure for business processes",
+      "Orchestration prevents protocol conversion from working correctly",
+      "Orchestration requires all services to use the same programming language",
+    ],
+    correct: 1,
+    explanation: "When the ESB orchestrates multi-step workflows (call SAP, transform response, call Salesforce, aggregate), it holds the state of those processes. If the ESB fails mid-workflow, those processes are lost or corrupted. Modern systems prefer choreography (services react to events independently) or dedicated saga orchestrators that are purpose-built for reliability.",
+  },
 ];
 
 export default function EnterpriseServiceBusContent({ slug }: { slug: string; chapterId: number }) {

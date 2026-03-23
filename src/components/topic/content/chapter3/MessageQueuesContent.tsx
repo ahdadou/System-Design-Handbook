@@ -46,6 +46,94 @@ const questions = [
     correct: 1,
     explanation: "At-least-once means the queue guarantees no message is lost  but if the consumer crashes after processing but before ACKing, the message is re-delivered. Consumers must be idempotent: processing a message twice must have the same effect as processing it once (e.g., 'upsert' not 'insert').",
   },
+  {
+    question: "What is the primary role of a message queue in a distributed system?",
+    options: [
+      "To provide a shared database between services",
+      "To decouple producers and consumers by buffering messages, allowing them to operate at different rates",
+      "To replace synchronous REST API calls with faster alternatives",
+      "To store permanent application data",
+    ],
+    correct: 1,
+    explanation: "A message queue acts as a buffer between producers and consumers. Producers enqueue messages without waiting for a consumer; consumers dequeue and process at their own pace. This absorbs traffic spikes and prevents slow consumers from crashing producers.",
+  },
+  {
+    question: "What is 'backpressure' in the context of a message queue?",
+    options: [
+      "The process of compressing messages before enqueueing",
+      "The phenomenon where slow consumers cause the queue depth to grow, signaling that producers are outpacing consumers",
+      "The mechanism that forces producers to slow down by blocking their send calls",
+      "The automatic deletion of old messages when the queue is full",
+    ],
+    correct: 1,
+    explanation: "Backpressure occurs when consumers process slower than producers produce, causing queue depth to increase. Monitoring queue depth (e.g., SQS ApproximateNumberOfMessagesVisible) is the key operational signal. Auto-scaling consumer fleets based on queue depth is the standard response.",
+  },
+  {
+    question: "Which delivery guarantee risks losing messages but offers the lowest overhead?",
+    options: [
+      "At-least-once delivery",
+      "Exactly-once delivery",
+      "At-most-once delivery",
+      "First-in-first-out delivery",
+    ],
+    correct: 2,
+    explanation: "At-most-once delivery means a message is sent once; if the consumer fails, the message is not re-delivered. Some messages may be lost. This is acceptable for non-critical use cases like metrics, logs, or telemetry where losing occasional data is tolerable but low overhead is important.",
+  },
+  {
+    question: "Why do FIFO queues typically have lower throughput than standard queues?",
+    options: [
+      "FIFO queues use a less efficient data structure",
+      "FIFO queues require strict ordering, which necessitates serialization and prevents concurrent processing across all messages",
+      "FIFO queues store messages in a different format",
+      "FIFO queues require additional encryption for each message",
+    ],
+    correct: 1,
+    explanation: "Strict ordering requires that messages be processed sequentially to preserve their order. This limits parallelism. Standard queues sacrifice ordering guarantees in exchange for higher throughput through concurrent delivery. SQS FIFO queues support up to 3,000 messages/second vs. unlimited for standard queues.",
+  },
+  {
+    question: "An email-sending worker consumes from a queue. A malformed email address causes the worker to throw an exception on every attempt. What mechanism prevents this from blocking the queue indefinitely?",
+    options: [
+      "The queue automatically fixes the malformed address",
+      "The visibility timeout ensures the message is never re-delivered",
+      "After exceeding the max retry count, the message is moved to a Dead Letter Queue (DLQ)",
+      "The producer is notified to resend a corrected message",
+    ],
+    correct: 2,
+    explanation: "A 'poison message' is one that always causes consumer failure. Without a DLQ, it would loop through retries forever, blocking or consuming worker resources. After the configured maxReceiveCount is exceeded, the queue moves the message to the DLQ, allowing engineers to inspect it while the main queue continues processing.",
+  },
+  {
+    question: "What is the SQS 'visibility timeout' and why is it important?",
+    options: [
+      "The maximum time a message can sit in the queue before expiring",
+      "The time period during which a dequeued message is hidden from other consumers, preventing duplicate processing while a consumer works on it",
+      "The time SQS waits before delivering a newly enqueued message",
+      "The maximum size of a message payload in SQS",
+    ],
+    correct: 1,
+    explanation: "When a consumer receives a message from SQS, the message becomes invisible to other consumers for the visibility timeout duration. If the consumer processes and ACKs the message within this window, SQS deletes it. If it crashes, the timeout expires and the message becomes visible again for another consumer to process.",
+  },
+  {
+    question: "How should a team scale consumer workers when queue depth spikes during peak traffic?",
+    options: [
+      "Increase the producer's rate limit to slow message production",
+      "Enable FIFO ordering to process messages faster",
+      "Auto-scale the consumer fleet horizontally based on queue depth metrics",
+      "Increase the message retention period",
+    ],
+    correct: 2,
+    explanation: "Auto-scaling consumers based on queue depth is the standard pattern. When depth exceeds a threshold (e.g., >1000 messages), add more consumer instances. When the queue drains, scale in. AWS provides CloudWatch metrics for SQS queue depth that can directly trigger Auto Scaling Group policies.",
+  },
+  {
+    question: "Which of the following is a valid use case for 'exactly-once' delivery semantics?",
+    options: [
+      "Application log aggregation where occasional duplicates are acceptable",
+      "Real-time analytics dashboards where approximate counts are fine",
+      "Financial payment processing where processing a payment twice would cause double charges",
+      "Email newsletter delivery where sending twice is acceptable",
+    ],
+    correct: 2,
+    explanation: "Exactly-once delivery is expensive (requires distributed transactions or broker-level deduplication) and is only justified when duplicates cause real harm. Financial payments are the classic case: charging a customer twice has direct business consequences. Kafka Streams supports exactly-once semantics for stream processing.",
+  },
 ];
 
 export default function MessageQueuesContent({ slug }: { slug: string; chapterId: number }) {

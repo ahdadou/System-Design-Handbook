@@ -52,6 +52,83 @@ const questions = [
     correct: 1,
     explanation: "WhatsApp processes billions of messages/day. Cassandra handles extreme write throughput. Message access pattern is always 'get messages for conversation X, sorted by time'  a perfect fit for Cassandra's partition key + clustering key design.",
   },
+  {
+    question: "How does WhatsApp implement end-to-end encryption (E2EE)?",
+    options: [
+      "WhatsApp encrypts all messages on its servers before storing them",
+      "Messages are encrypted on the sender's device using the Signal Protocol; only the recipient's device holds the decryption key",
+      "WhatsApp uses HTTPS, which provides end-to-end encryption by default",
+      "Messages are encrypted with a shared password that users exchange manually",
+    ],
+    correct: 1,
+    explanation: "WhatsApp uses the Signal Protocol (Double Ratchet + X3DH key exchange). Encryption/decryption happens exclusively on the client device. WhatsApp servers only ever see ciphertext and cannot read message contents. Each message uses a unique encryption key derived from the ratchet, so compromising one key does not expose past messages (forward secrecy).",
+  },
+  {
+    question: "How does WhatsApp deliver messages to offline users?",
+    options: [
+      "Messages are dropped if the recipient is offline; they must request resend",
+      "Messages are stored in a delivery queue on the server; when the recipient reconnects, the server pushes queued messages and sends delivery receipts",
+      "The sender's device retries every second until the recipient comes online",
+      "Messages are sent via SMS as a fallback when the recipient is offline",
+    ],
+    correct: 1,
+    explanation: "When a recipient is offline, WhatsApp stores the message server-side in a queue. When the recipient reconnects via WebSocket, the server drains the queue and pushes all pending messages. The sender then receives the double-checkmark delivery receipt. Messages are deleted from the server once delivered (WhatsApp does not store message history long-term on its servers).",
+  },
+  {
+    question: "What is the 'presence' service in a messaging system like WhatsApp?",
+    options: [
+      "A service that manages user account creation and authentication",
+      "A service that tracks and broadcasts whether users are online, offline, or typing, using heartbeat signals",
+      "A service that stores user location data for finding nearby contacts",
+      "A service that manages push notification delivery",
+    ],
+    correct: 1,
+    explanation: "The presence service tracks real-time user status. Clients send heartbeat signals (e.g., every 30 seconds) over their WebSocket connection. If the heartbeat stops, the user is marked offline after a timeout. 'Last seen' timestamps are stored in a fast key-value store like Redis. For scale, presence updates use a pub/sub model so subscribers (other users' clients) are notified when a contact's status changes.",
+  },
+  {
+    question: "How would you design group messaging for WhatsApp groups with up to 1,024 members?",
+    options: [
+      "Send individual point-to-point messages to each member simultaneously from the sender's device",
+      "The sender's client sends one message to the server; the server fans out to all group members' connected WebSocket sessions or queues",
+      "Group messages use broadcast UDP packets to all member IP addresses",
+      "All group members maintain a peer-to-peer mesh network for message distribution",
+    ],
+    correct: 1,
+    explanation: "For group messages, the sender sends a single message to the server. The Group Service looks up all group members, then fans out: for each online member, it pushes via their WebSocket connection; for offline members, it queues the message for later delivery. At 1,024 members, a single message can generate 1,024 delivery operations, so the fanout must be handled asynchronously to avoid blocking.",
+  },
+  {
+    question: "How does WhatsApp handle media files (photos, videos) efficiently?",
+    options: [
+      "Media is embedded directly in the message payload and stored in Cassandra alongside text",
+      "The client uploads media to object storage (S3-equivalent), gets a URL, and sends only the URL reference in the message; recipients download directly from the CDN",
+      "All media is transcoded to a single format and stored in the chat database",
+      "Media files are transmitted peer-to-peer between sender and recipient, bypassing WhatsApp servers",
+    ],
+    correct: 1,
+    explanation: "Media files are uploaded separately to blob/object storage (similar to S3). The message payload contains only a reference URL and a client-side encryption key for the media file. Recipients download media directly from the CDN/object storage, which scales independently of the messaging infrastructure. This keeps message payloads tiny and avoids storing large binary data in Cassandra.",
+  },
+  {
+    question: "WhatsApp famously supported 900M users with only ~50 engineers. What architectural choice was most responsible for this operational efficiency?",
+    options: [
+      "Using a microservices architecture with hundreds of independent services",
+      "Using Erlang/OTP, which is designed for massive concurrency and fault tolerance, handling millions of lightweight processes per server",
+      "Running entirely on serverless functions, eliminating server management",
+      "Using a monolithic architecture that was easier to deploy and maintain",
+    ],
+    correct: 1,
+    explanation: "WhatsApp used Erlang/OTP, a language and runtime built for telecommunications-grade concurrency. Erlang's lightweight processes (not OS threads) can handle millions of concurrent WebSocket connections per server with predictable latency. OTP provides built-in supervision trees for fault tolerance and hot code reloading for zero-downtime deployments. This dramatically reduced the number of servers and engineers needed to manage the infrastructure.",
+  },
+  {
+    question: "What Cassandra data modeling approach is best suited for storing chat messages?",
+    options: [
+      "Partition by user_id so all of a user's messages are co-located",
+      "Partition by conversation_id with message timestamp as the clustering key, enabling efficient retrieval of messages in a conversation ordered by time",
+      "Store all messages in a single partition for simplicity",
+      "Partition by message_id for even data distribution across the cluster",
+    ],
+    correct: 1,
+    explanation: "The primary read pattern for chat is: 'Give me messages in conversation X, sorted by time.' Cassandra's partition key determines co-location; the clustering key determines sort order within the partition. Partition key: conversation_id groups all messages for a chat. Clustering key: created_at (or a TimeUUID) sorts them chronologically. Pagination is done using WHERE created_at < cursor LIMIT N on the same partition, which is extremely efficient.",
+  },
 ];
 
 export default function WhatsAppContent({ slug }: { slug: string; chapterId: number }) {

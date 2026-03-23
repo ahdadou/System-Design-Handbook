@@ -51,6 +51,73 @@ const questions = [
     correct: 2,
     explanation: "DNS queries are typically tiny (under 512 bytes) and the 3-way TCP handshake overhead would be larger than the query itself. UDP is faster for small request/response exchanges.",
   },
+  {
+    question: "What is the header size of a UDP packet compared to TCP?",
+    options: ["UDP: 20 bytes, TCP: 8 bytes", "UDP: 8 bytes, TCP: 20 bytes", "Both are 20 bytes", "Both are 8 bytes"],
+    correct: 1,
+    explanation: "UDP headers are only 8 bytes (source port, destination port, length, checksum). TCP headers are at least 20 bytes due to sequence numbers, acknowledgments, flags, window size, and other fields.",
+  },
+  {
+    question: "HTTP/3 uses which underlying transport protocol?",
+    options: ["TCP", "UDP via QUIC", "Raw IP", "WebSockets"],
+    correct: 1,
+    explanation: "HTTP/3 runs over QUIC, which is built on top of UDP. QUIC implements its own reliability, multiplexing, and congestion control while avoiding TCP's head-of-line blocking problem.",
+  },
+  {
+    question: "What is 'head-of-line blocking' in the context of TCP?",
+    options: [
+      "The first packet in a connection always takes longer to send",
+      "A lost packet causes all subsequent packets to be held up waiting for retransmission",
+      "TCP connections block new connections from forming",
+      "Large packets block small packets in the same stream",
+    ],
+    correct: 1,
+    explanation: "TCP delivers packets in order. If one packet is lost, all subsequent packets must wait for its retransmission even if they've already arrived. This is a key disadvantage of TCP that QUIC (HTTP/3) solves.",
+  },
+  {
+    question: "Which application would benefit most from using TCP?",
+    options: [
+      "Online multiplayer game with real-time position updates",
+      "Live audio streaming",
+      "Financial transaction API",
+      "Video conferencing",
+    ],
+    correct: 2,
+    explanation: "Financial transactions require guaranteed, ordered delivery with no data loss. TCP's reliability guarantees make it the correct choice when every byte must arrive correctly.",
+  },
+  {
+    question: "What does TCP flow control prevent?",
+    options: [
+      "Packets from arriving out of order",
+      "The sender from overwhelming the receiver's buffer",
+      "Network congestion between routers",
+      "Duplicate packet delivery",
+    ],
+    correct: 1,
+    explanation: "TCP flow control uses a sliding window mechanism where the receiver advertises how much buffer space it has. This prevents a fast sender from overwhelming a slow receiver's buffer.",
+  },
+  {
+    question: "How does TCP close a connection?",
+    options: [
+      "Two-way handshake: FIN → ACK",
+      "Three-way handshake: FIN → FIN-ACK → ACK",
+      "Four-way handshake: FIN → ACK → FIN → ACK",
+      "One-way: sender sends RST to terminate",
+    ],
+    correct: 2,
+    explanation: "TCP connection termination uses a four-way handshake: the initiating side sends FIN, the other side sends ACK, then FIN, and the initiating side sends the final ACK. This allows both sides to independently close their half of the connection.",
+  },
+  {
+    question: "Which protocol is most appropriate for a multiplayer game sending 60 position updates per second?",
+    options: [
+      "TCP, because packet loss would cause desync",
+      "UDP, because a slightly stale position is better than waiting for retransmission",
+      "HTTP/1.1 over TCP, because it has good browser support",
+      "FTP, because it has low overhead",
+    ],
+    correct: 1,
+    explanation: "Real-time games use UDP because position data becomes stale immediately. If a packet is lost, waiting for TCP retransmission would freeze the game. The next update (sent milliseconds later) is more useful than a delayed retransmission.",
+  },
 ];
 
 export default function TcpUdpContent({ slug }: { slug: string; chapterId: number }) {

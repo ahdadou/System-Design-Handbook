@@ -27,6 +27,78 @@ const questions = [
     correct: 3,
     explanation: "The Authoritative Nameserver holds the actual DNS records for a domain. It's operated by the domain owner or their DNS provider (e.g., Route 53, Cloudflare).",
   },
+  {
+    question: "What is a CNAME record used for?",
+    options: [
+      "Mapping a domain to an IPv6 address",
+      "Creating an alias from one domain name to another",
+      "Specifying mail exchange servers",
+      "Defining authoritative nameservers",
+    ],
+    correct: 1,
+    explanation: "A CNAME (Canonical Name) record creates an alias from one hostname to another. For example, www.example.com → example.com. CNAME records cannot be used at the apex domain (root domain).",
+  },
+  {
+    question: "What is the correct order of DNS resolution when looking up a domain for the first time?",
+    options: [
+      "Browser cache → OS cache → Recursive resolver → Root → TLD → Authoritative",
+      "Root → TLD → Authoritative → Recursive resolver → OS cache → Browser",
+      "Authoritative → TLD → Root → Recursive resolver → OS cache → Browser",
+      "Recursive resolver → Browser cache → Root → TLD → Authoritative",
+    ],
+    correct: 0,
+    explanation: "DNS resolution checks caches from fastest to slowest: browser cache, OS cache, then queries the recursive resolver. If not cached, the resolver queries root nameservers, then TLD nameservers (.com, .org), then the authoritative nameserver.",
+  },
+  {
+    question: "Which DNS record type is used to specify mail servers for a domain?",
+    options: ["A", "CNAME", "MX", "TXT"],
+    correct: 2,
+    explanation: "MX (Mail Exchange) records specify which mail servers accept email for a domain. They include a priority value so multiple mail servers can be used with failover.",
+  },
+  {
+    question: "Why should you lower your DNS TTL before a major infrastructure migration?",
+    options: [
+      "Lower TTL improves DNS query performance",
+      "It forces all clients to re-query DNS sooner, so IP changes propagate faster",
+      "Lower TTL reduces load on authoritative nameservers",
+      "It enables DNSSEC validation",
+    ],
+    correct: 1,
+    explanation: "Before changing IP addresses (e.g., during a migration), set TTL to 60-300 seconds. This ensures cached DNS records expire quickly after the change, minimizing downtime. Revert to a higher TTL after migration completes.",
+  },
+  {
+    question: "What is 'DNS propagation' and why can it take time?",
+    options: [
+      "The time for DNS software to install updates on servers",
+      "The delay for updated DNS records to spread across caching resolvers worldwide as old TTLs expire",
+      "The time for HTTPS certificates to be issued for a new domain",
+      "The process of registering a domain with a registrar",
+    ],
+    correct: 1,
+    explanation: "DNS propagation is the time it takes for DNS changes to be visible globally. Caching resolvers across the internet hold old records until their TTL expires. With high TTLs, this can take hours or days.",
+  },
+  {
+    question: "What is the role of Root Nameservers in DNS?",
+    options: [
+      "They store all DNS records for every domain",
+      "They resolve IP addresses to domain names",
+      "They direct queries to the correct TLD nameserver (e.g., .com, .org)",
+      "They cache DNS responses to reduce query load",
+    ],
+    correct: 2,
+    explanation: "Root Nameservers sit at the top of the DNS hierarchy. They don't know the IP for specific domains, but they know which TLD nameservers handle .com, .org, .net, etc. There are 13 root nameserver clusters worldwide.",
+  },
+  {
+    question: "What advantage does AWS Route 53's latency-based routing provide?",
+    options: [
+      "It encrypts DNS responses between client and resolver",
+      "It returns the IP of the AWS region with the lowest latency for the user",
+      "It caches DNS responses locally on the client",
+      "It automatically renews SSL certificates",
+    ],
+    correct: 1,
+    explanation: "Route 53 latency-based routing measures latency between users and AWS regions and returns the IP address of the region that will give the user the lowest latency, effectively routing users to the closest healthy endpoint.",
+  },
 ];
 
 export default function DnsContent({ slug }: { slug: string; chapterId: number }) {

@@ -53,6 +53,94 @@ const questions = [
     correct: 1,
     explanation: "Stateless web servers are ideal for horizontal scaling  just add more instances behind a load balancer. No shared state means any server can handle any request.",
   },
+  {
+    question: "What is the primary challenge that prevents databases from being horizontally scaled as easily as web servers?",
+    options: [
+      "Databases are always slower than web servers",
+      "Databases maintain state (data), requiring coordination to keep data consistent across nodes",
+      "Database software does not support multiple instances",
+      "Databases require more CPU than web servers",
+    ],
+    correct: 1,
+    explanation: "Stateful systems like databases are hard to horizontally scale because data must be consistent across nodes. You need strategies like read replicas, sharding, or distributed databases (Cassandra, DynamoDB) to scale horizontally.",
+  },
+  {
+    question: "What is database sharding?",
+    options: [
+      "Creating read-only copies of a database for read traffic",
+      "Partitioning data horizontally across multiple databases, each holding a subset of rows",
+      "Compressing database records to save storage space",
+      "Encrypting database tables for security",
+    ],
+    correct: 1,
+    explanation: "Sharding splits data across multiple database instances based on a shard key (e.g., user ID). Each shard holds a subset of the data. This allows databases to scale beyond the limits of a single server.",
+  },
+  {
+    question: "What is auto-scaling in cloud environments?",
+    options: [
+      "Automatically upgrading server hardware when CPU limits are reached",
+      "Automatically adding or removing instances based on traffic metrics to match demand",
+      "A load balancing algorithm that adjusts weights dynamically",
+      "Automatically migrating data between storage tiers",
+    ],
+    correct: 1,
+    explanation: "Auto-scaling monitors metrics (CPU, request rate, queue depth) and automatically launches new instances when load increases and terminates instances when load decreases. This provides cost efficiency and handles traffic spikes without manual intervention.",
+  },
+  {
+    question: "What is a key requirement for a web service to scale horizontally effectively?",
+    options: [
+      "Each server must have a unique database connection",
+      "The service must be stateless — no session data stored in server memory",
+      "All servers must run on identical hardware",
+      "The service must use only UDP connections",
+    ],
+    correct: 1,
+    explanation: "Stateless services store no session data in memory. Any server can handle any request. Session state is stored externally (Redis, database). This allows the load balancer to route requests to any available server without affinity requirements.",
+  },
+  {
+    question: "What is the 'thundering herd' problem in the context of scaling?",
+    options: [
+      "Too many servers trying to connect to a database simultaneously after a restart",
+      "A single server handling too many concurrent requests",
+      "Database replication lag causing stale reads",
+      "Auto-scaling launching too many instances at once",
+    ],
+    correct: 0,
+    explanation: "When a server or cache restarts, all its clients may reconnect or make requests simultaneously, overwhelming the recovering system. Solutions include exponential backoff with jitter, circuit breakers, and staggered reconnection delays.",
+  },
+  {
+    question: "What is the difference between 'scale out' and 'scale up'?",
+    options: [
+      "Scale out = increasing storage; scale up = increasing CPU/RAM",
+      "Scale out = adding more machines horizontally; scale up = increasing resources on existing machines vertically",
+      "Scale out = geographic distribution; scale up = more instances in one region",
+      "They are equivalent terms for the same operation",
+    ],
+    correct: 1,
+    explanation: "Scale out (horizontal scaling) adds more servers/nodes to distribute the load. Scale up (vertical scaling) increases the resources (CPU, RAM, storage) of existing servers. Scale out is generally preferred for long-term growth as it has no hard ceiling.",
+  },
+  {
+    question: "Why is connection pooling important in a horizontally-scaled system?",
+    options: [
+      "It speeds up TCP handshakes between services",
+      "It limits the total number of database connections, preventing the database from being overwhelmed",
+      "It allows services to share CPU resources across servers",
+      "It encrypts connections between application servers and databases",
+    ],
+    correct: 1,
+    explanation: "With N application servers each opening M connections to the database, you get N×M total connections. Connection poolers (PgBouncer, ProxySQL) maintain a small pool of connections and multiplex many application requests through them, preventing database connection exhaustion.",
+  },
+  {
+    question: "What does it mean for a system to be 'elastically scalable'?",
+    options: [
+      "The system can handle any amount of load without degradation",
+      "The system can automatically scale capacity up and down in response to demand",
+      "The system uses flexible hardware that can be reconfigured",
+      "The system scales only during pre-defined maintenance windows",
+    ],
+    correct: 1,
+    explanation: "Elastic scalability means the system automatically provisions resources when demand increases and releases them when demand decreases. Cloud platforms (AWS, GCP, Azure) enable this with auto-scaling groups, managed Kubernetes, and serverless compute.",
+  },
 ];
 
 export default function ScalabilityContent({ slug }: { slug: string; chapterId: number }) {

@@ -45,6 +45,94 @@ const questions = [
     correct: 2,
     explanation: "A fanout exchange broadcasts every message to all queues bound to it  routing keys are ignored. This is the pub/sub pattern in RabbitMQ. Direct exchange routes by exact routing key; topic exchange by pattern matching.",
   },
+  {
+    question: "What is the primary benefit a message broker provides to a distributed system?",
+    options: [
+      "It guarantees exactly-once delivery with no configuration",
+      "It decouples producers and consumers so they do not need to know about each other's address, format, or availability",
+      "It replaces the need for a database in write-heavy systems",
+      "It automatically scales all downstream services",
+    ],
+    correct: 1,
+    explanation: "A message broker acts as an intermediary: producers publish to the broker and consumers subscribe from it. Neither side needs to know about the other. This temporal and spatial decoupling means services can be deployed, scaled, and restarted independently without coordination.",
+  },
+  {
+    question: "In Kafka, what does a 'consumer group' allow?",
+    options: [
+      "Multiple consumers to each receive every message (broadcast)",
+      "Parallel processing of a topic's partitions across multiple consumer instances, where each partition is assigned to exactly one consumer in the group",
+      "Consumers to write messages back to the same topic",
+      "Producers to batch messages before sending",
+    ],
+    correct: 1,
+    explanation: "A Kafka consumer group enables horizontal scaling of consumers. Each partition in a topic is consumed by exactly one consumer within the group, distributing the load. Multiple consumer groups can independently consume the same topic — each group gets all messages.",
+  },
+  {
+    question: "What delivery guarantee does a message broker provide when a consumer crashes before acknowledging a message?",
+    options: [
+      "The message is permanently lost",
+      "The message is re-delivered to another consumer (at-least-once delivery)",
+      "The message is delivered exactly once to a new consumer",
+      "The broker deletes the message to prevent duplicate processing",
+    ],
+    correct: 1,
+    explanation: "Brokers track acknowledgements (ACKs). If a consumer crashes without ACKing, the broker marks the message as unacknowledged and re-delivers it. This gives at-least-once delivery — no message is lost, but consumers must be idempotent to handle possible duplicates.",
+  },
+  {
+    question: "Which scenario is best suited for Apache Kafka rather than RabbitMQ?",
+    options: [
+      "Complex routing of tasks to different worker queues based on priority",
+      "RPC-style request-reply patterns between services",
+      "Event sourcing and audit logging where consumers need to replay historical events",
+      "Simple task queues for background job processing at low volume",
+    ],
+    correct: 2,
+    explanation: "Kafka's durable, append-only log with configurable retention makes it ideal for event sourcing and audit logging. Consumers can seek to any offset and replay the complete event history. RabbitMQ deletes messages after ACK, so replay is impossible.",
+  },
+  {
+    question: "What is a RabbitMQ 'topic exchange' used for?",
+    options: [
+      "Broadcasting to all queues with no routing key consideration",
+      "Routing messages to queues whose binding key pattern-matches the routing key using wildcards (* and #)",
+      "Routing based on message header attributes",
+      "Routing by exact routing key match only",
+    ],
+    correct: 1,
+    explanation: "A topic exchange routes messages using routing key patterns. The '*' wildcard matches one word; '#' matches zero or more words. For example, a queue bound to 'order.#' receives 'order.placed', 'order.shipped', and 'order.cancelled'. This enables flexible, hierarchical routing.",
+  },
+  {
+    question: "What does 'idempotent consumer' mean in the context of message brokers?",
+    options: [
+      "A consumer that processes messages at exactly-once semantics natively",
+      "A consumer where processing the same message multiple times produces the same result as processing it once",
+      "A consumer that acknowledges messages before processing them",
+      "A consumer that can receive messages from multiple brokers simultaneously",
+    ],
+    correct: 1,
+    explanation: "Because at-least-once delivery can cause duplicates (e.g., consumer crashes after processing but before ACKing), consumers must be idempotent. An idempotent operation — like an upsert or a conditional update — produces the same result whether applied once or many times, making duplicates safe.",
+  },
+  {
+    question: "How does a message broker enable the 'fan-out' pattern?",
+    options: [
+      "By creating multiple copies of the producer service",
+      "By routing one published message to multiple consumers or queues simultaneously, so one event triggers N downstream services",
+      "By load-balancing messages across a single consumer pool",
+      "By batching messages and sending them in bulk",
+    ],
+    correct: 1,
+    explanation: "When an Order Service publishes an 'order.placed' event, the broker delivers it to all subscribed consumers (Inventory, Notifications, Analytics) simultaneously. Each consumer reacts independently. Adding a new consumer requires zero changes to the producer — the broker handles all fan-out routing.",
+  },
+  {
+    question: "What happens in Kafka when the consumer's processing rate falls behind the producer's publishing rate?",
+    options: [
+      "Kafka drops the oldest messages to maintain throughput",
+      "Kafka blocks the producer until consumers catch up",
+      "Messages accumulate in the log (consumer lag increases) and consumers can catch up by processing at their own pace",
+      "Kafka automatically spins up new consumer instances",
+    ],
+    correct: 2,
+    explanation: "Kafka's durable log absorbs producer/consumer rate mismatches. Messages are retained on disk regardless of consumer progress. Consumers track their own offset and catch up whenever they have capacity. Consumer lag (offset difference between latest and consumer position) is the key metric to monitor.",
+  },
 ];
 
 export default function MessageBrokersContent({ slug }: { slug: string; chapterId: number }) {

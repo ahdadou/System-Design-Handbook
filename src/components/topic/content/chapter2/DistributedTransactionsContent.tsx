@@ -47,6 +47,94 @@ const questions = [
     correct: 2,
     explanation: "Sagas break a distributed transaction into a sequence of local transactions. If step N fails, compensating transactions are executed for steps N-1, N-2, etc. to undo their effects. For example, if payment fails after inventory was reserved, a compensation releases the reservation.",
   },
+  {
+    question: "What happens in Phase 1 (Prepare) of Two-Phase Commit?",
+    options: [
+      "The coordinator sends COMMIT to all participants and they apply the changes",
+      "The coordinator sends PREPARE to all participants, who lock resources and vote YES or NO on whether they can commit",
+      "Participants independently decide whether to commit and notify the coordinator",
+      "The coordinator rolls back all participants as a safety check before committing",
+    ],
+    correct: 1,
+    explanation: "In Phase 1, the coordinator sends a PREPARE message to all participants. Each participant checks if it can commit (resources available, no constraint violations), writes to its undo log, acquires necessary locks, and votes YES or NO. After voting YES, a participant cannot unilaterally abort — it must wait for the coordinator's decision.",
+  },
+  {
+    question: "What is the difference between Choreography and Orchestration in the Saga pattern?",
+    options: [
+      "Choreography uses a central coordinator; Orchestration uses event-driven, decentralized communication",
+      "Choreography uses event-driven, decentralized reactions between services; Orchestration uses a central coordinator to direct each step",
+      "Choreography is only for synchronous operations; Orchestration is only for asynchronous operations",
+      "Choreography applies to databases; Orchestration applies to microservices",
+    ],
+    correct: 1,
+    explanation: "In Choreography, each service reacts to events published by others — no central controller. In Orchestration, a central orchestrator (e.g., AWS Step Functions, Temporal) explicitly tells each service what to do next and tracks saga state. Choreography is more decoupled but harder to debug; Orchestration centralizes visibility but creates a coupling point.",
+  },
+  {
+    question: "Why do distributed transactions not scale as well as local transactions?",
+    options: [
+      "Distributed transactions require more disk space than local transactions",
+      "Distributed transactions require coordination protocols (2PC) with multiple network round-trips and cross-service locks, increasing latency and reducing throughput",
+      "Distributed transactions can only run sequentially, never in parallel",
+      "Distributed transactions are not supported by any database above 100GB",
+    ],
+    correct: 1,
+    explanation: "Distributed transactions involve multiple network round-trips (PREPARE, vote, COMMIT/ROLLBACK) and hold locks across multiple databases simultaneously. Each additional participant adds latency proportional to the slowest node, and the lock hold time spans the entire 2PC protocol, reducing the system's ability to process concurrent requests.",
+  },
+  {
+    question: "What is a compensating transaction in a Saga and why must it be idempotent?",
+    options: [
+      "A transaction that speeds up the saga; idempotency is not required",
+      "A transaction that undoes a completed step; it must be idempotent because the compensating transaction itself might be retried on failure",
+      "A transaction that verifies the saga state; idempotency ensures the check runs only once",
+      "A transaction that replaces the failed step with an alternative action",
+    ],
+    correct: 1,
+    explanation: "A compensating transaction reverses the effect of a previously committed step (e.g., issue a refund to undo a charge). It must be idempotent because the message broker or workflow engine may deliver or retry the compensation multiple times on failure. Executing an idempotent compensation twice produces the same result as once (e.g., a refund that checks 'already refunded' before proceeding).",
+  },
+  {
+    question: "When would you prefer 2PC over the Saga pattern for a distributed transaction?",
+    options: [
+      "When the transaction spans services owned by different teams across different companies",
+      "When all participants are within the same datacenter, use compatible databases, and you need strong ACID guarantees with immediate consistency",
+      "When you need the highest possible write throughput across all services",
+      "When the transaction involves more than 10 participant services",
+    ],
+    correct: 1,
+    explanation: "2PC is most appropriate when participants are tightly coupled — same organization, same or compatible databases, low-latency network — and you need strong atomicity. Its blocking risk and latency cost are acceptable in these constrained environments. For loosely coupled microservices across teams or networks, Sagas are preferred.",
+  },
+  {
+    question: "What is the 'outbox pattern' and why is it used with Sagas?",
+    options: [
+      "A pattern where completed saga steps are stored in an outbox table before being deleted",
+      "A pattern that writes an event to a local database table atomically with the business operation, ensuring the event is reliably published even if the process crashes",
+      "A pattern that routes saga messages through a central outbox service for logging",
+      "A cache layer that temporarily stores saga state during choreography",
+    ],
+    correct: 1,
+    explanation: "The outbox pattern solves the 'dual write' problem: you cannot atomically write to your database AND publish an event to a message broker. Instead, you write the event to an 'outbox' table in the same local transaction as the business data. A separate relay process reads the outbox and publishes events, guaranteeing at-least-once delivery even if the process crashes between the DB write and broker publish.",
+  },
+  {
+    question: "In an e-commerce order flow using Sagas, the payment step fails after inventory was already reserved. What should happen?",
+    options: [
+      "The order is marked as failed and no further action is taken",
+      "A compensating transaction releases the inventory reservation, and the order is cancelled",
+      "The system retries the payment indefinitely until it succeeds",
+      "The inventory remains reserved and the customer is notified to retry payment",
+    ],
+    correct: 1,
+    explanation: "When the payment step fails, the Saga executes compensating transactions for all previously completed steps. The inventory reservation compensating transaction releases the reserved stock. Without this, the inventory would be permanently locked for an order that will never complete, preventing other customers from purchasing the item.",
+  },
+  {
+    question: "What consistency model do Sagas provide, and what anomaly can they produce?",
+    options: [
+      "Strong consistency (ACID) — Sagas provide the same guarantees as local transactions",
+      "Eventual consistency — Sagas can produce intermediate states where some steps have committed but others have not, visible to other services",
+      "Linearizable consistency — all saga steps appear instantaneous to external observers",
+      "Read-your-own-writes consistency — only the saga initiator sees intermediate states",
+    ],
+    correct: 1,
+    explanation: "Sagas provide eventual consistency, not ACID isolation. Between the time step 1 commits and the compensating transaction runs after step 3 fails, other services can observe the partially completed state (e.g., inventory is reserved but no order is confirmed). This is called the 'lost update' or 'dirty read at the saga level' problem. Design sagas to tolerate and handle these intermediate states.",
+  },
 ];
 
 export default function DistributedTransactionsContent({ slug }: { slug: string; chapterId: number }) {

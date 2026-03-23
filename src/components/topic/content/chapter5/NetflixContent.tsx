@@ -64,6 +64,83 @@ const questions = [
     correct: 1,
     explanation: "Netflix created Chaos Monkey (part of the Simian Army), a tool that randomly terminates production instances to ensure their systems could survive unexpected failures. This practice of intentionally breaking things to build resilience is called Chaos Engineering.",
   },
+  {
+    question: "How does Adaptive Bitrate Streaming (ABR) work in Netflix's player?",
+    options: [
+      "The server selects the bitrate based on the user's subscription plan",
+      "The player continuously monitors available bandwidth and buffer level, switching between pre-encoded segments of different quality levels in real time",
+      "The video is compressed more aggressively when the server detects high load",
+      "Users manually select quality in the settings menu, which persists for the session",
+    ],
+    correct: 1,
+    explanation: "Netflix uses HLS or MPEG-DASH. Video is split into 2-10 second segments, each encoded at multiple bitrates. The player maintains a buffer and tracks download speed. If download speed drops below the current segment bitrate, the player switches to a lower quality segment for the next chunk. This happens seamlessly without interruption, trading quality for uninterrupted playback.",
+  },
+  {
+    question: "Netflix uses Cassandra for user viewing history and ratings. What property of Cassandra makes it a good fit?",
+    options: [
+      "Cassandra supports ACID transactions, ensuring viewing history is always accurate",
+      "Cassandra's wide-column model and leaderless replication handle high write throughput across multiple regions with tunable consistency",
+      "Cassandra supports full-text search, making it easy to query viewing history",
+      "Cassandra is the only database that supports time-series data",
+    ],
+    correct: 1,
+    explanation: "Netflix's viewing events (play, pause, seek, completion) generate enormous write volume globally. Cassandra's leaderless architecture means any node in any region can accept writes, with no single write master. With tunable consistency (e.g., LOCAL_QUORUM), Netflix can balance consistency and availability per-region. The wide-column model allows storing a user's entire viewing history under a single partition key (user_id), enabling fast reads.",
+  },
+  {
+    question: "What is Netflix's EVCache and why did they build it?",
+    options: [
+      "A video encoding cache that stores partially transcoded video segments",
+      "A distributed cache built on top of Memcached, deployed across multiple AWS availability zones to cache user data with very high availability",
+      "An event-driven cache that invalidates data based on Kafka events",
+      "A CDN edge cache specifically for serving static web assets",
+    ],
+    correct: 1,
+    explanation: "EVCache (Ephemeral Volatile Cache) is Netflix's in-house distributed caching system built on top of Memcached. It replicates cache data across multiple AWS Availability Zones so that a single AZ failure does not cause a cache cold start. It serves user preferences, recommendations, and session data. By replicating across AZs (at some cost in memory), Netflix achieves extremely high cache hit rates even during infrastructure failures.",
+  },
+  {
+    question: "How does Netflix's recommendation system generate personalized content suggestions at scale?",
+    options: [
+      "By surveying users weekly and manually curating recommendations",
+      "By running collaborative filtering and deep learning models on viewing history, ratings, and behavioral signals using Apache Spark, with results cached per user",
+      "By sorting content alphabetically and showing the first items that match the user's subscription tier",
+      "By recommending the most popular titles globally without personalization",
+    ],
+    correct: 1,
+    explanation: "Netflix's recommendation engine uses collaborative filtering (users with similar tastes liked X, so you might too), content-based filtering (you watched thriller A, here are similar thrillers), and deep learning models. These run on Apache Spark on AWS, processing petabytes of behavioral data. Results are pre-computed daily and cached (in EVCache) per user. At request time, the system serves from cache with real-time contextual adjustments (time of day, device type).",
+  },
+  {
+    question: "What is the circuit breaker pattern, and how does Netflix use it in their microservices architecture?",
+    options: [
+      "A hardware failsafe that cuts power to servers during overload to prevent damage",
+      "A software pattern that monitors service call failure rates and stops routing requests to a failing dependency, returning fallback responses instead",
+      "A load balancing algorithm that routes traffic to the least loaded service instance",
+      "A database connection pool that limits the maximum number of concurrent queries",
+    ],
+    correct: 1,
+    explanation: "Netflix built Hystrix (now Resilience4j) to implement circuit breakers. If a dependency (e.g., the Recommendation Service) starts failing, the circuit opens: subsequent calls immediately return a fallback (e.g., default popular titles) instead of waiting for a timeout. After a cooldown period, the circuit half-opens to test if the dependency recovered. This prevents cascading failures where one slow service causes all dependent services to exhaust their thread pools.",
+  },
+  {
+    question: "How does Netflix's video transcoding pipeline process a new title efficiently?",
+    options: [
+      "A single powerful server transcodes the entire video sequentially through all 1200+ versions",
+      "The video is split into parallel chunks, each processed independently by many machines simultaneously, then reassembled and stored as segments on S3",
+      "Transcoding happens in real time on the CDN edge servers when a user first requests a title",
+      "Users' devices perform transcoding locally when they first download a title",
+    ],
+    correct: 1,
+    explanation: "Netflix's transcoding pipeline parallelizes both horizontally (across many encoding jobs simultaneously) and vertically (splitting one video file into chunks encoded in parallel). Each video is cut into scenes, then each scene is encoded at all required bitrate/resolution/codec combinations concurrently across thousands of machines. Encoded segments are stored in S3 as short chunks (2-10 seconds each). A 2-hour movie generates millions of segment files.",
+  },
+  {
+    question: "Why does Netflix run almost entirely on AWS rather than its own data centers?",
+    options: [
+      "Netflix does not have the engineering talent to manage data centers",
+      "AWS provides global infrastructure, elastic scaling for unpredictable peak demand (e.g., new season releases), and managed services that reduce operational overhead",
+      "AWS guarantees 100% uptime, eliminating the need for Netflix's own resilience engineering",
+      "It is cheaper for Netflix to use AWS than any alternative at their scale",
+    ],
+    correct: 1,
+    explanation: "When a popular new season releases, Netflix may see 2-3x normal traffic within hours. AWS allows Netflix to elastically provision thousands of additional servers within minutes. Building and maintaining global data centers at sufficient scale to handle these peaks would require massive capital expenditure that sits idle most of the time. AWS also provides managed services (RDS, S3, EMR) that reduce the engineering burden of infrastructure management.",
+  },
 ];
 
 export default function NetflixContent({ slug }: { slug: string; chapterId: number }) {

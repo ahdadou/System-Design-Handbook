@@ -46,6 +46,94 @@ const questions = [
     correct: 1,
     explanation: "A regular view runs its query every time you SELECT from it. A materialized view stores the actual result rows on disk. Reads are instant, but the data can go stale until you run REFRESH MATERIALIZED VIEW (PostgreSQL) or the database refreshes it on a schedule.",
   },
+  {
+    question: "What does the 'D' in ACID stand for, and how is it typically achieved?",
+    options: [
+      "Determinism — by using fixed query plans",
+      "Durability — by writing committed data to disk via the Write-Ahead Log",
+      "Distribution — by replicating data to multiple nodes",
+      "Deduplication — by eliminating redundant rows on commit",
+    ],
+    correct: 1,
+    explanation: "Durability guarantees that once a transaction is committed, it survives crashes. This is achieved using the Write-Ahead Log (WAL): changes are persisted to an append-only log on disk before being applied to data files. On crash recovery, the WAL is replayed to restore committed state.",
+  },
+  {
+    question: "Which SQL isolation level prevents dirty reads but still allows non-repeatable reads?",
+    options: [
+      "Read Uncommitted",
+      "Read Committed",
+      "Repeatable Read",
+      "Serializable",
+    ],
+    correct: 1,
+    explanation: "Read Committed prevents dirty reads (you never see uncommitted data from other transactions), but a row you read once may change if another transaction commits between your two reads in the same transaction — a non-repeatable read. This is the default isolation level in PostgreSQL.",
+  },
+  {
+    question: "What is the primary advantage of using keyset pagination over OFFSET-based pagination?",
+    options: [
+      "Keyset pagination is easier to implement",
+      "Keyset pagination avoids scanning and skipping rows, making it O(log n) regardless of page number",
+      "Keyset pagination supports random page access by page number",
+      "Keyset pagination works without any indexes",
+    ],
+    correct: 1,
+    explanation: "OFFSET pagination scans and discards all preceding rows, making page 1000 scan 1000 * page_size rows. Keyset pagination uses a WHERE clause with the last seen value (e.g., WHERE id > last_id LIMIT 20), which uses an index directly and is O(log n) regardless of how deep you paginate.",
+  },
+  {
+    question: "Why is SELECT * generally discouraged in production SQL queries?",
+    options: [
+      "SELECT * causes SQL syntax errors in some databases",
+      "SELECT * fetches all columns, increasing I/O and network transfer even when only a few columns are needed",
+      "SELECT * prevents the use of indexes entirely",
+      "SELECT * is slower than individual column selection because of alphabetic sorting",
+    ],
+    correct: 1,
+    explanation: "SELECT * fetches every column including large text and blob fields you may not need. This increases disk I/O, network bandwidth, and memory usage. Selecting only needed columns reduces data transfer and can enable covering indexes (answering the query entirely from the index without touching the table).",
+  },
+  {
+    question: "What does EXPLAIN ANALYZE do in PostgreSQL?",
+    options: [
+      "It analyzes the table statistics and rebuilds indexes",
+      "It executes the query and shows the actual execution plan with real row counts and timing",
+      "It validates the SQL syntax without executing the query",
+      "It creates an optimized stored procedure from the query",
+    ],
+    correct: 1,
+    explanation: "EXPLAIN shows the planned execution strategy. EXPLAIN ANALYZE actually runs the query and shows both the planned and actual row counts, timing, and node-by-node costs. This lets you identify full table scans, bad row count estimates, and inefficient join strategies.",
+  },
+  {
+    question: "What is a foreign key constraint in SQL?",
+    options: [
+      "A key used to encrypt data stored in the database",
+      "A column or set of columns that references the primary key of another table, enforcing referential integrity",
+      "A backup primary key used when the main key is unavailable",
+      "An index on a column belonging to a remote (foreign) database",
+    ],
+    correct: 1,
+    explanation: "A foreign key is a referential integrity constraint. It ensures that a value in column A of table T1 must match a value in the primary key of table T2. The database rejects inserts or updates that would create orphaned references.",
+  },
+  {
+    question: "Which SQL join type returns all rows from the left table even if there is no matching row in the right table?",
+    options: [
+      "INNER JOIN",
+      "CROSS JOIN",
+      "LEFT OUTER JOIN",
+      "FULL JOIN",
+    ],
+    correct: 2,
+    explanation: "LEFT OUTER JOIN returns all rows from the left table. For rows where no matching row exists in the right table, the right-table columns are filled with NULL. This is commonly used to find records with no related records (e.g., users who have never placed an order).",
+  },
+  {
+    question: "What is a composite index and when should you use one?",
+    options: [
+      "An index that compresses data using multiple algorithms simultaneously",
+      "An index spanning multiple columns, best used when queries filter on those columns together",
+      "An index that covers all columns in a table automatically",
+      "An index shared between multiple tables via foreign keys",
+    ],
+    correct: 1,
+    explanation: "A composite index covers multiple columns in a defined order, e.g., INDEX(user_id, created_at). It speeds up queries that filter on both columns together. The column order matters: the index can satisfy queries filtering on the leftmost prefix but not arbitrary column subsets.",
+  },
 ];
 
 export default function SqlDatabasesContent({ slug }: { slug: string; chapterId: number }) {

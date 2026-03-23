@@ -66,6 +66,83 @@ const questions = [
     correct: 1,
     explanation: "Surge pricing dynamically adjusts fare based on local supply-demand imbalance. If requests in a geohash cell exceed available drivers, the surge multiplier increases. This incentivizes more drivers to come to that area, rebalancing supply and demand.",
   },
+  {
+    question: "What is geohashing and why is it used in Uber's location system?",
+    options: [
+      "A cryptographic hash of GPS coordinates used to protect driver privacy",
+      "A technique that encodes latitude/longitude into a short alphanumeric string representing a rectangular grid cell, enabling efficient proximity searches",
+      "A compression algorithm that reduces the size of GPS data transmitted from driver apps",
+      "A distributed hash table that maps driver IDs to their database shard",
+    ],
+    correct: 1,
+    explanation: "Geohashing encodes any lat/lng coordinate into a short string (e.g., 'dr5ru'). Nearby locations share a common prefix. Longer strings = smaller cells = more precision. In Redis, driver locations are stored with geohash as the key prefix. To find nearby drivers, query the rider's geohash cell and the 8 surrounding cells  a constant-time operation regardless of total driver count, far more efficient than a distance-sorted full scan.",
+  },
+  {
+    question: "How does Uber calculate ETA (Estimated Time of Arrival) for a driver pick-up?",
+    options: [
+      "By dividing the straight-line distance between driver and rider by the speed limit",
+      "By routing through a road network graph with real-time traffic weights, using algorithms like Dijkstra or A* with live traffic data from GPS traces",
+      "By asking the driver to estimate their own arrival time",
+      "By using a simple circular radius formula (circumference = 2πr)",
+    ],
+    correct: 1,
+    explanation: "ETA requires routing through the actual road network, not straight-line distance. Uber built a road network graph where nodes are intersections and edges are road segments with weights representing travel time. Weights are updated in real-time using aggregated GPS traces from active drivers (historical patterns by time-of-day, live congestion). Uber also open-sourced H3 (hexagonal hierarchical indexing) for efficient geographic queries at multiple resolutions.",
+  },
+  {
+    question: "Uber's location service receives ~750K location writes per second at peak. What storage system handles this and why?",
+    options: [
+      "MySQL with a geospatial index; it supports POINT data types and spatial queries natively",
+      "Redis with geospatial commands (GEOADD, GEORADIUS); in-memory storage handles extreme write throughput with sub-millisecond latency",
+      "Cassandra with a geohash partition key; wide-column storage scales writes horizontally",
+      "PostgreSQL with PostGIS extension; it has the best geospatial query support",
+    ],
+    correct: 1,
+    explanation: "Redis is ideal for Uber's location data: GEOADD stores driver coordinates in an in-memory sorted set using the geohash score. GEORADIUS queries return all drivers within a radius in O(N+log M) time. The entire active driver dataset (3M drivers × ~100 bytes = ~300MB) fits in RAM. Redis handles hundreds of thousands of writes per second with sub-millisecond latency. Data is ephemeral (driver positions update every 4 seconds), so persistence requirements are low.",
+  },
+  {
+    question: "How does Uber's trip service maintain the state of a trip (requested, accepted, in-progress, completed)?",
+    options: [
+      "The client tracks trip state locally and syncs to the server when the trip ends",
+      "A state machine in the Trip Service manages transitions; state is persisted in MySQL with ACID guarantees to ensure billing accuracy",
+      "Kafka topics represent each trip state; consumers update a Redis cache",
+      "State is tracked only in the driver app to minimize server load",
+    ],
+    correct: 1,
+    explanation: "Trip state (REQUESTED → ACCEPTED → DRIVER_ARRIVED → IN_PROGRESS → COMPLETED → PAID) is a classic finite state machine. Each transition is persisted to MySQL with a transaction, ensuring that billing, driver payment, and rider charge are consistent. MySQL's ACID properties guarantee that a trip cannot be billed twice or left in an ambiguous state if a service crashes mid-transition. The Trip Service is one of the few places where Uber uses strong consistency.",
+  },
+  {
+    question: "Why does Uber publish driver location updates to Kafka in addition to writing to Redis?",
+    options: [
+      "Kafka serves as a backup in case Redis loses data",
+      "Kafka decouples the location stream from downstream consumers like analytics, ML demand forecasting, ETA calculation, and surge pricing without overloading the Location Service",
+      "Kafka converts GPS data from binary to JSON format for storage",
+      "Kafka is used to rate-limit the number of location updates from each driver",
+    ],
+    correct: 1,
+    explanation: "The Location Service writes to Redis for real-time proximity queries. It also publishes each update to Kafka. Multiple consumers independently read the same location events: Analytics processes movement patterns; Demand Forecasting aggregates density per geohash for surge pricing; ETA Service uses recent driver traces to update road network weights; ML Training stores historical data. None of these consumers need to query the Location Service directly, preventing them from overloading it.",
+  },
+  {
+    question: "How does Uber's matching service rank candidate drivers found near a rider's pickup location?",
+    options: [
+      "By selecting the driver who has been waiting the longest (FIFO queue)",
+      "By ranking candidates using a combination of ETA to pickup, driver rating, vehicle type match, and driver acceptance rate",
+      "By randomly selecting a driver to ensure fair distribution",
+      "By selecting the nearest driver based purely on straight-line distance",
+    ],
+    correct: 1,
+    explanation: "After finding nearby available drivers via geohash queries in Redis, the Matching Service ranks candidates by multiple factors: (1) ETA to the pickup point (not raw distance, since a driver on a parallel road may be closer by distance but slower by ETA). (2) Driver rating and acceptance rate (to avoid low-quality drivers or cherry-pickers). (3) Vehicle type match (UberX vs Uber Black). The highest-ranked driver gets the trip offer first; if they decline within 15 seconds, the next candidate is offered.",
+  },
+  {
+    question: "What architectural evolution did Uber make as they scaled from a startup to a global platform?",
+    options: [
+      "They migrated from a microservices architecture to a monolith for operational simplicity",
+      "They evolved from a monolith to microservices, then introduced DOSA (Domain-Oriented Microservice Architecture) to group related services and manage inter-service complexity",
+      "They replaced all custom services with third-party SaaS tools to reduce engineering overhead",
+      "They adopted a serverless architecture to eliminate the need for server management",
+    ],
+    correct: 1,
+    explanation: "Uber started as a monolith, split into microservices as teams grew (enabling independent deployment and scaling), but eventually faced microservices sprawl: hundreds of services with complex dependencies. DOSA groups related microservices into 'domains' (e.g., Rider, Driver, Marketplace) with well-defined boundaries and APIs. Domain gateways mediate cross-domain calls. This reduces the N^2 service-to-service dependency problem while preserving independent deployment within domains.",
+  },
 ];
 
 export default function UberContent({ slug }: { slug: string; chapterId: number }) {

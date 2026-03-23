@@ -45,6 +45,94 @@ const questions = [
     correct: 2,
     explanation: "EDA achieves loose coupling through the event as a contract. The Order Service emits 'order.placed' with a defined schema. New services can subscribe without any change to the producer. Services can be deployed, scaled, and restarted independently.",
   },
+  {
+    question: "What is an 'event' in Event-Driven Architecture?",
+    options: [
+      "A scheduled task that runs at a fixed interval",
+      "An immutable record of something that happened in the system, represented as a fact in the past tense",
+      "A command sent from one service to another requesting an action",
+      "A real-time notification pushed directly to users",
+    ],
+    correct: 1,
+    explanation: "An event is an immutable fact about something that already happened — 'order.placed', 'payment.failed', 'user.registered'. Events are past-tense, cannot be changed, and represent state changes. This is distinct from commands (requests for action) and queries (requests for data). The immutability makes event logs reliable audit trails.",
+  },
+  {
+    question: "Why does EDA result in 'eventual consistency' rather than strong consistency?",
+    options: [
+      "Because event buses do not support transactions",
+      "Because events are processed asynchronously — after an event is published, consuming services update their state independently at different times",
+      "Because EDA systems never use databases",
+      "Because producers must wait for all consumers to confirm before the event is considered processed",
+    ],
+    correct: 1,
+    explanation: "In EDA, after the Order Service publishes 'order.placed', the Inventory Service processes this event asynchronously. There is a window (milliseconds to seconds) where the order exists in the Order Service's view but inventory has not yet been decremented. The system converges to consistency, but not instantaneously. This is the fundamental trade-off of asynchronous architectures.",
+  },
+  {
+    question: "What is the primary advantage of adding a new service to an EDA system compared to a synchronous REST-based system?",
+    options: [
+      "The new service gets higher priority access to the database",
+      "New services can subscribe to existing events without requiring any changes to existing producers or other consumers",
+      "The new service automatically receives historical events without any configuration",
+      "Adding a new service eliminates network latency for all other services",
+    ],
+    correct: 1,
+    explanation: "This is EDA's killer feature: extensibility with zero coupling. Adding an Analytics Service that consumes 'order.placed' events requires only: creating the service, creating a consumer group, and subscribing to the topic. The Order Service is never modified. In synchronous systems, the Order Service would need new HTTP call logic added for each new downstream consumer.",
+  },
+  {
+    question: "What is a 'correlation ID' and why is it critical in event-driven systems?",
+    options: [
+      "A database primary key that links events to their originating records",
+      "A unique identifier propagated through all events in a request flow, enabling end-to-end tracing across multiple asynchronous service interactions",
+      "An identifier that prevents duplicate event processing",
+      "A version number that ensures events are processed in order",
+    ],
+    correct: 1,
+    explanation: "In EDA, a single user action can spawn dozens of events processed by many services asynchronously. Without a correlation ID, debugging production issues becomes nearly impossible. By embedding the same correlation ID in every event derived from a single request, distributed tracing tools can reconstruct the complete causal chain across all services.",
+  },
+  {
+    question: "A notification service goes down for 30 minutes while the order service continues processing orders. When the notification service recovers, what happens to the missed events in a Kafka-backed EDA system?",
+    options: [
+      "The missed events are permanently lost",
+      "The order service must replay all orders from the database",
+      "The notification service resumes from its last committed offset and processes all events that accumulated during downtime",
+      "The broker automatically sends alerts to the engineering team",
+    ],
+    correct: 2,
+    explanation: "Kafka's durable, offset-based consumption is designed for this scenario. Each consumer group tracks its own offset. When the notification service restarts, it resumes from the last committed offset, processing all events that queued during the outage. The ordering is preserved, and no events are lost. This resilience is impossible with synchronous REST calls.",
+  },
+  {
+    question: "How does EDA handle the problem of a slow downstream service causing cascading failures?",
+    options: [
+      "EDA forces all services to process at the same speed",
+      "EDA eliminates this problem entirely — slow consumers cause event lag (queue buildup) but do not block or crash producers or other consumers",
+      "EDA uses circuit breakers that automatically restart slow services",
+      "EDA synchronizes all services to the slowest consumer's speed",
+    ],
+    correct: 1,
+    explanation: "Asynchronous decoupling via events means a slow Email Service cannot block the Order Service. Events accumulate in the broker queue (consumer lag increases), but the producer continues at full speed. Other consumers are also unaffected. The Email Service processes its backlog when capacity returns. This is fundamentally impossible in synchronous call chains where one slow service stalls everything upstream.",
+  },
+  {
+    question: "What does Netflix's use of EDA at billions of events per day demonstrate about the pattern's scalability?",
+    options: [
+      "EDA only works for streaming media companies",
+      "EDA scales horizontally — producers, the event bus, and consumers each scale independently based on their specific load",
+      "EDA requires specialized hardware to handle high event volumes",
+      "EDA scales by reducing the number of events produced",
+    ],
+    correct: 1,
+    explanation: "EDA achieves massive scale through independent horizontal scaling. Producers scale based on incoming requests; the Kafka broker scales by adding partitions and brokers; consumers scale by adding instances within their consumer groups. Each component scales independently based on its bottleneck. Netflix, LinkedIn, and Uber all use this pattern for systems processing millions of events per second.",
+  },
+  {
+    question: "What is the main operational challenge that EDA introduces that synchronous architectures do not?",
+    options: [
+      "EDA requires more servers than equivalent synchronous architectures",
+      "Debugging and tracing failures is harder because request flows are asynchronous and span multiple independent services over time",
+      "EDA cannot integrate with REST-based external services",
+      "EDA produces stronger consistency guarantees that are harder to maintain",
+    ],
+    correct: 1,
+    explanation: "In synchronous REST systems, you can follow a call stack trace. In EDA, 'what happened when this order failed?' requires reconstructing an asynchronous sequence of events across multiple services, each with its own logs. Without investment in distributed tracing (Jaeger, Zipkin), correlation IDs in event payloads, and centralized logging, production debugging becomes very painful.",
+  },
 ];
 
 export default function EventDrivenArchitectureContent({ slug }: { slug: string; chapterId: number }) {

@@ -45,6 +45,94 @@ const questions = [
     correct: 2,
     explanation: "An insertion anomaly occurs when you cannot add data about one entity without also adding data about another. If CustomerID is part of a composite primary key with OrderID, a customer without orders can't exist in the table. Normalization solves this by separating the Customers and Orders tables.",
   },
+  {
+    question: "A table has columns (ZipCode, City, State). City and State both depend on ZipCode, but ZipCode is not the primary key. Which normal form violation is this?",
+    options: [
+      "First Normal Form (1NF) — repeated groups",
+      "Second Normal Form (2NF) — partial dependency",
+      "Third Normal Form (3NF) — transitive dependency",
+      "Boyce-Codd Normal Form (BCNF) — non-superkey determinant",
+    ],
+    correct: 2,
+    explanation: "This is a transitive dependency: City → State, and both depend on ZipCode, which is not the primary key. 3NF requires that non-key columns depend only on the primary key, not on other non-key columns. Fix it by moving ZipCode, City, and State to a separate ZipCodes table.",
+  },
+  {
+    question: "What is the main goal of database normalization?",
+    options: [
+      "To maximize query performance by pre-joining frequently accessed tables",
+      "To reduce data redundancy and prevent update anomalies by ensuring each fact is stored once",
+      "To encrypt sensitive data across multiple tables for security",
+      "To distribute data across multiple servers for horizontal scaling",
+    ],
+    correct: 1,
+    explanation: "Normalization reduces redundancy by ensuring each piece of data is stored in only one place. This prevents update anomalies: if a customer's email appears on 1,000 order rows, updating it risks inconsistency. In a normalized schema, the email is stored once in the Customers table.",
+  },
+  {
+    question: "Which statement best describes denormalization and when it is appropriate?",
+    options: [
+      "Denormalization is the process of removing all redundancy, which should always be done before production",
+      "Denormalization deliberately introduces redundancy to improve read performance, typically after profiling shows expensive JOIN operations",
+      "Denormalization means removing all indexes from a table to reduce write overhead",
+      "Denormalization is a database migration strategy for moving data between tables",
+    ],
+    correct: 1,
+    explanation: "Denormalization intentionally duplicates data (e.g., storing a user's username alongside their posts) to eliminate JOINs at read time. It is appropriate when read performance is critical, profiling confirms JOIN overhead, and the duplicated data updates infrequently. Write overhead increases, so it is a deliberate trade-off, not a default strategy.",
+  },
+  {
+    question: "A column 'phone_numbers' in a Users table stores multiple phone numbers as a comma-separated string: '555-1234,555-5678'. Which normal form is violated?",
+    options: [
+      "First Normal Form (1NF) — non-atomic values in a column",
+      "Second Normal Form (2NF) — partial dependency",
+      "Third Normal Form (3NF) — transitive dependency",
+      "Boyce-Codd Normal Form (BCNF) — non-superkey determinant",
+    ],
+    correct: 0,
+    explanation: "1NF requires that every column holds atomic (indivisible) values. Storing multiple phone numbers as a comma-separated string violates atomicity. Fix it by creating a separate PhoneNumbers table with a foreign key back to Users.",
+  },
+  {
+    question: "What is a deletion anomaly?",
+    options: [
+      "An error that occurs when deleting rows from an indexed column",
+      "Losing data about one entity when deleting a row that contains data about a different entity",
+      "A cascade delete that removes too many rows unintentionally",
+      "An anomaly caused by deleting indexes from a heavily queried table",
+    ],
+    correct: 1,
+    explanation: "A deletion anomaly occurs in a denormalized table when deleting a row also removes data about a separate entity. For example, if the only record for a supplier is embedded in an order row, deleting that order erases all information about the supplier. Normalization prevents this by separating entities into their own tables.",
+  },
+  {
+    question: "In which scenario would you deliberately denormalize a database?",
+    options: [
+      "Early-stage development when the schema changes frequently",
+      "When the application has a very high write-to-read ratio",
+      "When read performance is critical and profiling shows expensive multi-table JOINs that cannot be solved with indexes",
+      "When enforcing referential integrity across multiple tables is important",
+    ],
+    correct: 2,
+    explanation: "Denormalization is appropriate when read performance is the bottleneck and expensive JOINs cannot be eliminated through indexing or query optimization. By pre-joining data (accepting redundancy), reads become faster at the cost of higher write overhead and potential update anomalies. Always profile before denormalizing.",
+  },
+  {
+    question: "What is BCNF (Boyce-Codd Normal Form) and how does it differ from 3NF?",
+    options: [
+      "BCNF requires all columns to be atomic; 3NF allows composite values",
+      "BCNF is a stricter version of 3NF that handles edge cases with multiple overlapping candidate keys",
+      "BCNF eliminates the need for primary keys; 3NF still requires them",
+      "BCNF only applies to tables with more than 10 columns; 3NF applies to any table",
+    ],
+    correct: 1,
+    explanation: "BCNF (also called 3.5NF) is a stricter form of 3NF: for every functional dependency X → Y, X must be a superkey. 3NF allows cases where Y is part of a candidate key. BCNF eliminates certain anomalies that 3NF misses when tables have multiple overlapping candidate keys. Most tables in 3NF are also in BCNF.",
+  },
+  {
+    question: "What is a functional dependency in the context of database normalization?",
+    options: [
+      "A dependency between two stored procedures that call each other",
+      "A relationship where the value of one attribute uniquely determines the value of another attribute",
+      "A dependency of a table on an external API or function",
+      "A link between primary keys in two different tables",
+    ],
+    correct: 1,
+    explanation: "A functional dependency A → B means that knowing the value of A uniquely determines the value of B. For example, StudentID → StudentName (each student ID maps to exactly one name). Understanding functional dependencies is the foundation for applying normal forms to eliminate redundancy.",
+  },
 ];
 
 export default function NormalizationContent({ slug }: { slug: string; chapterId: number }) {

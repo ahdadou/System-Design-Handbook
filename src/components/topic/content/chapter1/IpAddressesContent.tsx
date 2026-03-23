@@ -65,6 +65,63 @@ const questions = [
     correct: 1,
     explanation: "NAT allows multiple devices on a private network to share a single public IP address, conserving IPv4 addresses.",
   },
+  {
+    question: "How many bits are in an IPv4 address?",
+    options: ["16 bits", "32 bits", "64 bits", "128 bits"],
+    correct: 1,
+    explanation: "IPv4 addresses are 32 bits long, written as four octets (8 bits each) separated by dots, e.g., 192.168.1.1.",
+  },
+  {
+    question: "What protocol is used to dynamically assign IP addresses to devices on a network?",
+    options: ["DNS", "HTTP", "DHCP", "SMTP"],
+    correct: 2,
+    explanation: "DHCP (Dynamic Host Configuration Protocol) automatically assigns IP addresses, subnet masks, gateways, and DNS servers to devices when they connect to a network.",
+  },
+  {
+    question: "Which of the following is the loopback IP address used to refer to the local machine?",
+    options: ["192.168.0.1", "10.0.0.1", "127.0.0.1", "172.16.0.1"],
+    correct: 2,
+    explanation: "127.0.0.1 is the loopback address (also called 'localhost'). Traffic sent to this address is routed back to the same machine, used for local testing.",
+  },
+  {
+    question: "In system design, why should databases be assigned private IP addresses rather than public ones?",
+    options: [
+      "Private IPs are faster than public IPs",
+      "To prevent direct public internet access and reduce attack surface",
+      "Databases require private IPs to function correctly",
+      "Public IPs are reserved for web servers only",
+    ],
+    correct: 1,
+    explanation: "Databases should never be directly exposed to the public internet. Private IPs ensure they are only reachable within your VPC/internal network, significantly reducing the attack surface.",
+  },
+  {
+    question: "What is the subnet mask for the 192.168.0.0/16 private range?",
+    options: ["255.0.0.0", "255.255.0.0", "255.255.255.0", "255.255.255.128"],
+    correct: 1,
+    explanation: "/16 CIDR notation means the first 16 bits are the network portion, corresponding to the subnet mask 255.255.0.0. This range covers 192.168.0.0 to 192.168.255.255.",
+  },
+  {
+    question: "What is the main reason IPv6 adoption has been slow despite IPv4 exhaustion?",
+    options: [
+      "IPv6 is less secure than IPv4",
+      "IPv6 addresses are too long to remember",
+      "NAT extended IPv4 lifespan and dual-stack transitions are complex",
+      "IPv6 is significantly slower than IPv4",
+    ],
+    correct: 2,
+    explanation: "NAT allowed many devices to share one public IPv4 address, reducing the urgency to switch. Additionally, migrating infrastructure to support dual-stack (IPv4 + IPv6) requires significant effort and coordination.",
+  },
+  {
+    question: "In cloud environments like AWS, what is an Elastic IP?",
+    options: [
+      "A dynamic IP that changes on every reboot",
+      "A static public IPv4 address you can attach to any instance",
+      "A private IP address for internal services",
+      "A load balancer IP that distributes traffic",
+    ],
+    correct: 1,
+    explanation: "An Elastic IP (EIP) is a static public IPv4 address in AWS that you allocate to your account and can attach to any EC2 instance. It remains yours until you release it, enabling DNS reliability.",
+  },
 ];
 
 export default function IpAddressesContent({ slug }: { slug: string; chapterId: number }) {

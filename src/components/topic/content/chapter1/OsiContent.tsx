@@ -22,6 +22,53 @@ const questions = [
     correct: 2,
     explanation: "SSL/TLS operates at Layer 6 (Presentation), which handles data formatting, encryption, and compression.",
   },
+  {
+    question: "An L7 load balancer operates at which OSI layer?",
+    options: ["Physical", "Transport", "Network", "Application"],
+    correct: 3,
+    explanation: "L7 (Application layer) load balancers inspect HTTP headers, URLs, and cookies to make routing decisions. This allows advanced features like path-based routing and A/B testing.",
+  },
+  {
+    question: "Which OSI layer is responsible for routing packets between different networks using IP addresses?",
+    options: ["Layer 1 (Physical)", "Layer 2 (Data Link)", "Layer 3 (Network)", "Layer 4 (Transport)"],
+    correct: 2,
+    explanation: "Layer 3 (Network) handles logical addressing and routing. Routers operate at this layer, using IP addresses to forward packets across different networks.",
+  },
+  {
+    question: "What does the Data Link layer (Layer 2) use for addressing?",
+    options: ["IP addresses", "Port numbers", "MAC addresses", "Domain names"],
+    correct: 2,
+    explanation: "Layer 2 (Data Link) uses MAC (Media Access Control) addresses to identify devices on the same local network segment. Switches operate at this layer.",
+  },
+  {
+    question: "Which OSI layer establishes, maintains, and terminates communication sessions between applications?",
+    options: ["Layer 4 (Transport)", "Layer 5 (Session)", "Layer 6 (Presentation)", "Layer 7 (Application)"],
+    correct: 1,
+    explanation: "Layer 5 (Session) manages sessions between applications. It handles session establishment, maintenance, and termination, including authentication and reconnection after interruptions.",
+  },
+  {
+    question: "In the TCP/IP model, which layer corresponds to OSI layers 5, 6, and 7 combined?",
+    options: ["Link", "Internet", "Transport", "Application"],
+    correct: 3,
+    explanation: "The TCP/IP Application layer merges the OSI Session (5), Presentation (6), and Application (7) layers. Protocols like HTTP, FTP, DNS, and SMTP operate at this layer.",
+  },
+  {
+    question: "A firewall that inspects packet contents and blocks specific application-level attacks operates at which OSI layer?",
+    options: ["Layer 2", "Layer 3", "Layer 4", "Layer 7"],
+    correct: 3,
+    explanation: "A WAF (Web Application Firewall) operates at Layer 7. It can inspect HTTP content, block SQL injection, XSS attacks, and apply complex rules based on application data.",
+  },
+  {
+    question: "What is 'encapsulation' in the OSI model?",
+    options: [
+      "Encrypting data before transmission",
+      "Each layer adding its own header (and sometimes trailer) to data from the layer above",
+      "Compressing data to reduce packet size",
+      "Converting data from one format to another",
+    ],
+    correct: 1,
+    explanation: "Encapsulation is the process where each OSI layer wraps the data from the layer above by adding its own header (and trailer at Layer 2). At the receiver, each layer strips its header in a process called de-encapsulation.",
+  },
 ];
 
 export default function OsiContent({ slug }: { slug: string; chapterId: number }) {

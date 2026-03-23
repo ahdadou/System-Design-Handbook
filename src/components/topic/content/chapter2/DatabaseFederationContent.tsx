@@ -47,6 +47,94 @@ const questions = [
     correct: 2,
     explanation: "Cross-database JOIN operations require application-level data merging and are very expensive. Distributed transactions spanning multiple federated databases add significant complexity and overhead.",
   },
+  {
+    question: "Which scenario most strongly justifies implementing database federation?",
+    options: [
+      "A single table has grown to 500 million rows and write throughput is saturating one server",
+      "A monolithic database has clearly distinct domains (users, orders, analytics) that are rarely queried together, and each domain needs independent scaling",
+      "The application needs to support full-text search across all data",
+      "The team wants to reduce the number of servers to cut operational costs",
+    ],
+    correct: 1,
+    explanation: "Federation is justified when a monolithic database has distinct functional boundaries that are independently accessed. If the Users DB and Analytics DB are rarely queried together, splitting them allows each to be scaled, optimized, and backed up independently. It becomes counterproductive when cross-domain queries are frequent.",
+  },
+  {
+    question: "An e-commerce company federates into a Users DB, Orders DB, and Products DB. A query needs to display an order with the buyer's name and the product name. How must this be handled?",
+    options: [
+      "Use a standard SQL JOIN across the three databases",
+      "Query each database separately and merge the results in application code",
+      "Create a foreign key relationship between the federated databases",
+      "This query is impossible with a federated database setup",
+    ],
+    correct: 1,
+    explanation: "Cross-database JOINs are not supported natively. The application must query the Orders DB for the order, then query the Users DB with the buyer ID to get the name, then query the Products DB with the product ID to get the product name — three separate queries — and merge the results in memory. This is more complex and potentially slower than a single JOIN.",
+  },
+  {
+    question: "How does database federation improve cache hit rates compared to a monolithic database?",
+    options: [
+      "Federated databases automatically enable caching for all queries",
+      "Smaller, domain-specific databases have smaller working sets that fit more completely in RAM, resulting in higher cache hit ratios",
+      "Federation forces all reads to go through a shared cache layer",
+      "Each federated database uses compression, reducing the cache footprint",
+    ],
+    correct: 1,
+    explanation: "A monolithic 100GB database has a much lower chance of fitting its working set in a server's RAM. A federated 10GB Users DB is more likely to have its hot pages cached in memory, resulting in more cache hits and fewer expensive disk reads. Smaller databases = more focused working sets = better cache utilization.",
+  },
+  {
+    question: "What is 'functional partitioning' and how does it relate to database federation?",
+    options: [
+      "Partitioning a table by a computed function of the primary key",
+      "Splitting a monolithic database into separate databases by business domain or function — this is exactly what database federation does",
+      "Creating database functions (stored procedures) to replace complex queries",
+      "Partitioning CPU resources across database processes by function type",
+    ],
+    correct: 1,
+    explanation: "Functional partitioning and database federation are essentially the same concept: dividing a monolithic database along domain boundaries. The 'function' refers to business function (user management, order processing, analytics) rather than mathematical functions. Each partition (federated database) serves one functional domain.",
+  },
+  {
+    question: "How does database federation support 'polyglot persistence'?",
+    options: [
+      "Federation requires all databases to use the same database engine for consistency",
+      "Federation allows each domain database to use the most appropriate database technology for its access patterns",
+      "Federation provides automatic translation between SQL and NoSQL query languages",
+      "Federation stores data in multiple formats simultaneously within each database",
+    ],
+    correct: 1,
+    explanation: "Since each federated database is independent, each can use the optimal technology for its workload: PostgreSQL for transactional orders, Redis for session data, Elasticsearch for product search, ClickHouse for analytics. Federation enables polyglot persistence — using the best tool for each job — in a structured way.",
+  },
+  {
+    question: "What is the application-layer responsibility added by database federation compared to a monolithic database?",
+    options: [
+      "The application must manage its own backups since the database no longer does so",
+      "The application must contain routing logic to determine which database to query for each data type",
+      "The application must implement its own caching since federated databases disable caching",
+      "The application must handle all write operations since federated databases are read-only",
+    ],
+    correct: 1,
+    explanation: "With a monolithic database, the application sends all queries to one endpoint. With federation, the application must know that user data is in the Users DB, order data is in the Orders DB, etc. This routing logic must be maintained as the application evolves — adding new features or domains requires updating the routing rules.",
+  },
+  {
+    question: "How does federation compare to microservices' 'database per service' pattern?",
+    options: [
+      "Federation is the monolith equivalent of the database-per-service pattern; both give each domain its own database but at different architectural scales",
+      "Federation requires a single application, while database-per-service requires multiple applications",
+      "They are completely different and unrelated concepts",
+      "Database-per-service uses sharding internally, while federation uses replication",
+    ],
+    correct: 0,
+    explanation: "Both patterns allocate a dedicated database to each domain. In federation, a monolithic application uses multiple databases split by domain. In microservices' database-per-service, each service owns its database. The underlying motivation is the same: domain isolation, independent scaling, and technology freedom. Federation is often a stepping stone toward full microservices.",
+  },
+  {
+    question: "When should you NOT use database federation?",
+    options: [
+      "When each domain has millions of rows that need to be queried independently",
+      "When cross-domain queries are frequent and the application requires frequent JOINs between users, orders, and products",
+      "When each domain needs to be scaled to different capacities",
+      "When different domains have different SLA requirements",
+    ],
+    correct: 1,
+    explanation: "Federation becomes counterproductive when cross-domain queries are common. If your application frequently needs to JOIN users with orders with products, every such query becomes three separate database calls plus application-side merging — slower and more complex than a single SQL JOIN. Federation shines when domains are truly independent in their query patterns.",
+  },
 ];
 
 export default function DatabaseFederationContent({ slug }: { slug: string; chapterId: number }) {

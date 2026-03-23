@@ -26,6 +26,89 @@ const questions = [
     correct: 1,
     explanation: "Push CDN: you manually upload files to CDN (good for large files, predictable traffic). Pull CDN: CDN fetches from origin on first request and caches it (simpler, good for unknown access patterns).",
   },
+  {
+    question: "What is a CDN 'origin server'?",
+    options: [
+      "The CDN's central management server",
+      "The original source server the CDN fetches content from on a cache miss",
+      "The user's browser cache",
+      "The DNS server that resolves CDN hostnames",
+    ],
+    correct: 1,
+    explanation: "The origin server is your primary web server or storage (e.g., S3 bucket, application server). CDN edge nodes fetch content from the origin on a cache miss and then serve subsequent requests from their local cache.",
+  },
+  {
+    question: "What type of content is best suited for CDN caching?",
+    options: [
+      "User-specific API responses with authentication",
+      "Real-time stock prices that change every second",
+      "Static assets like images, CSS, JavaScript, and videos",
+      "Database query results",
+    ],
+    correct: 2,
+    explanation: "CDNs excel at caching static, immutable content (images, CSS, JS, videos) that is identical for all users. Dynamic, user-specific content (personalized pages, auth-protected data) is generally not suitable for CDN caching.",
+  },
+  {
+    question: "What is CDN cache invalidation and when is it needed?",
+    options: [
+      "The process of adding new content to the CDN",
+      "Forcefully removing or expiring cached content from edge servers before its TTL expires",
+      "Blocking users from accessing cached content",
+      "Rotating CDN SSL certificates",
+    ],
+    correct: 1,
+    explanation: "Cache invalidation purges content from CDN edge nodes before its TTL expires. It's needed when you deploy a new version of a file (CSS, JS) and want users to get the update immediately rather than waiting for the old cache to expire.",
+  },
+  {
+    question: "How does a CDN determine which edge server to route a user's request to?",
+    options: [
+      "Random selection among available edge nodes",
+      "The user's browser selects the nearest CDN node",
+      "DNS-based anycast or BGP routing directs users to the geographically or network-closest edge node",
+      "Load balancing using round-robin across all CDN nodes worldwide",
+    ],
+    correct: 2,
+    explanation: "CDNs use Anycast routing (same IP announced from multiple locations; BGP picks the best route) or GeoDNS (DNS returns different IPs based on user location). This automatically directs users to the optimal edge node.",
+  },
+  {
+    question: "What is 'edge computing' in the context of modern CDNs?",
+    options: [
+      "Running CDN management software on edge servers",
+      "Executing application logic (code) at CDN edge nodes close to users",
+      "Compressing images at the edge to reduce bandwidth",
+      "Running security scans on traffic before it reaches the origin",
+    ],
+    correct: 1,
+    explanation: "Edge computing (e.g., Cloudflare Workers, AWS Lambda@Edge) lets you run application code at CDN edge nodes worldwide. This enables low-latency personalization, A/B testing, authentication, and request transformation without round-tripping to origin.",
+  },
+  {
+    question: "Netflix built its own CDN called Open Connect. Where did they deploy their CDN servers?",
+    options: [
+      "Only in major cloud provider data centers",
+      "Directly inside ISPs and Internet Exchange Points close to end users",
+      "In Netflix's own data centers only",
+      "In users' home routers",
+    ],
+    correct: 1,
+    explanation: "Netflix's Open Connect places CDN appliances directly inside ISPs and IXPs (Internet Exchange Points). This means Netflix content travels the minimum possible distance across the internet — often just within the user's ISP network.",
+  },
+  {
+    question: "What HTTP response header controls how long a CDN (and browsers) cache content?",
+    options: ["X-Cache-Control", "Cache-Control", "Expires-After", "CDN-TTL"],
+    correct: 1,
+    explanation: "The Cache-Control HTTP header controls caching behavior. For example, Cache-Control: public, max-age=86400 tells CDNs and browsers to cache the response for 86400 seconds (1 day). The s-maxage directive specifically controls CDN cache duration.",
+  },
+  {
+    question: "What is the 'cache warming' problem with Pull CDNs?",
+    options: [
+      "CDN servers overheating due to high traffic",
+      "The first request after a cold start or invalidation hits the origin, causing latency spikes",
+      "CDN nodes becoming desynchronized with each other",
+      "Too many simultaneous cache invalidation requests",
+    ],
+    correct: 1,
+    explanation: "Pull CDNs only cache content after the first request. After a new deployment or cache invalidation, all edge nodes start 'cold'. The first requests from each region hit the origin directly, causing latency spikes. Solutions include pre-warming by making requests to each edge node after deployment.",
+  },
 ];
 
 export default function CdnContent({ slug }: { slug: string; chapterId: number }) {

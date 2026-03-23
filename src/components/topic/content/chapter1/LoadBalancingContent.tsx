@@ -32,6 +32,68 @@ const questions = [
     correct: 1,
     explanation: "Sticky sessions ensure a user's requests always go to the same server (usually via cookie or IP hash). Useful for stateful apps but reduces the balancing benefits.",
   },
+  {
+    question: "What is SSL termination in the context of a load balancer?",
+    options: [
+      "Blocking SSL connections at the firewall",
+      "The load balancer decrypts HTTPS traffic, then forwards plain HTTP to backend servers",
+      "Renewing SSL certificates automatically",
+      "Encrypting traffic between backend servers",
+    ],
+    correct: 1,
+    explanation: "SSL termination means the load balancer handles the SSL/TLS decryption, forwarding decrypted HTTP requests to backend servers. This offloads CPU-intensive cryptography from application servers.",
+  },
+  {
+    question: "Which load balancing algorithm is best suited for ensuring a specific user always reaches their shopping cart data stored on one server?",
+    options: ["Round Robin", "Least Connections", "Random", "IP Hash"],
+    correct: 3,
+    explanation: "IP Hash uses the client's IP address to deterministically select a server. The same client IP always maps to the same server, providing session affinity without explicit sticky session cookies.",
+  },
+  {
+    question: "What is the purpose of health checks in a load balancer?",
+    options: [
+      "To monitor the load balancer's own CPU usage",
+      "To periodically verify backend servers are responsive and stop sending traffic to failed ones",
+      "To encrypt traffic between the load balancer and backend servers",
+      "To log all incoming requests for auditing",
+    ],
+    correct: 1,
+    explanation: "Load balancers perform periodic health checks (HTTP, TCP, or custom) against backend servers. If a server fails checks, the load balancer removes it from the pool until it recovers, providing automatic fault tolerance.",
+  },
+  {
+    question: "In active-active load balancer redundancy, what happens when one load balancer fails?",
+    options: [
+      "All traffic drops until the failed LB is replaced",
+      "The passive load balancer takes over after a short failover delay",
+      "The remaining active load balancers continue serving traffic without interruption",
+      "Traffic is rerouted through DNS to a different datacenter",
+    ],
+    correct: 2,
+    explanation: "In active-active mode, multiple load balancers all serve traffic simultaneously. If one fails, the others already handle traffic, so there is no failover delay. This contrasts with active-passive where there is a brief failover period.",
+  },
+  {
+    question: "A microservices architecture routes /api/users to one service and /api/products to another. Which load balancer type enables this?",
+    options: ["L4 (TCP) load balancer", "L7 (HTTP) load balancer", "DNS round-robin", "Hardware load balancer"],
+    correct: 1,
+    explanation: "Path-based routing requires inspecting the HTTP URL, which is only possible with an L7 load balancer. AWS ALB, Nginx, and Envoy support this, allowing you to route to different backend services based on the request path.",
+  },
+  {
+    question: "What is a major drawback of using sticky sessions in a horizontally-scaled system?",
+    options: [
+      "Sticky sessions increase SSL handshake overhead",
+      "They make rolling deployments harder and reduce effective load distribution",
+      "Sticky sessions prevent health checks from working",
+      "They require more memory on the load balancer",
+    ],
+    correct: 1,
+    explanation: "Sticky sessions tie users to specific servers, meaning one server may be overloaded while others are idle. Deploying updates is also harder because you can't gracefully drain a server without disrupting its 'stuck' users.",
+  },
+  {
+    question: "Which AWS service acts as an L7 (Application) load balancer?",
+    options: ["AWS NLB (Network Load Balancer)", "AWS ALB (Application Load Balancer)", "AWS ELB Classic", "AWS Route 53"],
+    correct: 1,
+    explanation: "AWS ALB (Application Load Balancer) operates at Layer 7 and supports HTTP/HTTPS, path-based routing, host-based routing, WebSockets, and HTTP/2. AWS NLB operates at Layer 4 for ultra-high performance TCP/UDP traffic.",
+  },
 ];
 
 export default function LoadBalancingContent({ slug }: { slug: string; chapterId: number }) {

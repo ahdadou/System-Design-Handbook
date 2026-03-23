@@ -16,6 +16,89 @@ const questions = [
     correct: 2,
     explanation: "Object storage (S3, GCS) is perfect for unstructured data like images, videos, and documents. It scales infinitely, is cheap, and provides a simple HTTP API.",
   },
+  {
+    question: "What is the key difference between block storage and object storage?",
+    options: [
+      "Block storage is faster; object storage is slower",
+      "Block storage provides raw volumes formatted with a filesystem; object storage stores files as flat objects accessed via HTTP API",
+      "Block storage is for databases; object storage is only for backups",
+      "Block storage is cloud-only; object storage can be on-premises",
+    ],
+    correct: 1,
+    explanation: "Block storage (EBS) provides raw disk volumes that you format with a filesystem — ideal for databases and VMs needing low-latency random I/O. Object storage (S3) stores files as immutable objects with metadata, accessed via HTTP — infinitely scalable, cheap, but higher latency.",
+  },
+  {
+    question: "Which storage type is best suited for a distributed computing framework analyzing petabytes of log data?",
+    options: ["Block storage (SAN)", "NAS file storage", "Object storage (S3)", "HDFS"],
+    correct: 3,
+    explanation: "HDFS (Hadoop Distributed File System) is designed for batch processing of massive datasets. It splits files into 128MB blocks distributed across many nodes, enabling parallel processing with data locality (compute runs where data lives).",
+  },
+  {
+    question: "What is the 'durability' guarantee of Amazon S3?",
+    options: [
+      "99.9% (three nines)",
+      "99.99% (four nines)",
+      "99.999999999% (eleven nines)",
+      "100% (no data loss ever)",
+    ],
+    correct: 2,
+    explanation: "Amazon S3 guarantees 99.999999999% (eleven nines) durability by automatically storing multiple copies of each object across at least 3 Availability Zones. This means you'd expect to lose one object per 10 billion objects stored over 10,000 years.",
+  },
+  {
+    question: "When would you choose SSD (NVMe) over HDD storage?",
+    options: [
+      "When storing large video files that are accessed infrequently",
+      "When archiving old data to reduce costs",
+      "When running databases or applications requiring low-latency random read/write access",
+      "When maximizing storage density per dollar",
+    ],
+    correct: 2,
+    explanation: "SSDs have no moving parts and provide microsecond-level random I/O, making them ideal for databases, caches, and high-performance workloads. HDDs are 10-100x cheaper per GB but have millisecond seek times, making them better for bulk storage and sequential access.",
+  },
+  {
+    question: "What is RAID 10 (RAID 1+0)?",
+    options: [
+      "Striping with double parity across 10 disks",
+      "A combination of mirroring and striping: data is mirrored and then striped across pairs",
+      "The fastest RAID level with no redundancy",
+      "A software RAID that only works with 10 or more disks",
+    ],
+    correct: 1,
+    explanation: "RAID 10 mirrors data across pairs of disks (RAID 1) and then stripes the mirrored pairs (RAID 0). It provides both redundancy and high performance. It requires at least 4 disks and uses 50% of capacity, but can survive multiple disk failures as long as not both disks in a mirror pair fail.",
+  },
+  {
+    question: "What is the purpose of a write-ahead log (WAL) in database storage?",
+    options: [
+      "Caching frequently written data in memory before flushing to disk",
+      "Recording all changes before applying them, enabling crash recovery and replication",
+      "Compressing write operations to reduce I/O",
+      "Batching multiple writes into a single disk operation",
+    ],
+    correct: 1,
+    explanation: "WAL writes changes to a sequential log file before applying them to the actual data files. On crash recovery, the database replays the WAL to restore a consistent state. WAL also enables streaming replication by shipping log entries to replica servers.",
+  },
+  {
+    question: "In a cloud-native architecture, why is local (ephemeral) disk storage on compute instances generally avoided for application data?",
+    options: [
+      "Local disks are too slow for production workloads",
+      "Data on local disks is lost when the instance terminates or is replaced",
+      "Cloud providers charge extra for local disk storage",
+      "Local disks cannot be accessed by containerized applications",
+    ],
+    correct: 1,
+    explanation: "Ephemeral instance storage is lost when the instance stops or is terminated. In cloud-native architectures with auto-scaling and instance replacement, application data must be stored in durable, external storage (S3, EBS, managed databases) that persists independently of compute instances.",
+  },
+  {
+    question: "What is 'tiered storage' in system design?",
+    options: [
+      "Using RAID levels (0, 1, 5) in combination",
+      "Automatically migrating data between fast expensive storage and slow cheap storage based on access frequency",
+      "Separating read replicas from write primaries",
+      "Encrypting data at different security levels based on sensitivity",
+    ],
+    correct: 1,
+    explanation: "Tiered storage moves frequently accessed ('hot') data to fast, expensive storage (SSD, in-memory) and infrequently accessed ('cold') data to slow, cheap storage (HDD, S3 Glacier). AWS S3 Intelligent-Tiering automates this based on access patterns.",
+  },
 ];
 
 export default function StorageContent({ slug }: { slug: string; chapterId: number }) {

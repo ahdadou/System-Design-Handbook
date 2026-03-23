@@ -45,6 +45,94 @@ const questions = [
     correct: 1,
     explanation: "When an aggregate has thousands of events, replaying all of them on every read is slow. A snapshot captures the current state at a specific event version. Future replays start from the snapshot and only replay newer events.",
   },
+  {
+    question: "What is an 'aggregate' in Event Sourcing?",
+    options: [
+      "A database aggregation function like SUM or COUNT applied to events",
+      "The domain object whose current state is derived by replaying all of its associated events in order",
+      "A batch of events grouped together for efficient storage",
+      "A summary report generated from the event log",
+    ],
+    correct: 1,
+    explanation: "An aggregate is a domain entity (Order, Account, ShoppingCart) whose state exists only as a projection of its event history. To determine the current state of an Order, you replay all its events: OrderPlaced → PaymentReceived → ItemPicked → Shipped. The aggregate boundaries also define consistency boundaries for business rules.",
+  },
+  {
+    question: "A developer discovers a bug in the projection logic that computed incorrect revenue totals for 6 months. What unique capability does Event Sourcing provide to fix this?",
+    options: [
+      "Restore from the last database backup and lose 6 months of data",
+      "Manually edit all revenue records to correct values",
+      "Fix the projection logic and replay all historical events through the corrected code to rebuild accurate read models",
+      "Delete all affected events and ask users to re-enter transactions",
+    ],
+    correct: 2,
+    explanation: "Event Sourcing's replay capability is its most powerful operational feature. Since all events are immutable and stored, you fix the projection code and replay all events from the beginning. The new read model is computed correctly without data loss or manual corrections. This is impossible in systems that store only current state.",
+  },
+  {
+    question: "How does Event Sourcing enable 'time travel' queries?",
+    options: [
+      "By storing timestamps on all database rows",
+      "By replaying all events up to a specific timestamp to reconstruct the exact state of any entity at any point in the past",
+      "By maintaining hourly snapshots of the entire database",
+      "By versioning all database schema changes",
+    ],
+    correct: 1,
+    explanation: "Because every state change is recorded as an event with a timestamp, you can reconstruct the state of any entity at any historical moment by replaying events up to that point. 'What was the balance of Account X on March 15th at 2:30 PM?' becomes a simple event replay operation.",
+  },
+  {
+    question: "What is a key challenge of Event Sourcing that makes schema evolution difficult?",
+    options: [
+      "Adding new event types is impossible once the system is in production",
+      "Existing events stored in the log cannot be changed — if an event's schema must evolve, you must handle multiple versions or use upcasting to transform old events",
+      "Events must be stored in a relational database with rigid schemas",
+      "Event Sourcing prevents adding new features to the domain model",
+    ],
+    correct: 1,
+    explanation: "Immutability is both Event Sourcing's strength and its schema evolution challenge. If 'OrderPlaced' events stored for 2 years lack a 'currency' field that is now required, you cannot modify those events. Solutions include: upcasting (transforming old event formats when reading), versioned event types (OrderPlacedV1, OrderPlacedV2), or weak schema formats (JSON with optional fields).",
+  },
+  {
+    question: "Why is Event Sourcing often paired with CQRS (Command Query Responsibility Segregation)?",
+    options: [
+      "CQRS is required for Event Sourcing to function correctly",
+      "Deriving current state by replaying events on every read is slow — CQRS allows separate optimized read models (projections) to be maintained and queried directly",
+      "CQRS prevents duplicate events from being stored",
+      "CQRS provides the write locking mechanism needed by the event store",
+    ],
+    correct: 1,
+    explanation: "Reading current state in Event Sourcing requires replaying potentially thousands of events per aggregate on every query — very slow. CQRS solves this: commands produce events (written to the event store), and event handlers update denormalized read models (projections) optimized for queries. Reads are fast database lookups against the projection, not event replays.",
+  },
+  {
+    question: "Which type of system benefits most from Event Sourcing's complete audit trail?",
+    options: [
+      "A static website with mostly read traffic",
+      "A social media image hosting service",
+      "A financial trading system or banking application where regulatory compliance requires a complete immutable history of every transaction",
+      "A CDN serving cached content",
+    ],
+    correct: 2,
+    explanation: "Financial and regulated systems are the ideal fit for Event Sourcing. Regulatory requirements (SOX, PCI-DSS) mandate immutable audit trails of all transactions. Event Sourcing naturally provides this: every state change is recorded permanently and immutably. Auditors can replay any sequence of events to verify correctness without relying on mutable 'audit log' tables.",
+  },
+  {
+    question: "What does it mean to 'project' events in Event Sourcing?",
+    options: [
+      "To forecast future events based on historical patterns",
+      "To process a sequence of events and build a specific read model or view of the current state tailored for a particular query pattern",
+      "To export events to an external reporting system",
+      "To synchronize events across multiple geographic regions",
+    ],
+    correct: 1,
+    explanation: "A projection processes events to build a specific read model. The same event stream can be projected into multiple different views: an Order projection builds a customer-facing order status view; an Analytics projection aggregates revenue totals; a Search projection builds a product search index. Each projection optimizes for different query patterns without changing the source events.",
+  },
+  {
+    question: "When is Event Sourcing NOT a good architectural choice?",
+    options: [
+      "When you need a complete audit trail of all data changes",
+      "When your domain has complex state transitions that are difficult to track with current-state storage",
+      "When your application has simple CRUD patterns with no need for history, audit trails, or temporal queries",
+      "When using a microservices architecture",
+    ],
+    correct: 2,
+    explanation: "Event Sourcing adds significant complexity: event schema management, projection maintenance, snapshot strategies, and read model eventual consistency. For simple CRUD applications (a blog, a basic user directory, an inventory counter), storing current state in a relational database is far simpler and just as effective. Adopt Event Sourcing only when its specific benefits (audit trail, replay, multiple projections) are genuine requirements.",
+  },
 ];
 
 export default function EventSourcingContent({ slug }: { slug: string; chapterId: number }) {

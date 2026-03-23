@@ -49,6 +49,94 @@ const questions = [
     correct: 1,
     explanation: "EL means that when no partition exists, DynamoDB trades Consistency for low Latency. Writes are acknowledged quickly by a subset of nodes rather than waiting for all replicas, allowing stale reads in exchange for faster responses. Strong consistency is available but costs extra latency.",
   },
+  {
+    question: "What does PC/EC classification mean in PACELC?",
+    options: [
+      "During partitions, choose Consistency over Availability; during normal operation, choose Consistency over low Latency",
+      "During partitions, choose Availability; during normal operation, choose low Latency",
+      "The system is eventually consistent in all scenarios",
+      "The system is partition-tolerant only in cloud environments",
+    ],
+    correct: 0,
+    explanation: "PC/EC means: during a Partition, the system chooses Consistency (rejects requests rather than serving stale data); during normal operation (Else), it also chooses Consistency over low Latency (waits for all replicas to acknowledge writes). MongoDB and PostgreSQL with synchronous replication are examples of PC/EC systems.",
+  },
+  {
+    question: "Who proposed the PACELC theorem and when?",
+    options: [
+      "Eric Brewer in 2000",
+      "Seth Gilbert and Nancy Lynch in 2002",
+      "Daniel Abadi in 2012",
+      "Werner Vogels in 2007",
+    ],
+    correct: 2,
+    explanation: "Daniel Abadi proposed the PACELC theorem in 2012 as an extension to Eric Brewer's CAP theorem. Abadi argued that CAP was incomplete because it only described behavior during network partitions, ignoring the ever-present latency vs. consistency trade-off during normal operation.",
+  },
+  {
+    question: "In PACELC terms, why does choosing low latency (EL) inherently imply accepting weaker consistency?",
+    options: [
+      "Lower latency requires less powerful hardware that cannot maintain consistency",
+      "To acknowledge a write quickly, the primary cannot wait for all replicas to confirm — some replicas may lag, creating temporary inconsistency",
+      "Low-latency systems bypass the WAL, which is required for consistency",
+      "EL systems use compression that introduces checksum errors",
+    ],
+    correct: 1,
+    explanation: "When a system prioritizes low latency, it acknowledges writes to the client immediately after one or a few nodes confirm, without waiting for all replicas. Replicas that haven't received the update yet will serve stale data if read at that moment. Achieving full consistency requires waiting for all replicas, which adds the round-trip time of the slowest replica to every write.",
+  },
+  {
+    question: "ZooKeeper is classified as PC/EC in PACELC. What practical implication does this have?",
+    options: [
+      "ZooKeeper will serve stale configuration data during a network partition to stay available",
+      "ZooKeeper rejects reads and writes during a partition rather than return potentially inconsistent data, and adds latency to ensure all writes are durably committed before acknowledging",
+      "ZooKeeper automatically switches to PA/EL mode when latency exceeds a threshold",
+      "ZooKeeper replicates data with eventual consistency in all scenarios",
+    ],
+    correct: 1,
+    explanation: "ZooKeeper is used for distributed coordination (locks, leader election, configuration). Stale data in these contexts could be catastrophic — a distributed lock that two nodes think they hold simultaneously is a correctness disaster. PC/EC means ZooKeeper will refuse to serve requests during partitions and incurs latency to ensure linearizable consistency in normal operation.",
+  },
+  {
+    question: "Cassandra's tunable consistency allows a query to use consistency level QUORUM. How does this map to PACELC's latency-consistency spectrum?",
+    options: [
+      "QUORUM moves Cassandra from PA/EL toward PC/EC — higher consistency at the cost of higher latency",
+      "QUORUM moves Cassandra from PC/EC toward PA/EL — lower consistency for lower latency",
+      "QUORUM has no effect on latency, only on availability",
+      "QUORUM is a partition-handling strategy, not related to the ELC trade-off",
+    ],
+    correct: 0,
+    explanation: "By requiring a quorum of nodes to acknowledge a write or read, QUORUM adds latency (must wait for a majority) but provides stronger consistency (reads will always reflect the most recent quorum write). This shifts Cassandra from its default PA/EL position toward more consistency at the cost of latency — demonstrating that PACELC classifications describe defaults, not fixed behavior.",
+  },
+  {
+    question: "What is the key insight PACELC adds compared to CAP for evaluating databases in real production systems?",
+    options: [
+      "PACELC adds geographic distribution as a new dimension",
+      "PACELC captures that the latency-consistency trade-off exists on every request during normal operation, not just during rare network partitions",
+      "PACELC proves that all distributed systems must choose availability over consistency",
+      "PACELC introduces a fifth database property beyond CAP's three",
+    ],
+    correct: 1,
+    explanation: "Network partitions are rare events. The latency-consistency trade-off in PACELC's 'Else' branch affects every single request in normal operation. This makes the EL vs EC trade-off far more impactful in practice than the partition-time CAP choice. PACELC gives engineers a more complete model for evaluating everyday database behavior.",
+  },
+  {
+    question: "An online banking application requires that account balance reads always reflect the latest committed transaction. Which PACELC classification should the database have?",
+    options: [
+      "PA/EL — to ensure fast response times for customers",
+      "PA/EC — available during partitions, consistent otherwise",
+      "PC/EC — consistent during partitions and during normal operation",
+      "PC/EL — consistent during partitions, but low latency otherwise",
+    ],
+    correct: 2,
+    explanation: "A banking application requires linearizable reads (every read sees the latest write) at all times. PC/EC means: during partitions, reject requests rather than serve stale balances; during normal operation, wait for all replicas to confirm before acknowledging — ensuring every read reflects the latest committed state, at the cost of availability and latency.",
+  },
+  {
+    question: "MongoDB's default configuration is classified as PC/EC. What happens to MongoDB during a network partition?",
+    options: [
+      "All nodes continue accepting writes independently and merge changes later",
+      "Writes are rejected until the partition heals and a new primary is elected via Raft consensus",
+      "MongoDB automatically switches to PA/EL mode to maintain availability",
+      "MongoDB returns cached (potentially stale) reads from all nodes during the partition",
+    ],
+    correct: 1,
+    explanation: "MongoDB uses a Raft-based consensus protocol for primary election. During a partition where the primary cannot communicate with a majority of the replica set, it steps down and stops accepting writes. This prevents split-brain (two primaries accepting conflicting writes) at the cost of write availability — a PC behavior.",
+  },
 ];
 
 export default function PacelcContent({ slug }: { slug: string; chapterId: number }) {

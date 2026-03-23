@@ -49,6 +49,94 @@ const questions = [
     correct: 1,
     explanation: "Service registries like Consul use health checks (HTTP ping or TCP check) and heartbeat TTLs. If an instance stops sending heartbeats (default: 3 missed intervals), the registry marks it critical and removes it from the available pool. This prevents clients from routing to dead instances.",
   },
+  {
+    question: "Which consistency model does Netflix Eureka prioritize, and why?",
+    options: [
+      "Strong consistency (CP), because stale data causes incorrect routing",
+      "Availability over consistency (AP), because brief stale data is preferable to clients getting no registry responses",
+      "Linearizability, because all clients must see the same registry state",
+      "Eventual consistency enforced through Raft consensus",
+    ],
+    correct: 1,
+    explanation: "Eureka is an AP system (from the CAP theorem). It favors availability: if a Eureka server partition occurs, clients still get cached (potentially stale) registry data rather than receiving errors. This means a recently terminated instance might briefly still appear in the registry, but the system continues to function.",
+  },
+  {
+    question: "What consensus algorithm does HashiCorp Consul use to maintain registry consistency?",
+    options: [
+      "Paxos",
+      "Raft",
+      "Gossip Protocol",
+      "Two-Phase Commit (2PC)",
+    ],
+    correct: 1,
+    explanation: "Consul uses the Raft consensus algorithm to replicate registry state across its server cluster, ensuring strong consistency for service catalog data. It also uses the Gossip protocol (Serf) for cluster membership and failure detection, combining both for a robust distributed registry.",
+  },
+  {
+    question: "In Kubernetes, how does service discovery work by default?",
+    options: [
+      "Pods query etcd directly to find other services",
+      "A Kubernetes Service gets a stable DNS name (e.g., my-svc.namespace.svc.cluster.local) resolved by CoreDNS to the ClusterIP",
+      "Each pod maintains a local registry of all other pods via a gossip protocol",
+      "Kubernetes uses Netflix Ribbon for client-side load balancing",
+    ],
+    correct: 1,
+    explanation: "Kubernetes creates a stable DNS entry for each Service via CoreDNS (formerly kube-dns). Applications can connect to other services by hostname without any registry client library. kube-proxy maintains iptables/IPVS rules that load-balance traffic across healthy pod endpoints behind the ClusterIP.",
+  },
+  {
+    question: "What is the difference between self-registration and third-party registration of services?",
+    options: [
+      "Self-registration is more secure because the service controls its own credentials",
+      "In self-registration, the service registers itself on startup; in third-party, an external system (e.g., a Kubernetes controller) handles registration",
+      "Third-party registration requires the service to expose a health endpoint",
+      "Self-registration is only supported by Consul; third-party by Eureka",
+    ],
+    correct: 1,
+    explanation: "Self-registration requires each service to include registry client code (coupling the service to the registry). Third-party registration uses an external observer (e.g., a Kubernetes operator, Registrator sidecar, or ECS task agent) that monitors the platform and manages registry entries. Third-party is preferred in Kubernetes as services stay registry-agnostic.",
+  },
+  {
+    question: "What is etcd's primary role in a Kubernetes cluster?",
+    options: [
+      "It serves as the container runtime for running pods",
+      "It is the distributed key-value store that holds all Kubernetes cluster state, including service and pod definitions",
+      "It manages DNS resolution for Service objects",
+      "It handles load balancing between pod replicas",
+    ],
+    correct: 1,
+    explanation: "etcd is the source of truth for the entire Kubernetes cluster state: pod specs, service definitions, config maps, secrets, and more. Every change made via kubectl is written to etcd. The Kubernetes API server reads from and writes to etcd. It uses Raft consensus for strong consistency.",
+  },
+  {
+    question: "What is a potential disadvantage of client-side service discovery in a polyglot microservices environment?",
+    options: [
+      "It adds an extra network hop for every request",
+      "Each language/framework requires its own registry client library, creating maintenance overhead",
+      "Client-side discovery cannot perform health checks",
+      "It only works with gRPC; REST services must use server-side discovery",
+    ],
+    correct: 1,
+    explanation: "Client-side discovery requires each service to integrate a registry client SDK. In a polyglot environment (Java, Python, Go, Node.js), you need separate library implementations for each language, all of which must be kept in sync and maintained. Server-side discovery centralizes this logic in the load balancer, keeping services language-agnostic.",
+  },
+  {
+    question: "What does a service registry heartbeat mechanism protect against?",
+    options: [
+      "Memory leaks in the service registry server",
+      "Services that are still registered but have crashed or become unreachable",
+      "Duplicate service registrations from the same instance",
+      "Unauthorized services from registering with false metadata",
+    ],
+    correct: 1,
+    explanation: "Heartbeats are periodic signals sent by registered services to indicate they are still alive. If a service crashes hard (without a graceful shutdown and deregistration), the registry detects missed heartbeats and removes the stale entry. This prevents clients from routing requests to dead instances.",
+  },
+  {
+    question: "When using Kubernetes DNS for service discovery, what DNS name does a Service named 'payments' in the 'billing' namespace resolve to within the cluster?",
+    options: [
+      "payments.billing.cluster.local",
+      "payments.billing.svc.cluster.local",
+      "billing.payments.k8s.local",
+      "svc.payments.billing.internal",
+    ],
+    correct: 1,
+    explanation: "Kubernetes Services are assigned DNS names in the format <service-name>.<namespace>.svc.cluster.local. Pods in the same namespace can use just the service name (payments), while pods in other namespaces must use the fully qualified name (payments.billing.svc.cluster.local). CoreDNS handles resolution to the Service's ClusterIP.",
+  },
 ];
 
 export default function ServiceDiscoveryContent({ slug }: { slug: string; chapterId: number }) {

@@ -32,6 +32,83 @@ const questions = [
     correct: 1,
     explanation: "Network partitions ARE going to happen (cable cuts, network congestion). When they do, you must choose: either reject requests until partition heals (Consistency) or serve potentially stale data (Availability).",
   },
+  {
+    question: "In the CAP theorem, what does 'Consistency' specifically mean?",
+    options: [
+      "The database never loses data after a crash",
+      "Every read receives the most recent write or an error — all nodes see the same data at the same time",
+      "All transactions complete with no errors",
+      "The same query always returns results in the same time",
+    ],
+    correct: 1,
+    explanation: "CAP Consistency (also called linearizability) means every read returns the most recent committed write, regardless of which node serves the request. This is a strong guarantee — nodes cannot serve stale data. Note: this is different from ACID Consistency, which is about constraint satisfaction.",
+  },
+  {
+    question: "Why is 'CA' (Consistent + Available, no Partition Tolerance) not a realistic option for distributed systems?",
+    options: [
+      "CA systems are too expensive to operate",
+      "Network partitions are unavoidable in distributed systems, so Partition Tolerance cannot be abandoned",
+      "CA systems require specialized hardware not widely available",
+      "No database vendor offers CA configurations",
+    ],
+    correct: 1,
+    explanation: "In any distributed system, network partitions will occur (cables fail, switches drop packets). You cannot simply opt out of Partition Tolerance. The real trade-off for distributed systems is always CP vs AP — what to do WHEN a partition happens. 'CA' systems are effectively single-node systems that assume no partitions.",
+  },
+  {
+    question: "A payment processing system that must never process a payment twice opts for CP during a network partition. What is the user experience consequence?",
+    options: [
+      "Payments may be processed twice during a partition",
+      "The service returns an error or becomes unavailable during the partition to maintain consistency",
+      "Payments are automatically retried with exponential backoff",
+      "The system switches to an AP mode automatically",
+    ],
+    correct: 1,
+    explanation: "CP systems (like ZooKeeper, HBase) refuse to serve requests they cannot satisfy consistently. During a network partition, a CP payment system will reject payment requests rather than risk a double-charge or inconsistent state. This is the correct trade-off for financial systems where consistency is paramount.",
+  },
+  {
+    question: "Which of the following is a CP (Consistent + Partition Tolerant) database?",
+    options: [
+      "Cassandra",
+      "DynamoDB (default configuration)",
+      "HBase",
+      "CouchDB",
+    ],
+    correct: 2,
+    explanation: "HBase is a CP system — it guarantees strong consistency for reads and writes even during partitions, but may become unavailable if a partition occurs and a quorum cannot be reached. Cassandra and DynamoDB are AP by default, prioritizing availability and eventual consistency.",
+  },
+  {
+    question: "What does 'Partition Tolerance' mean in the CAP theorem?",
+    options: [
+      "The system can partition its data across multiple tables",
+      "The system continues operating correctly when network communication fails between some nodes",
+      "The system supports horizontal partitioning (sharding) of data",
+      "The system tolerates data loss during network outages",
+    ],
+    correct: 1,
+    explanation: "Partition Tolerance means the system continues to function even when network messages between nodes are lost or delayed (a network partition). In distributed systems, this is not optional — partitions will happen. The question is how the system behaves when they do.",
+  },
+  {
+    question: "A social media platform decides to use an AP database for its news feed. During a network partition, a user in Europe may see a post that a user in the US cannot yet see. What is this called?",
+    options: [
+      "A race condition",
+      "Eventual consistency — different nodes temporarily have different views of the data",
+      "A write conflict that requires manual resolution",
+      "A dirty read caused by uncommitted transactions",
+    ],
+    correct: 1,
+    explanation: "This is eventual consistency in action. An AP system serves all requests during a partition, but different nodes may temporarily have different data. Given time and no further updates, all nodes will converge. For social feeds, this temporary inconsistency is acceptable — a user seeing a post a few seconds before another is not a critical failure.",
+  },
+  {
+    question: "What is a practical limitation of the CAP theorem's usefulness for system design?",
+    options: [
+      "The CAP theorem only applies to databases with more than 1,000 nodes",
+      "The CAP theorem treats consistency and availability as binary, but real systems offer tunable trade-offs across a spectrum",
+      "The CAP theorem has been mathematically disproved and should not be used",
+      "The CAP theorem only applies to NoSQL databases, not relational databases",
+    ],
+    correct: 1,
+    explanation: "CAP presents a binary choice, but real systems offer gradations. Cassandra lets you tune consistency level per query (ONE, QUORUM, ALL). DynamoDB offers both eventually consistent and strongly consistent reads. The PACELC theorem improves on CAP by adding the latency vs. consistency trade-off that exists in normal operation, not just during partitions.",
+  },
 ];
 
 export default function CapTheoremContent({ slug }: { slug: string; chapterId: number }) {

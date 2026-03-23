@@ -48,6 +48,94 @@ const questions = [
     correct: 1,
     explanation: "An index (typically a B-Tree) stores a sorted copy of one or more columns plus pointers back to the full row. This lets the database jump directly to matching rows in O(log n) time rather than doing a full O(n) table scan.",
   },
+  {
+    question: "What is the purpose of the Write-Ahead Log (WAL) in a DBMS?",
+    options: [
+      "To cache frequently read data pages in memory",
+      "To compress data before writing it to disk",
+      "To record changes before applying them, enabling crash recovery",
+      "To replicate data to secondary servers",
+    ],
+    correct: 2,
+    explanation: "The WAL is an append-only log where every change is recorded before it modifies the actual data files. If the database crashes mid-write, it replays the WAL on restart to restore the database to a consistent state.",
+  },
+  {
+    question: "What does MVCC (Multi-Version Concurrency Control) allow a database to do?",
+    options: [
+      "Store multiple copies of each table for redundancy",
+      "Allow readers and writers to proceed concurrently without blocking each other",
+      "Automatically partition large tables across multiple servers",
+      "Encrypt multiple versions of a row for security",
+    ],
+    correct: 1,
+    explanation: "MVCC maintains multiple versions of each row. Readers see a consistent snapshot from the time their transaction started, while writers create new versions. This eliminates read-write lock contention, greatly improving concurrency.",
+  },
+  {
+    question: "What is the Buffer Pool in a DBMS primarily used for?",
+    options: [
+      "Storing transaction logs before flushing to disk",
+      "Caching frequently accessed data pages in RAM to reduce disk I/O",
+      "Buffering network packets between client and server",
+      "Holding prepared SQL statements for reuse",
+    ],
+    correct: 1,
+    explanation: "The Buffer Pool is an in-memory cache of data pages. Since RAM access is thousands of times faster than disk, keeping the hot working set in the Buffer Pool dramatically reduces I/O. Most databases aim to keep 70–90% of queries served from RAM.",
+  },
+  {
+    question: "Which storage engine data structure is most commonly used for general-purpose database indexes?",
+    options: [
+      "Hash table",
+      "B-Tree (Balanced Tree)",
+      "Linked list",
+      "Bloom filter",
+    ],
+    correct: 1,
+    explanation: "B-Trees maintain sorted data and support O(log n) lookups, range queries, and ordered scans. They are the default index structure in most relational databases (InnoDB, PostgreSQL) because they balance read and write performance for general workloads.",
+  },
+  {
+    question: "What is the difference between a database view and a stored procedure?",
+    options: [
+      "A view stores query results on disk; a stored procedure runs in the application",
+      "A view is a saved query acting as a virtual table; a stored procedure is precompiled executable logic",
+      "A view can modify data; a stored procedure is read-only",
+      "There is no difference — they serve the same purpose",
+    ],
+    correct: 1,
+    explanation: "A view is a named SQL query that behaves like a virtual table and is used for reading data. A stored procedure is a precompiled program stored in the database that can execute multiple statements, accept parameters, and modify data.",
+  },
+  {
+    question: "What storage engine does MySQL's InnoDB use for its primary key index structure?",
+    options: [
+      "Hash index",
+      "LSM-Tree",
+      "Clustered B-Tree index",
+      "Inverted index",
+    ],
+    correct: 2,
+    explanation: "InnoDB uses a clustered B-Tree index for the primary key, meaning the actual row data is stored within the B-Tree leaf nodes. This makes primary key lookups very fast but means secondary indexes must store the primary key value to do a second lookup.",
+  },
+  {
+    question: "What is a 'schema' in the context of a relational database?",
+    options: [
+      "A backup copy of the database",
+      "The physical storage layout on disk",
+      "The structural definition of tables, columns, data types, and constraints",
+      "The query execution plan chosen by the optimizer",
+    ],
+    correct: 2,
+    explanation: "A schema defines the blueprint of the database: which tables exist, what columns they have, their data types, and the constraints (NOT NULL, UNIQUE, FOREIGN KEY) that must be satisfied. In relational databases, the schema is enforced on every write.",
+  },
+  {
+    question: "Which of the following best describes a NoSQL database?",
+    options: [
+      "A database that cannot store structured data",
+      "A database that never uses SQL even internally",
+      "A non-relational database that uses alternative data models for horizontal scalability or specialized access patterns",
+      "A database that does not support transactions of any kind",
+    ],
+    correct: 2,
+    explanation: "NoSQL ('Not Only SQL') refers to non-relational databases that use data models like documents, key-value pairs, wide columns, or graphs. They trade strict relational constraints for horizontal scalability, schema flexibility, or specialized query patterns. Many modern NoSQL systems do support some form of SQL or ACID transactions.",
+  },
 ];
 
 export default function DatabasesAndDbmsContent({ slug }: { slug: string; chapterId: number }) {

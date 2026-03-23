@@ -20,6 +20,94 @@ const questions = [
     correct: 2,
     explanation: "Without an index, the database must scan every row (O(n) full table scan). On a billion-row table, this could take minutes. An index reduces this to O(log n)  milliseconds.",
   },
+  {
+    question: "What is a covering index?",
+    options: [
+      "An index that spans all columns in the table",
+      "An index that includes all columns needed to satisfy a query, so the database never needs to access the table rows",
+      "An index used as a fallback when the primary index fails",
+      "An index that automatically compresses data for storage efficiency",
+    ],
+    correct: 1,
+    explanation: "A covering index contains all columns that a query needs (both filter and select columns). The database can answer the query entirely from the index without a second lookup to the actual table rows, eliminating the extra I/O of 'heap fetches' and making reads significantly faster.",
+  },
+  {
+    question: "For a composite index on (last_name, first_name), which query will NOT efficiently use the index?",
+    options: [
+      "WHERE last_name = 'Smith'",
+      "WHERE last_name = 'Smith' AND first_name = 'John'",
+      "WHERE first_name = 'John'",
+      "WHERE last_name BETWEEN 'A' AND 'M'",
+    ],
+    correct: 2,
+    explanation: "Composite indexes follow the leftmost prefix rule: the index can be used for queries that start with the first column. A query on first_name alone (skipping last_name) cannot use this index for an index seek — it would require a full index scan. The index only helps when the leftmost column is included in the filter.",
+  },
+  {
+    question: "What is a partial index and why would you use one?",
+    options: [
+      "An index that only covers half the rows due to storage limits",
+      "An index built on a subset of rows that match a WHERE condition, keeping the index small and efficient",
+      "An index that only covers some of the columns in a table",
+      "An index that is partially built and completed in the background",
+    ],
+    correct: 1,
+    explanation: "A partial index (e.g., CREATE INDEX ON orders (user_id) WHERE status = 'pending') indexes only rows matching a condition. If only 1% of orders are pending, this index is 100x smaller than a full index and faster to scan. It is ideal for queries that always filter on a selective condition.",
+  },
+  {
+    question: "What is a clustered index and how does it differ from a non-clustered index?",
+    options: [
+      "A clustered index is shared across multiple tables; a non-clustered index is table-specific",
+      "A clustered index physically orders table rows on disk to match the index order; a non-clustered index stores pointers to rows separately",
+      "A clustered index is built in memory; a non-clustered index is stored on disk",
+      "A clustered index covers all columns; a non-clustered index covers only one column",
+    ],
+    correct: 1,
+    explanation: "In a clustered index (e.g., InnoDB primary key), the actual row data is stored in the B-Tree leaf nodes in index order. There can be only one clustered index per table. A non-clustered index stores a copy of the indexed column values plus a pointer (row ID or primary key) to find the actual row.",
+  },
+  {
+    question: "Why should you generally avoid indexing low-cardinality columns like a boolean 'is_active' field?",
+    options: [
+      "Boolean columns cannot be indexed by any database",
+      "Indexes on low-cardinality columns rarely help because the database may find a full table scan faster than using an index that matches 50% of rows",
+      "Low-cardinality indexes always cause data corruption",
+      "The database automatically creates indexes on boolean columns, so manually adding one wastes resources",
+    ],
+    correct: 1,
+    explanation: "Index effectiveness depends on selectivity. If 60% of rows have is_active = true, the database's query optimizer will often choose a full table scan over the index because reading half the table through an index (which involves random I/O) is slower than a sequential full scan. High-cardinality columns like email or user_id are ideal index candidates.",
+  },
+  {
+    question: "What does the EXPLAIN command in SQL databases tell you?",
+    options: [
+      "It executes the query and returns a summary of the results",
+      "It shows the query execution plan the database intends to use, including index usage and estimated costs",
+      "It automatically creates indexes for slow queries",
+      "It displays the schema definition of all tables referenced in the query",
+    ],
+    correct: 1,
+    explanation: "EXPLAIN shows the query optimizer's execution plan: which tables are scanned, which indexes are used (or not used), estimated row counts, and estimated cost. Adding ANALYZE (EXPLAIN ANALYZE) actually runs the query and shows real vs. estimated statistics, which is essential for diagnosing index effectiveness.",
+  },
+  {
+    question: "What is an index on an expression (function-based index) and when is it useful?",
+    options: [
+      "An index that uses a mathematical formula to compress stored values",
+      "An index built on the result of a function or expression, allowing queries using that expression to use the index",
+      "An index that is computed at query time rather than stored",
+      "An index that only exists during the lifetime of a database connection",
+    ],
+    correct: 1,
+    explanation: "A function-based index (e.g., CREATE INDEX ON users (LOWER(email))) stores the computed result. A query WHERE LOWER(email) = 'user@example.com' can then use the index. Without it, applying a function to an indexed column disables index usage and forces a full table scan.",
+  },
+  {
+    question: "Which type of index is most appropriate for full-text search queries?",
+    options: [
+      "B-Tree index",
+      "Hash index",
+      "Inverted index (Full-Text Search index)",
+      "Composite B-Tree index",
+    ],
+    correct: 2,
+    explanation: "An inverted index maps each unique word (token) to a list of documents containing that word. This enables efficient full-text search across large text fields. B-Tree indexes work well for exact matches and range queries but are inefficient for searching within text content. PostgreSQL's tsvector/tsquery and Elasticsearch both use inverted indexes.",
+  },
 ];
 
 export default function IndexesContent({ slug }: { slug: string; chapterId: number }) {

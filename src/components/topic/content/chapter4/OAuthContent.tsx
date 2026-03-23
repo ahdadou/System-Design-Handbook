@@ -35,6 +35,105 @@ const questions = [
     correct: 1,
     explanation: "OAuth 2.0 is an authorization framework  it grants access to resources. OpenID Connect (OIDC) is an identity layer on top of OAuth 2.0 that adds authentication  it tells you WHO the user is via an ID token.",
   },
+  {
+    question: "In the OAuth 2.0 Authorization Code flow, why is the auth code exchanged server-side rather than directly in the browser?",
+    options: [
+      "Browsers do not support HTTP POST requests needed for token exchange",
+      "Exchanging the code server-side keeps the access token out of browser history, logs, and referrer headers, preventing token leakage",
+      "The authorization server only accepts requests from server IP addresses",
+      "Browsers cannot store access tokens securely",
+    ],
+    correct: 1,
+    explanation: "In the Authorization Code flow, the auth code is passed through the browser redirect but is short-lived and single-use. The actual access token exchange happens server-to-server (backend to auth server) using the client secret, so the sensitive access token never appears in the browser URL or history. This is why it is the most secure OAuth flow for server-side apps.",
+  },
+  {
+    question: "What is PKCE (Proof Key for Code Exchange) and why is it used?",
+    options: [
+      "A method to encrypt JWT tokens before storing them in the browser",
+      "An extension to the Authorization Code flow that prevents auth code interception attacks in mobile and SPA apps that cannot store a client secret",
+      "A protocol for exchanging public keys between OAuth clients and servers",
+      "A way to refresh expired access tokens without re-prompting the user",
+    ],
+    correct: 1,
+    explanation: "Mobile apps and SPAs cannot securely store a client secret (it would be embedded in code users can inspect). PKCE solves this by generating a cryptographic code_verifier and code_challenge on the client. Even if an attacker intercepts the auth code, they cannot exchange it without the code_verifier, which was only known to the original client.",
+  },
+  {
+    question: "Which OAuth 2.0 grant type is used for machine-to-machine (M2M) communication with no user involved?",
+    options: [
+      "Authorization Code",
+      "Implicit",
+      "Client Credentials",
+      "Device Code",
+    ],
+    correct: 2,
+    explanation: "The Client Credentials grant is for M2M scenarios where a service authenticates itself (not a user) to access another service. The client presents its client_id and client_secret to the auth server and receives an access token. Examples: a cron job calling an internal API, or a microservice calling another microservice.",
+  },
+  {
+    question: "What is the purpose of a refresh token in OAuth 2.0?",
+    options: [
+      "To reset the user's password when their session expires",
+      "To obtain a new access token after the current one expires, without requiring the user to log in again",
+      "To refresh the auth server's certificate when it expires",
+      "To sync the client's clock with the auth server's clock",
+    ],
+    correct: 1,
+    explanation: "Access tokens are intentionally short-lived (minutes to hours) to limit damage from token theft. Refresh tokens are long-lived and stored securely. When an access token expires, the client presents the refresh token to the auth server to silently obtain a new access token without interrupting the user session.",
+  },
+  {
+    question: "What is the difference between an access token and an ID token in OpenID Connect?",
+    options: [
+      "Access tokens are JWTs; ID tokens are opaque strings",
+      "Access tokens authorize access to APIs; ID tokens contain claims about the authenticated user's identity (name, email, sub)",
+      "ID tokens have a longer lifetime than access tokens",
+      "Access tokens are sent in cookies; ID tokens are sent in HTTP headers",
+    ],
+    correct: 1,
+    explanation: "In OIDC, the access token is a credential presented to resource servers to authorize API calls (Bearer token). The ID token is a JWT containing identity claims (who the user is) for the client application's consumption. The application reads the ID token to know who logged in; it uses the access token to make API calls on their behalf.",
+  },
+  {
+    question: "Why should you never implement your own OAuth authorization server from scratch?",
+    options: [
+      "It is illegal to implement OAuth without a commercial license",
+      "OAuth 2.0 has numerous security edge cases (token binding, PKCE, state parameter, redirect URI validation) where mistakes lead to critical vulnerabilities like token theft or account takeover",
+      "Custom OAuth servers are not compatible with standard JWT libraries",
+      "Only Google and GitHub are permitted to operate OAuth authorization servers",
+    ],
+    correct: 1,
+    explanation: "OAuth security is notoriously complex: redirect URI validation flaws, missing state parameter (CSRF), implicit grant vulnerabilities, and improper token storage are all attack vectors. Mature providers (Auth0, Cognito, Okta, Clerk) have dedicated security teams, SOC 2 audits, and years of hardening. Rolling your own is a high-risk approach even for experienced teams.",
+  },
+  {
+    question: "What does the OAuth 'scope' parameter control?",
+    options: [
+      "The geographic region where the auth server operates",
+      "The specific permissions or resources the access token grants access to",
+      "The expiration time of the access token",
+      "The encryption algorithm used to sign the JWT",
+    ],
+    correct: 1,
+    explanation: "Scopes define the granularity of access granted by an access token. For example, scope=read:repos grants read-only access to GitHub repositories, while scope=repo grants full access. The principle of least privilege means clients should request only the scopes they need. Users see the requested scopes during the consent screen.",
+  },
+  {
+    question: "What is the OAuth 2.0 Device Code flow used for?",
+    options: [
+      "Authenticating IoT devices with no display or keyboard, like smart TVs or CLI tools, by displaying a code the user enters on a separate device",
+      "Authorizing physical hardware devices to access manufacturing APIs",
+      "A deprecated flow replaced by Authorization Code with PKCE",
+      "Authenticating Docker containers when pulling from private registries",
+    ],
+    correct: 0,
+    explanation: "The Device Code flow is designed for devices with limited input capabilities (smart TVs, gaming consoles, CLI tools). The device displays a short code and a URL. The user opens the URL on their phone or computer, enters the code, and authenticates. The device polls the auth server until the user completes authentication.",
+  },
+  {
+    question: "How does a resource server (API) validate an OAuth access token?",
+    options: [
+      "It sends the token back to the client for verification",
+      "It validates the JWT signature using the auth server's public key (for JWTs) or calls the auth server's introspection endpoint (for opaque tokens)",
+      "It decrypts the token using a shared symmetric key stored in both servers",
+      "It checks if the token exists in a local database of issued tokens",
+    ],
+    correct: 1,
+    explanation: "For JWT access tokens, the resource server validates the signature using the auth server's public key (obtained from the JWKS endpoint), checks expiration (exp claim), and verifies the audience (aud) and issuer (iss). For opaque tokens, it calls the auth server's token introspection endpoint (RFC 7662) to check validity and retrieve associated metadata.",
+  },
 ];
 
 export default function OAuthContent({ slug }: { slug: string; chapterId: number }) {

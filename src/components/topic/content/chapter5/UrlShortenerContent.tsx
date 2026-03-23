@@ -52,6 +52,83 @@ const questions = [
     correct: 1,
     explanation: "With Pareto's law, 20% of URLs get 80% of clicks. Cache hot codes in Redis. A 95%+ cache hit rate means the database handles <5% of traffic. Use DB read replicas for remaining reads.",
   },
+  {
+    question: "What HTTP status code should a URL shortener return when redirecting a user to the long URL?",
+    options: [
+      "200 OK with the long URL in the response body",
+      "301 Moved Permanently or 302 Found, with the long URL in the Location header",
+      "404 Not Found if the short code is not in cache",
+      "500 Internal Server Error to indicate a server-side redirect",
+    ],
+    correct: 1,
+    explanation: "Redirect responses use 3xx status codes. 301 (Moved Permanently) tells browsers to cache the redirect permanently, reducing future requests to your server (good for bandwidth, bad for analytics tracking). 302 (Found / Temporary Redirect) causes the browser to always re-request your server, enabling click counting. For analytics, 302 is preferred.",
+  },
+  {
+    question: "You store 100M short URLs. Each record is ~500 bytes. What is the approximate total storage needed?",
+    options: [
+      "~500 MB",
+      "~5 GB",
+      "~50 GB",
+      "~500 GB",
+    ],
+    correct: 2,
+    explanation: "100M records × 500 bytes = 50,000,000,000 bytes = 50 GB. This comfortably fits on a single modern SSD, though at 100M new URLs/day the total grows by 50 GB/day. After 1 year: 365 × 50 GB ≈ 18 TB, requiring either a database cluster or URL expiration policies.",
+  },
+  {
+    question: "How would you handle custom aliases (e.g., short.ly/my-brand) in a URL shortener?",
+    options: [
+      "Reject custom aliases to keep the system simple",
+      "Store custom aliases in the same table with a flag, checking uniqueness before insertion with a UNIQUE constraint",
+      "Use a separate database exclusively for custom aliases",
+      "Generate a new random code and map it to the custom alias separately",
+    ],
+    correct: 1,
+    explanation: "Custom aliases share the same shortcode→URL mapping table. The shortcode column has a UNIQUE constraint so both auto-generated and custom codes coexist without collision. Before inserting, check if the alias already exists. Rate-limit custom alias creation to prevent abuse (e.g., squatting on popular brand names).",
+  },
+  {
+    question: "How would you implement URL expiration in the shortener?",
+    options: [
+      "Delete expired URLs synchronously on every redirect request",
+      "Store an expires_at timestamp in the DB, check it on redirect, and run a background job to clean up expired records",
+      "Use a different database table for expired URLs",
+      "URLs cannot expire once created; this is not a feasible feature",
+    ],
+    correct: 1,
+    explanation: "Store an optional expires_at timestamp. On redirect: if expires_at is set and now > expires_at, return 410 Gone. A background cleanup job (e.g., a cron running nightly) deletes expired records from the DB and removes them from the cache. This keeps the DB lean without adding overhead to the hot redirect path.",
+  },
+  {
+    question: "To scale write throughput for URL creation, you use a distributed counter instead of a single auto-increment. What problem does this solve?",
+    options: [
+      "Distributed counters ensure shorter URLs than auto-increment",
+      "A single auto-increment counter is a bottleneck; distributed counters (e.g., using Redis INCR per server range) pre-allocate ID ranges to each server, eliminating coordination overhead",
+      "Distributed counters prevent hash collisions",
+      "Auto-increment IDs are not monotonically increasing in distributed systems",
+    ],
+    correct: 1,
+    explanation: "A global auto-increment counter requires a central authority that every write must contact, creating a single bottleneck. The solution: pre-allocate ranges of IDs to each API server (e.g., server 1 gets IDs 1–1000, server 2 gets 1001–2000). Each server independently increments within its range and fetches the next range when exhausted, eliminating cross-server coordination.",
+  },
+  {
+    question: "What database would you choose as the primary store for a URL shortener, and why?",
+    options: [
+      "MongoDB, because it supports flexible schemas for different URL types",
+      "A relational database like PostgreSQL or MySQL, because the data model is simple and relational features (UNIQUE constraints, transactions) are useful",
+      "Cassandra, because URL shorteners need extreme write throughput",
+      "Elasticsearch, because URLs need to be full-text searchable",
+    ],
+    correct: 1,
+    explanation: "The URL shortener data model is simple: shortcode → long_url with optional metadata. A relational database handles this well: UNIQUE constraints prevent duplicate codes, indexes on shortcode enable O(log N) lookups, and transactions handle the check-then-insert pattern for custom aliases. Cassandra would be overkill unless you are handling tens of millions of writes per second.",
+  },
+  {
+    question: "How would you track analytics (click counts, geographic data) without slowing down the redirect path?",
+    options: [
+      "Synchronously update a counter in the database on every redirect",
+      "Publish a click event to a message queue (e.g., Kafka) asynchronously during redirect, and process analytics in a separate consumer",
+      "Store click data in cookies on the user's browser",
+      "Use database triggers to update analytics on every read",
+    ],
+    correct: 1,
+    explanation: "The redirect must be sub-10ms. Synchronous DB writes for analytics would add unacceptable latency. Instead, publish a lightweight event (shortcode, timestamp, IP, user-agent) to Kafka asynchronously. The redirect returns immediately. An analytics consumer processes events in batch, updating click counts, geographic breakdowns, and time-series data without ever blocking the redirect path.",
+  },
 ];
 
 export default function UrlShortenerContent({ slug }: { slug: string; chapterId: number }) {

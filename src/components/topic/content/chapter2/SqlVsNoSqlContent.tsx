@@ -21,6 +21,94 @@ const questions = [
     correct: 2,
     explanation: "Graph databases (Neo4j, Amazon Neptune) excel at relationship traversal. Finding 'friends of friends' requires expensive recursive JOINs in SQL but is natural in graph DBs.",
   },
+  {
+    question: "A startup is building a real-time analytics dashboard that ingests 500,000 sensor readings per second. Which database choice is most appropriate?",
+    options: [
+      "PostgreSQL with a single primary instance",
+      "MySQL with read replicas",
+      "A time-series database like InfluxDB or TimescaleDB",
+      "MongoDB with full-text search indexes",
+    ],
+    correct: 2,
+    explanation: "Time-series databases are purpose-built for high-ingest sequential writes of timestamped data. They include native support for downsampling, retention policies, and time-window queries — all at write throughputs that general-purpose SQL databases cannot match.",
+  },
+  {
+    question: "What does 'horizontal scaling' mean, and which database category typically supports it more naturally?",
+    options: [
+      "Adding more CPU/RAM to a single server; SQL databases support this naturally",
+      "Adding more servers to distribute the load; NoSQL databases typically support this more naturally",
+      "Scaling the number of tables in a single database; both SQL and NoSQL scale the same way",
+      "Distributing queries across multiple application servers; neither SQL nor NoSQL databases are involved",
+    ],
+    correct: 1,
+    explanation: "Horizontal scaling (scale-out) adds more machines to handle increased load. NoSQL databases like Cassandra and DynamoDB were designed from the ground up to distribute data across many nodes. Traditional SQL databases scale vertically (bigger machines) more naturally, though modern distributed SQL databases (CockroachDB, Spanner) bridge this gap.",
+  },
+  {
+    question: "Which scenario best justifies choosing PostgreSQL over MongoDB?",
+    options: [
+      "Your application handles 1 million writes per second across many geographically distributed nodes",
+      "Your data structure changes frequently during early-stage development",
+      "You need to enforce complex relationships between entities with strong referential integrity and multi-table transactions",
+      "You are building a caching layer that requires sub-millisecond response times",
+    ],
+    correct: 2,
+    explanation: "PostgreSQL excels when data has strong relationships enforced by foreign keys, when ACID transactions spanning multiple tables are required, and when a well-defined, consistent schema matters. These properties are exactly what relational databases were designed to provide.",
+  },
+  {
+    question: "What is the key schema trade-off between SQL and most NoSQL databases?",
+    options: [
+      "SQL has no schema; NoSQL enforces a strict schema at write time",
+      "SQL enforces a fixed schema at write time; most NoSQL databases have flexible or schema-less designs",
+      "Both SQL and NoSQL enforce the same schema rules",
+      "SQL schemas are optional; NoSQL schemas are always required",
+    ],
+    correct: 1,
+    explanation: "SQL databases enforce a predefined schema on every write — the database rejects data that doesn't match. Most NoSQL databases shift schema enforcement to the application layer, allowing documents with different shapes in the same collection. This flexibility accelerates development but can lead to inconsistent data if not managed carefully.",
+  },
+  {
+    question: "You are designing a global e-commerce platform. You decide to use PostgreSQL for orders and Redis for shopping carts. What pattern does this represent?",
+    options: [
+      "Database sharding",
+      "Database federation",
+      "Polyglot persistence",
+      "Read replica pattern",
+    ],
+    correct: 2,
+    explanation: "Polyglot persistence is the practice of using multiple database technologies in one system, each chosen for the workload it fits best. PostgreSQL handles transactional order data (strong ACID), while Redis provides ultra-low latency for ephemeral cart data.",
+  },
+  {
+    question: "When would you use a wide-column store (Cassandra) over a relational database for user activity logs?",
+    options: [
+      "When you need to run complex analytical JOINs across users and their activities",
+      "When activity data must satisfy foreign key constraints to user records",
+      "When you need to ingest billions of append-only activity events with high write throughput and query by user ID and time range",
+      "When you need to enforce unique constraints on activity event IDs",
+    ],
+    correct: 2,
+    explanation: "Wide-column stores like Cassandra are optimized for append-heavy write workloads and queries by partition key (user ID) and clustering column (timestamp). Billions of event rows with high write rates would overwhelm a single relational database, while Cassandra scales linearly by adding nodes.",
+  },
+  {
+    question: "What is a major operational advantage of NoSQL databases over traditional relational databases when handling rapidly growing data volumes?",
+    options: [
+      "NoSQL databases never require data migrations",
+      "NoSQL databases can be scaled horizontally by adding commodity servers without schema changes",
+      "NoSQL databases have stronger data consistency guarantees",
+      "NoSQL databases do not require any indexing strategy",
+    ],
+    correct: 1,
+    explanation: "Most NoSQL databases are designed to scale out by adding nodes to a cluster. This is often transparent to the application and does not require schema migrations. In contrast, scaling a relational database typically requires vertical scaling (bigger hardware) or complex sharding setups.",
+  },
+  {
+    question: "Which SQL feature does NOT have a direct equivalent in most document databases?",
+    options: [
+      "Filtering records by field value",
+      "Sorting results by a field",
+      "Multi-collection JOIN with referential integrity enforcement",
+      "Limiting the number of returned results",
+    ],
+    correct: 2,
+    explanation: "SQL JOINs combine data across tables based on matching key values, with foreign keys enforcing that references are valid. Document databases like MongoDB can perform lookups across collections, but they do not natively enforce referential integrity. The application must manage relationship consistency.",
+  },
 ];
 
 export default function SqlVsNoSqlContent({ slug }: { slug: string; chapterId: number }) {

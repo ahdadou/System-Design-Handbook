@@ -47,6 +47,94 @@ const questions = [
     correct: 0,
     explanation: "BASE is the opposite of ACID: the system is Basically Available (stays up during partial failures), has Soft state (data may change over time without explicit input), and achieves Eventual consistency (all nodes will eventually agree on the same value, but not immediately).",
   },
+  {
+    question: "Which NoSQL database type uses an LSM-Tree (Log-Structured Merge-Tree) storage engine and excels at write-heavy workloads?",
+    options: [
+      "Document Store (MongoDB)",
+      "Key-Value Store (Redis)",
+      "Wide-Column Store (Cassandra)",
+      "Graph Database (Neo4j)",
+    ],
+    correct: 2,
+    explanation: "Cassandra uses an LSM-Tree storage engine. Writes go to an in-memory memtable and an append-only commit log, then are periodically flushed and merged into SSTables on disk. This sequential write pattern is extremely fast, making Cassandra ideal for write-heavy workloads like time-series data.",
+  },
+  {
+    question: "What is the main limitation of a key-value store like Redis compared to a document database like MongoDB?",
+    options: [
+      "Key-value stores have higher latency",
+      "Key-value stores cannot persist data to disk",
+      "Key-value stores can only retrieve data by key, not by querying field values",
+      "Key-value stores require a fixed schema",
+    ],
+    correct: 2,
+    explanation: "Key-value stores only support O(1) lookups by a known key. You cannot efficiently query 'find all users where age > 30' — that would require scanning all keys. Document databases like MongoDB support rich secondary indexes on document fields.",
+  },
+  {
+    question: "When is a time-series database (InfluxDB, TimescaleDB) a better choice than a general-purpose relational database?",
+    options: [
+      "When you need to store user profiles with complex relationships",
+      "When ingesting millions of timestamped data points per second and querying by time ranges with downsampling",
+      "When your data requires strong ACID transactions",
+      "When you need to perform complex multi-table JOIN operations",
+    ],
+    correct: 1,
+    explanation: "Time-series databases are optimized for sequential timestamp-based writes, automatic data retention/downsampling, and time-window queries (e.g., average CPU usage per minute over the past hour). These operations are extremely slow in general-purpose relational databases at high ingest rates.",
+  },
+  {
+    question: "What does 'schema flexibility' in a document database (MongoDB) actually mean in practice?",
+    options: [
+      "The database automatically generates schema from your data with no developer input needed",
+      "Documents in the same collection can have different fields; schema enforcement shifts to application code",
+      "The database uses AI to adapt the schema based on query patterns",
+      "There is no schema whatsoever — any data structure can be stored with zero planning",
+    ],
+    correct: 1,
+    explanation: "Schema flexibility means the database does not enforce a schema at write time. Two documents in the same collection can have completely different fields. This speeds up iteration in early development but shifts the responsibility of schema validation and migration to the application layer.",
+  },
+  {
+    question: "Which of the following use cases is best suited for a Redis key-value store?",
+    options: [
+      "Storing and querying a product catalog with full-text search",
+      "Managing complex relational data with multi-table transactions",
+      "Caching session tokens, rate limiting counters, and leaderboards",
+      "Running ad-hoc analytical queries across billions of records",
+    ],
+    correct: 2,
+    explanation: "Redis excels at use cases requiring ultra-low latency (sub-millisecond), fixed-key access patterns, and data structures like sorted sets (leaderboards), counters (rate limiting), and hashes (session data). Its in-memory architecture makes it the fastest option for these patterns.",
+  },
+  {
+    question: "What does 'eventual consistency' mean in practice for a user of a NoSQL system?",
+    options: [
+      "The system will eventually be consistent after a major software upgrade",
+      "A write to node A may not immediately be visible when reading from node B, but all nodes will converge to the same value given enough time",
+      "Data is consistent only at eventual (scheduled) time intervals",
+      "The system requires manual consistency checks by the developer",
+    ],
+    correct: 1,
+    explanation: "Eventual consistency means that after a write is accepted, replicas may temporarily serve stale data. Given no further writes and enough time for replication to complete, all nodes converge to the same value. Users may briefly read old data — acceptable for social feeds, problematic for bank balances.",
+  },
+  {
+    question: "Amazon DynamoDB is classified as which type of NoSQL database?",
+    options: [
+      "Graph database",
+      "Wide-column store",
+      "Document and key-value store",
+      "Time-series database",
+    ],
+    correct: 2,
+    explanation: "DynamoDB is a managed key-value and document database. Items are accessed by a primary key (key-value pattern) and can store structured JSON-like documents. It also supports secondary indexes for additional access patterns.",
+  },
+  {
+    question: "What is 'polyglot persistence' in modern system design?",
+    options: [
+      "A single database that supports multiple query languages",
+      "Using multiple different database types in one system, each chosen for the data model it fits best",
+      "Storing the same data in multiple redundant databases for fault tolerance",
+      "Translating data between SQL and NoSQL formats automatically",
+    ],
+    correct: 1,
+    explanation: "Polyglot persistence is the practice of using multiple database technologies in a single system, each selected for its strengths. For example: PostgreSQL for transactional data, Redis for caching and sessions, Elasticsearch for full-text search, and Cassandra for time-series metrics — all in one application.",
+  },
 ];
 
 export default function NoSqlDatabasesContent({ slug }: { slug: string; chapterId: number }) {

@@ -34,6 +34,105 @@ const questions = [
     correct: 1,
     explanation: "Active-active: all nodes serve traffic simultaneously (better utilization, higher throughput). Active-passive: primary serves traffic, secondary stands by ready to take over on failure.",
   },
+  {
+    question: "What is 'split-brain' in a clustered system?",
+    options: [
+      "A node running out of memory and crashing",
+      "Two nodes both believing they are the primary due to a network partition",
+      "A cluster splitting into smaller sub-clusters for performance",
+      "A load balancer routing to a failed node",
+    ],
+    correct: 1,
+    explanation: "Split-brain occurs when a network partition causes two nodes to both believe they are the primary, leading to conflicting writes and data corruption. Solutions include quorum (majority must agree) and fencing (STONITH).",
+  },
+  {
+    question: "What is a 'heartbeat' in a clustered system?",
+    options: [
+      "A metric measuring server CPU usage",
+      "A periodic signal nodes send to each other to confirm they are still alive",
+      "A health check from the load balancer to backend servers",
+      "A network packet used to measure latency",
+    ],
+    correct: 1,
+    explanation: "A heartbeat is a periodic signal (usually sent every 1-5 seconds) that nodes exchange to confirm they are operational. If a node misses several heartbeats, the cluster initiates a failover procedure.",
+  },
+  {
+    question: "What is 'quorum' in distributed cluster management?",
+    options: [
+      "The maximum number of nodes allowed in a cluster",
+      "The minimum number of nodes that must agree for a decision to be valid",
+      "The process of adding new nodes to a cluster",
+      "A protocol for synchronizing data between nodes",
+    ],
+    correct: 1,
+    explanation: "Quorum requires a majority of nodes (N/2 + 1) to agree before making cluster decisions. For example, in a 5-node cluster, 3 nodes must agree. This prevents split-brain by ensuring only one partition can form a quorum.",
+  },
+  {
+    question: "Which clustering mode provides better resource utilization?",
+    options: [
+      "Active-passive, because standby nodes preserve resources",
+      "Active-active, because all nodes handle traffic simultaneously",
+      "They have identical resource utilization",
+      "It depends on whether the cluster uses shared or distributed storage",
+    ],
+    correct: 1,
+    explanation: "Active-active clusters utilize all nodes simultaneously, so you get full value from your hardware investment. Active-passive wastes the standby node's resources (it sits idle waiting for failover).",
+  },
+  {
+    question: "What is 'failover' time in the context of an active-passive cluster?",
+    options: [
+      "The time it takes to add a new node to the cluster",
+      "The time between a primary node failure and the secondary becoming fully operational",
+      "The time required to replicate data between nodes",
+      "The maximum uptime before a node must be restarted",
+    ],
+    correct: 1,
+    explanation: "Failover time is the duration from when the primary node fails until the secondary node detects the failure (via missed heartbeats) and takes over. This typically ranges from seconds to minutes depending on configuration.",
+  },
+  {
+    question: "What does STONITH stand for and why is it used in clusters?",
+    options: [
+      "Stateless Topology Over Network Infrastructure That Heals; used for auto-recovery",
+      "Shoot The Other Node In The Head; used to forcefully disable a suspected failed node",
+      "Synchronize Traffic On Node Infrastructure That Hibernates; used for load balancing",
+      "Store The Output Node In The History; used for audit logging",
+    ],
+    correct: 1,
+    explanation: "STONITH (Shoot The Other Node In The Head) is a fencing technique that forcefully powers off or isolates a suspected failed/split-brain node. This prevents a malfunctioning node from continuing to write data and corrupting the system.",
+  },
+  {
+    question: "Which type of clustering is most suitable for a stateful database like PostgreSQL?",
+    options: [
+      "Active-active with no coordination",
+      "Active-passive with one leader handling writes",
+      "Random node selection without replication",
+      "DNS round-robin across all nodes",
+    ],
+    correct: 1,
+    explanation: "Stateful databases require coordinated writes to maintain consistency. Active-passive (primary-standby) clustering ensures only one node accepts writes at a time, while the standby replicates data and is ready to take over on failure.",
+  },
+  {
+    question: "What is the role of a cluster coordinator service like Apache ZooKeeper or etcd?",
+    options: [
+      "Storing application data to reduce database load",
+      "Managing distributed consensus, leader election, and cluster configuration",
+      "Providing load balancing across cluster nodes",
+      "Encrypting communication between cluster nodes",
+    ],
+    correct: 1,
+    explanation: "ZooKeeper and etcd are distributed coordination services. They handle leader election, distributed locks, cluster membership, and configuration management. They use consensus algorithms (Paxos, Raft) to maintain consistent state across the cluster.",
+  },
+  {
+    question: "In a Kubernetes cluster, what is the role of the control plane?",
+    options: [
+      "Running application workloads (pods) for end users",
+      "Managing cluster state, scheduling pods, and handling API requests",
+      "Providing network storage for persistent data",
+      "Load balancing traffic between worker nodes",
+    ],
+    correct: 1,
+    explanation: "The Kubernetes control plane manages the cluster: the API server handles requests, the scheduler assigns pods to nodes, and the controller manager ensures the desired state matches actual state. Worker nodes run the actual application workloads.",
+  },
 ];
 
 export default function ClusteringContent({ slug }: { slug: string; chapterId: number }) {

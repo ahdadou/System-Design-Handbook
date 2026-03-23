@@ -47,6 +47,94 @@ const questions = [
     correct: 1,
     explanation: "The core trade-off is cost vs recovery speed. Cold standby: infrastructure is off/minimal, cheapest, but RTO is hours (provision infra + restore from backup). Hot standby: full-capacity replica running at all times, most expensive, but RTO is seconds (just switch DNS/LB). Most businesses use warm standby as a balance.",
   },
+  {
+    question: "What does RTO measure in a disaster recovery plan?",
+    options: [
+      "The maximum amount of data that can be lost, measured in time",
+      "The maximum acceptable time from disaster occurrence to full service restoration",
+      "The time required to complete a full backup",
+      "The replication lag between primary and standby databases",
+    ],
+    correct: 1,
+    explanation: "RTO (Recovery Time Objective) measures how long the business can tolerate the system being down. An RTO of 4 hours means the system must be fully operational within 4 hours of a disaster. Lower RTOs require more expensive strategies like hot standby or active-active deployments.",
+  },
+  {
+    question: "An active-active DR strategy means:",
+    options: [
+      "One active region and one passive replica that activates during failure",
+      "Traffic is served from multiple regions simultaneously; if one fails, others absorb traffic with no failover needed",
+      "Active backup jobs running continuously on both primary and secondary sites",
+      "Two load balancers where the secondary activates when the primary fails",
+    ],
+    correct: 1,
+    explanation: "In active-active, all regions serve live production traffic simultaneously. There is no 'failover' event because no single region is the exclusive primary. When one region fails, traffic automatically routes to remaining healthy regions. This achieves RTO and RPO of near zero but requires conflict-free data replication and significantly higher cost.",
+  },
+  {
+    question: "What is the '3-2-1 backup rule'?",
+    options: [
+      "3 daily backups, 2 weekly backups, 1 monthly backup",
+      "3 copies of data, on 2 different storage media types, with 1 copy stored offsite",
+      "Run 3 backup jobs, verify 2, and restore 1 per month",
+      "3 geographic regions, 2 cloud providers, 1 on-premise backup",
+    ],
+    correct: 1,
+    explanation: "The 3-2-1 rule is a backup best practice: keep 3 copies of data (production + 2 backups), on 2 different media types (e.g., SSD and object storage), with 1 copy stored offsite or in a separate region. This protects against hardware failure, media failure, and site-level disasters.",
+  },
+  {
+    question: "Which type of backup has the fastest restore time but the slowest creation time?",
+    options: [
+      "Incremental backup",
+      "Differential backup",
+      "Full backup",
+      "Continuous replication",
+    ],
+    correct: 2,
+    explanation: "A full backup copies all data every time, making it the slowest to create (high storage cost and time). However, restoration requires only a single backup file, making it the fastest to restore. Incremental backups are fastest to create but slowest to restore because you must apply the full backup plus every incremental in sequence.",
+  },
+  {
+    question: "What is the AWS 'Pilot Light' DR strategy?",
+    options: [
+      "A cold standby where all infrastructure is powered off until needed",
+      "A minimal always-running configuration (like a pilot light on a furnace) with just core systems active, scaled up during failover",
+      "An active-active strategy across two AWS regions",
+      "Automated daily snapshots of EC2 instances stored in S3",
+    ],
+    correct: 1,
+    explanation: "Pilot Light keeps only the most critical core systems running in the DR region (e.g., a replicated database but no application servers). During a disaster, you scale up the application layer from pre-existing AMIs or infrastructure-as-code. It's between cold standby (everything off) and warm standby (minimal running replica) in cost and RTO.",
+  },
+  {
+    question: "What is Chaos Engineering, and why is it important for disaster recovery?",
+    options: [
+      "A testing methodology where engineers randomly delete production databases to practice recovery",
+      "Deliberately injecting failures into production systems to verify that DR mechanisms, alerting, and runbooks actually work as expected",
+      "A deployment strategy where changes are released randomly to different regions",
+      "An observability practice of monitoring for unexpected traffic patterns",
+    ],
+    correct: 1,
+    explanation: "Chaos Engineering (popularized by Netflix's Chaos Monkey) deliberately kills production services, terminates instances, and simulates network partitions to verify that systems degrade gracefully and recover correctly. A DR plan never tested in production is often found to have critical gaps when a real disaster occurs.",
+  },
+  {
+    question: "For a financial trading system that cannot lose any transactions, what replication strategy is required?",
+    options: [
+      "Asynchronous replication with daily full backups",
+      "Synchronous replication, ensuring every transaction is committed to the replica before acknowledging success to the client",
+      "Incremental backups every 15 minutes",
+      "Differential backups with a 1-hour RPO",
+    ],
+    correct: 1,
+    explanation: "Synchronous replication means a transaction is only acknowledged as successful after it is written to both the primary and all replicas. This guarantees RPO = 0 (zero data loss). The trade-off is added latency on every write (waiting for replica confirmation), which is acceptable for financial systems where data integrity is paramount.",
+  },
+  {
+    question: "What is the primary risk of failing over to a DR environment that has never been tested in production?",
+    options: [
+      "The DR site will have higher performance than production due to newer hardware",
+      "Configuration drift, stale dependencies, or untested failover scripts may cause the DR environment to fail when it is needed most",
+      "Customers will notice the difference in IP addresses during failover",
+      "Compliance auditors will flag the failover as an unauthorized change",
+    ],
+    correct: 1,
+    explanation: "Untested DR environments suffer from configuration drift (production evolved but DR wasn't updated), missing secrets or certificates, incorrect DNS TTLs, and runbooks that no longer match the current architecture. The worst time to discover DR gaps is during an actual disaster when pressure is highest.",
+  },
 ];
 
 export default function DisasterRecoveryContent({ slug }: { slug: string; chapterId: number }) {
